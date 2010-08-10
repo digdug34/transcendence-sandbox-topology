@@ -1,0 +1,306 @@
+<?xml version="1.0" ?>
+<!DOCTYPE TranscendenceExtension
+[
+	<!ENTITY modBoCStarSystems              "0xEFFFA010">
+	<!ENTITY ssBoC2Gate01                   "0xEFFFA011">
+	<!ENTITY ssBoC3Gate01		            "0xEFFFA012">
+	<!ENTITY ssBoC4Gate01		            "0xEFFFA013">
+	<!ENTITY ssBoCEnemyHQ01		            "0xEFFFA014">
+	<!ENTITY ssBoCEnemyHQ02		            "0xEFFFA015">
+	<!ENTITY ssBoCEnemyHQ03		            "0xEFFFA016">
+	<!ENTITY ssBoCEnemyHQ04		            "0xEFFFA017">
+	<!ENTITY ssBoCFriendly01		        "0xEFFFA018">
+	<!ENTITY ssBoCFriendly02                "0xEFFFA019">
+	<!ENTITY ssBoCFriendly03	            "0xEFFFA01A">
+	<!ENTITY ssBoCFriendly04	            "0xEFFFA01B">
+	<!ENTITY ssBoCFriendly05	            "0xEFFFA01C">
+	<!ENTITY ssBoCFriendly06	            "0xEFFFA01D">
+	<!ENTITY ssBoCFriendly07	            "0xEFFFA01E">
+	<!ENTITY ssBoCFriendly08	            "0xEFFFA01F">
+	<!ENTITY ssBoCFriendly09	            "0xEFFFA020">
+	<!ENTITY ssBoCFriendly10	            "0xEFFFA021">
+	<!ENTITY ssBoCFriendly11	            "0xEFFFA022">
+	<!ENTITY ssBoCFriendly12	            "0xEFFFA023">
+]>
+
+<TranscendenceExtension UNID="&modBoCStarSystems;" version="1.0" name="BoC Star Systems" credits="Everyone">
+
+<!--  ###################################################################
+      UNID SPACE
+      ###################################################################
+
+Adventure Setup:
+  0xEFFF0001 - 0xEFFF0009
+Systems:
+  0xEFFF0010 - 0xEFFF0100
+PlayerShips:
+  0xEFFFA000 - 0xEFFFA100
+
+-->
+    <!---   Core system #1  -  Starting system  --->
+    
+    <SystemType UNID="&ssBoCFriendly01;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="0" >
+                <Stargate objName="Core1-Core2" type="&stMajellenStargate;"/>
+            </Orbitals>
+            <Orbitals distance="30" angle="90" >
+                <Stargate objName="Core1-Core3" type="&stMajellenStargate;"/>
+            </Orbitals>
+            <Orbitals distance="30" angle="180" >
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+            </Orbitals>
+            <Orbitals distance="40" angle="180" >
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+            </Orbitals>
+            <Orbitals distance="100" angle="270" >
+                <Stargate objName="Endgame" type="&stMajellenStargate;"/>
+            </Orbitals>
+            <Orbitals distance="15" angle="270">
+                <Marker objName="Start"/>
+            </Orbitals>
+        </SystemGroup>
+        <Events>
+            <OnGlobalSystemCreated>
+                (enum (sysFindObject nil "t") o (objsetknown o))
+            </OnGlobalSystemCreated>
+        </Events>
+    </SystemType>
+
+    <!---   Core system #2   --->
+    
+    <SystemType UNID="&ssBoCFriendly02;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Core2-Core1" type="&stMajellenStargate;"/>
+                <Stargate objName="Core2-Core3" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Core system #3   --->
+    
+    <SystemType UNID="&ssBoCFriendly03;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Core3-Core1" type="&stMajellenStargate;"/>
+                <Stargate objName="Core3-Core2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   KorolovHQ  --->
+    
+    <SystemType UNID="&ssBoCFriendly04;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate4" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Teraton Camp  --->
+    
+    <SystemType UNID="&ssBoCFriendly05;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate4" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Teraton HQ  --->
+    
+    <SystemType UNID="&ssBoCFriendly06;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   CWMilitaOutpost  --->
+    
+    <SystemType UNID="&ssBoCFriendly07;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate4" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   CWFLeetOutpost  --->
+    
+    <SystemType UNID="&ssBoCFriendly08;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate4" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Ringer outpost  --->
+    
+    <SystemType UNID="&ssBoCFriendly09;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Black market HQ  --->
+    
+    <SystemType UNID="&ssBoCFriendly10;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate4" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Rasiermesser HQ  --->
+    
+    <SystemType UNID="&ssBoCFriendly11;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate4" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Breadbasket  --->
+    
+    <SystemType UNID="&ssBoCFriendly12;">
+        <SystemGroup>
+            <Station type="&stBlueGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Charon Pirates HQ   --->
+    
+    <SystemType UNID="&ssBoCEnemyHQ01;">
+        <SystemGroup>
+            <Station type="&stRedGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Ares HQ   --->
+    
+    <SystemType UNID="&ssBoCEnemyHQ02;">
+        <SystemGroup>
+            <Station type="&stRedGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Sung HQ   --->
+    
+    <SystemType UNID="&ssBoCEnemyHQ03;">
+        <SystemGroup>
+            <Station type="&stRedGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Ranx HQ   --->
+    
+    <SystemType UNID="&ssBoCEnemyHQ04;">
+        <SystemGroup>
+            <Station type="&stRedGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Random Enemy system - 2 stargates   --->
+    
+    <SystemType UNID="&ssBoC2Gate01;">
+        <SystemGroup>
+            <Station type="&stRedGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Random Enemy system - 3 stargates   --->
+    
+    <SystemType UNID="&ssBoC3Gate01;">
+        <SystemGroup>
+            <Station type="&stRedGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+    <!---   Random Enemy system - 4 stargates   --->
+    
+    <SystemType UNID="&ssBoC4Gate01;">
+        <SystemGroup>
+            <Station type="&stRedGiantStar;"/>
+            <Orbitals distance="30" angle="equidistant">
+                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate3" type="&stMajellenStargate;"/>
+                <Stargate objName="Gate4" type="&stMajellenStargate;"/>
+            </Orbitals>
+        </SystemGroup>
+    </SystemType>
+
+</TranscendenceExtension>

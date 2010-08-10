@@ -1,0 +1,1143 @@
+<?xml version="1.0" ?>
+<!DOCTYPE TranscendenceExtension
+[
+	<!ENTITY modTheSandbox				    "0xEFFF0000">
+	<!ENTITY adBoCDesc				        "0xEFFF0001">
+    
+	<!ENTITY ssBoC2Gate01                   "0xEFFFA011">
+	<!ENTITY ssBoC3Gate01		            "0xEFFFA012">
+	<!ENTITY ssBoC4Gate01		            "0xEFFFA013">
+	<!ENTITY ssBoCEnemyHQ01		            "0xEFFFA014">
+	<!ENTITY ssBoCEnemyHQ02		            "0xEFFFA015">
+	<!ENTITY ssBoCEnemyHQ03		            "0xEFFFA016">
+	<!ENTITY ssBoCEnemyHQ04		            "0xEFFFA017">
+	<!ENTITY ssBoCFriendly01		        "0xEFFFA018">
+	<!ENTITY ssBoCFriendly02                "0xEFFFA019">
+	<!ENTITY ssBoCFriendly03	            "0xEFFFA01A">
+	<!ENTITY ssBoCFriendly04	            "0xEFFFA01B">
+	<!ENTITY ssBoCFriendly05	            "0xEFFFA01C">
+	<!ENTITY ssBoCFriendly06	            "0xEFFFA01D">
+	<!ENTITY ssBoCFriendly07	            "0xEFFFA01E">
+	<!ENTITY ssBoCFriendly08	            "0xEFFFA01F">
+	<!ENTITY ssBoCFriendly09	            "0xEFFFA020">
+	<!ENTITY ssBoCFriendly10	            "0xEFFFA021">
+	<!ENTITY ssBoCFriendly11	            "0xEFFFA022">
+	<!ENTITY ssBoCFriendly12	            "0xEFFFA023">
+]>
+
+<TranscendenceAdventure
+    UNID="&modTheSandbox;"
+    name="Sandbox Adventure"
+    credits="Everyone"
+    version="1.0">
+<!--  ###################################################################
+      UNID SPACE
+      ###################################################################
+
+Adventure Setup:
+  0xEFFF0001 - 0xEFFF0009
+Systems:
+  0xEFFF0010 - 0xEFFF0100
+PlayerShips:
+  0xEFFFA000 - 0xEFFFA100
+
+-->
+;; 
+;;     nodeID                Placeholder Unid
+;;
+;; 2 gate random systems     ssBoC2Gate01
+;; 3 gate random systems     ssBoC3Gate01
+;; 4 gate random systems     ssBoC4Gate01
+;;
+;; 6+ Enemy HQs              ssBoCEnemyHQ##
+;;      CharonHQ                  ssBoCEnemyHQ01
+;;    one gate (end of arm)
+;;      AresHQ                    ssBoCEnemyHQ02
+;;      SungHQ                    ssBoCEnemyHQ03
+;;      RanxHQ                    ssBoCEnemyHQ04
+;;
+;; 12 Friendly               ssBoCFriendly##
+;;      Core1                    ssBoCFriendly01
+;;      Core2                    ssBoCFriendly02
+;;      Core3                    ssBoCFriendly03
+;;      KorolovHQ                ssBoCFriendly04
+;;      TeratonCamp              ssBoCFriendly05
+;;      TeratonHQ                ssBoCFriendly06
+;;      CWMilitiaOutpost         ssBoCFriendly07
+;;      CWFleetOutpost           ssBoCFriendly08
+;;      Ringer outpost           ssBoCFriendly09
+;;      BMHQ                     ssBoCFriendly10
+;;      RasiermesserHQ           ssBoCFriendly11
+;;      Breadbasket              ssBoCFriendly12
+;;
+
+	<AdventureDesc
+			unid=			"&adBoCDesc;"
+			name=			"Transcendence: Box of chocolates"
+			backgroundID=	"&rsPart1Cover;"
+            startingShipCriteria="*+BoC"
+			>
+		<Events>
+			<OnGameStart>
+				(block Nil
+					(gamSetCrawlImage &rsProlog1;)
+					(gamSetCrawlText 
+						(cat 
+							"Transcendence is like a box of chocolates, there's something for everyone!"
+						)
+					)
+				)
+			</OnGameStart>
+			<OnGameEnd>
+				(block Nil
+				)
+			</OnGameEnd>
+		</Events>
+	</AdventureDesc>
+
+    
+	<SystemTopology>
+
+<!------------------------------------------------------------   Core system 1   ------------------------------------------------------>
+		<Node ID="Core1" rootNode="true">
+			<System 
+					name=			"Core1"
+					level=			"10"
+					attributes=		"friendly,core,"
+					>
+				<System UNID="&ssBoCFriendly01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Core1-Core2" DestID="Core2" DestGate="Core2-Core1"/>
+				<StarGate Name="Core1-Core3" DestID="Core3" DestGate="Core3-Core1"/>
+				<StarGate Name="Gate1" DestID="Arm-101" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="KorolovHQ" DestGate="Gate3"/>
+				<StarGate Name="EndGame" DestID="EndGame"/>
+			</StarGates>
+		</Node>
+        
+        <!---   Arm 1 nodes (Charon)    --->
+        
+		<Node ID="Arm-101">
+			<System 
+					name=			"Arm-101"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC4Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Core1" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-102" DestGate="Gate2"/>
+				<StarGate Name="Gate3" DestID="cc-001" DestGate="Gate1"/>
+				<StarGate Name="Gate4" DestID="cc-012" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-102">
+			<System 
+					name=			"Arm-102"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-101" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="KorolovHQ" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+        <!---   Korolov Headquarters    --->
+        
+		<Node ID="KorolovHQ">
+			<System 
+					name=			"Korolov H.Q."
+					level=			"1"
+					attributes=		"friendly,korolov,frontier"
+					>
+				<System UNID="&ssBoCFriendly04;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-102" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-103" DestGate="Gate2"/>
+				<StarGate Name="Gate3" DestID="Core1" DestGate="Gate2"/>
+				<StarGate Name="Gate4" DestID="TeratonCamp" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-103">
+			<System 
+					name=			"Arm-103"
+					level=			"2"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="KorolovHQ" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-104" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-104">
+			<System 
+					name=			"Arm-104"
+					level=			"2"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-104" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="CharonHQ" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CharonHQ">
+			<System 
+					name=			"CharonHQ"
+					level=			"3"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoCEnemyHQ01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-104" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="TeratonCamp" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+        <!---   Teraton camp   --->
+        
+		<Node ID="TeratonCamp">
+			<System 
+					name=			"Teraton camp"
+					level=			"5"
+					attributes=		"friendly,teraton"
+					>
+				<System UNID="&ssBoCFriendly05;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="CharonHQ" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-105" DestGate="Gate2"/>
+				<StarGate Name="Gate3" DestID="KorolovHQ" DestGate="Gate4"/>
+				<StarGate Name="Gate4" DestID="TeratonHQ" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-105">
+			<System 
+					name=			"Arm-105"
+					level=			"3"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="TeratonCamp" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-106" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-106">
+			<System 
+					name=			"Arm-106"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-105" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-107" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-107">
+			<System 
+					name=			"Arm-107"
+					level=			"5"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-106" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-108" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-108">
+			<System 
+					name=			"Arm-108"
+					level=			"5"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-107" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="TeratonHQ" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+        
+        <!---   Teraton HQ   --->
+        
+		<Node ID="TeratonHQ">
+			<System 
+					name=			"Teraton HQ"
+					level=			"10"
+					attributes=		"friendly,teraton"
+					>
+				<System UNID="&ssBoCFriendly06;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-108" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-109" DestGate="Gate1"/>
+				<StarGate Name="Gate3" DestID="TeratonCamp" DestGate="Gate4"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-109">
+			<System 
+					name=			"Arm-109"
+					level=			"6"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="TeratonHQ" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-110" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-110">
+			<System 
+					name=			"Arm-110"
+					level=			"7"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-109" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-111" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-111">
+			<System 
+					name=			"Arm-111"
+					level=			"8"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-110" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="AresHQ" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="AresHQ">
+			<System 
+					name=			"AresHQ"
+					level=			"5"
+					attributes=		"enemy,Ares"
+					>
+				<System UNID="&ssBoCEnemyHQ02;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-111" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+<!------------------------------------------------------------   Core system 2   ------------------------------------------------------>
+        
+		<Node ID="Core2">
+			<System 
+					name=			"Core2"
+					level=			"10"
+					attributes=		"friendly,core,"
+					>
+				<System UNID="&ssBoCFriendly02;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Core2-Core1" DestID="Core1" DestGate="Core1-Core2"/>
+				<StarGate Name="Core2-Core3" DestID="Core3" DestGate="Core3-Core2"/>
+				<StarGate Name="Gate1" DestID="Arm-201" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="CWMilitaOutpost" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+        <!---   Arm 2 nodes   --->
+        
+		<Node ID="Arm-201">
+			<System 
+					name=			"Arm-201"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC4Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Core2" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-202" DestGate="Gate2"/>
+				<StarGate Name="Gate3" DestID="cc-004" DestGate="Gate1"/>
+				<StarGate Name="Gate4" DestID="cc-005" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-202">
+			<System 
+					name=			"Arm-202"
+					level=			"2"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-201" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-203" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-203">
+			<System 
+					name=			"Arm-203"
+					level=			"2"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-202" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-204" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-204">
+			<System 
+					name=			"Arm-204"
+					level=			"3"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-203" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="CWMilitaOutpost" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+        <!---   CW Militia outpost  --->
+
+		<Node ID="CWMilitaOutpost">
+			<System 
+					name=			"CW Militia Outpost"
+					level=			"5"
+					attributes=		"CW,friendly,frontier"
+					>
+				<System UNID="&ssBoCFriendly07;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-204" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-205" DestGate="Gate2"/>
+				<StarGate Name="Gate3" DestID="Core2" DestGate="Gate2"/>
+				<StarGate Name="Gate4" DestID="CWFleetOutpost" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-205">
+			<System 
+					name=			"Arm-205"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="CWMilitaOutpost" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-206" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-206">
+			<System 
+					name=			"Arm-206"
+					level=			"5"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-205" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-207" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-207">
+			<System 
+					name=			"Arm-207"
+					level=			"6"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-206" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-208" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-208">
+			<System 
+					name=			"Arm-208"
+					level=			"7"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-207" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="CWFleetOutpost" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+    <!---   CW Fleet outpost    --->
+    
+        
+		<Node ID="CWFleetOutpost">
+			<System 
+					name=			"CW Fleet Outpost"
+					level=			"10"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoCFriendly08;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-208" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-209" DestGate="Gate1"/>
+				<StarGate Name="Gate3" DestID="CWMilitaOutpost" DestGate="Gate4"/>
+				<StarGate Name="Gate4" DestID="TeratonOutpost" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-209">
+			<System 
+					name=			"Arm-209"
+					level=			"8"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="CWFleetOutpost" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-210" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-210">
+			<System 
+					name=			"Arm-210"
+					level=			"8"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-209" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-211" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-211">
+			<System 
+					name=			"Arm-211"
+					level=			"9"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-210" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="TeratonOutpost" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+        <!----  Teraton Outpost --->
+
+		<Node ID="TeratonOutpost">
+			<System 
+					name=			"Arm-211"
+					level=			"9"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoCFriendly08;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-211" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-212" DestGate="Gate1"/>
+				<StarGate Name="Gate3" DestID="CWFleetOutpost" DestGate="Gate4"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-212">
+			<System 
+					name=			"Arm-212"
+					level=			"9"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="TeratonOutpost" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-213" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-213">
+			<System 
+					name=			"Arm-213"
+					level=			"10"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-212" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-214" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="Arm-214">
+			<System 
+					name=			"Arm-214"
+					level=			"10"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-213" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="SungHQ" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+        
+		<Node ID="SungHQ">
+			<System 
+					name=			"Sung Slavers HQ"
+					level=			"10"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoCEnemyHQ03;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="SungHQ" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+<!------------------------------------------------------------   Core system 3   ------------------------------------------------------>
+
+		<Node ID="Core3">
+			<System 
+					name=			"Core3"
+					level=			"10"
+					attributes=		"friendly,core,"
+					>
+				<System UNID="&ssBoCFriendly03;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Core3-Core1" DestID="Core1" DestGate="Core1-Core3"/>
+				<StarGate Name="Core3-Core2" DestID="Core2" DestGate="Core2-Core3"/>
+				<StarGate Name="Gate1" DestID="Arm-301" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="BMHQ" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+        <!---   Arm 3 nodes   --->
+
+		<Node ID="Arm-301">
+			<System 
+					name=			"Arm-301"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC4Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Core3" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-302" DestGate="Gate2"/>
+				<StarGate Name="Gate3" DestID="cc-008" DestGate="Gate1"/>
+				<StarGate Name="Gate4" DestID="cc-009" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-302">
+			<System 
+					name=			"Arm-302"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-301" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="BMHQ" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+        
+        <!---   Black market HQ --->
+
+		<Node ID="BMHQ">
+			<System 
+					name=			"Black market HQ"
+					level=			"5"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoCFriendly10;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-302" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-303" DestGate="Gate2"/>
+				<StarGate Name="Gate3" DestID="Core3" DestGate="Gate2"/>
+				<StarGate Name="Gate4" DestID="RasiermesserHQ" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-303">
+			<System 
+					name=			"Arm-303"
+					level=			"2"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="BMHQ" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-304" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-304">
+			<System 
+					name=			"Arm-304"
+					level=			"3"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-303" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-305" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-305">
+			<System 
+					name=			"Arm-305"
+					level=			"3"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-304" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="RasiermesserHQ" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+        <!---   Rasiermesser HQ --->
+
+		<Node ID="RasiermesserHQ">
+			<System 
+					name=			"RasiermesserHQ"
+					level=			"10"
+					attributes=		"friendly"
+					>
+				<System UNID="&ssBoCFriendly11;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-305" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-306" DestGate="Gate2"/>
+				<StarGate Name="Gate3" DestID="BMHQ" DestGate="Gate4"/>
+				<StarGate Name="Gate4" DestID="Breadbasket" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-306">
+			<System 
+					name=			"Arm-306"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="RasiermesserHQ" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-307" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-307">
+			<System 
+					name=			"Arm-307"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-306" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-308" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-308">
+			<System 
+					name=			"Arm-308"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-307" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-309" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-309">
+			<System 
+					name=			"Arm-309"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-308" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Breadbasket" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+        <!---   CW Breadbasket --->
+
+		<Node ID="Breadbasket">
+			<System 
+					name=			"Breadbasket"
+					level=			"10"
+					attributes=		"friendly"
+					>
+				<System UNID="&ssBoCFriendly12;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-309" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-310" DestGate="Gate1"/>
+				<StarGate Name="Gate3" DestID="RasiermesserHQ" DestGate="Gate4"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-310">
+			<System 
+					name=			"Arm-310"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Breadbasket" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="Arm-311" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-311">
+			<System 
+					name=			"Arm-311"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-310" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-312" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="Arm-312">
+			<System 
+					name=			"Arm-312"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-311" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="RanxHQ" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="RanxHQ">
+			<System 
+					name=			"Ranx HQ"
+					level=			"4"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoCEnemyHQ04;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="Arm-312" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+        
+        <!------------------------------------------   Core cluster enemy nodes    --------------------------------------------->
+
+		<Node ID="CC-001">
+			<System 
+					name=			"cc-001"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-101" DestGate="Gate3"/>
+				<StarGate Name="Gate2" DestID="cc-002" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-002">
+			<System 
+					name=			"cc-002"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="cc-001" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="cc-003" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-003">
+			<System 
+					name=			"cc-003"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="cc-002" DestGate="Gate3"/>
+				<StarGate Name="Gate2" DestID="cc-004" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-004">
+			<System 
+					name=			"cc-004"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="cc-003" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-201" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-005">
+			<System 
+					name=			"cc-005"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-201" DestGate="Gate4"/>
+				<StarGate Name="Gate2" DestID="cc-006" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-006">
+			<System 
+					name=			"cc-006"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="cc-005" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="cc-007" DestGate="Gate4"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-007">
+			<System 
+					name=			"cc-007"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="cc-006" DestGate="Gate4"/>
+				<StarGate Name="Gate2" DestID="cc-008" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-008">
+			<System 
+					name=			"cc-008"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="cc-007" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-301" DestGate="Gate3"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-009">
+			<System 
+					name=			"cc-009"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="Arm-301" DestGate="Gate4"/>
+				<StarGate Name="Gate2" DestID="cc-010" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-010">
+			<System 
+					name=			"cc-010"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="cc-009" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="cc-011" DestGate="Gate1"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-011">
+			<System 
+					name=			"cc-011"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate1" DestID="cc-011" DestGate="Gate1"/>
+				<StarGate Name="Gate2" DestID="cc-012" DestGate="Gate2"/>
+			</StarGates>
+		</Node>
+
+		<Node ID="CC-012">
+			<System 
+					name=			"cc-012"
+					level=			"1"
+					attributes=		"enemy"
+					>
+				<System UNID="&ssBoC2Gate01;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Gate2" DestID="cc-012" DestGate="Gate2"/>
+				<StarGate Name="Gate1" DestID="Arm-101" DestGate="Gate4"/>
+			</StarGates>
+		</Node>
+
+        <!---   Endgame node    --->
+
+		<Node	ID="EndGame"
+				endGame="true"
+				endGameReason="leftHumanSpace"
+				epitaph="left Human Space on a journey to the Galactic Core"
+				>
+		</Node>
+        
+	</SystemTopology>
+</TranscendenceAdventure>
