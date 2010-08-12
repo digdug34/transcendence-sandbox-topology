@@ -249,7 +249,7 @@ Graphics
                     <Orbitals distance="300" angle="random">
                     	<Group>
                     	<Primary>
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stDesertPlanet;" showOrbit="true"/>
                         </Primary>
                         <Orbitals distance="5-10" count="1d3" angle="random">
                         <Lookup table="FriendlyOuterStations" noMapLabel="true"/>
@@ -279,12 +279,12 @@ Graphics
                         <Station type="&stStargateBeacon;" showOrbit="true" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="20" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stVolcanicPlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="80" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stDesertPlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
@@ -294,7 +294,7 @@ Graphics
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="320" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stCrateredPlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
@@ -338,12 +338,12 @@ Graphics
                         <Station type="&stStargateBeacon;" showOrbit="true" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="40" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stCrateredPlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="80" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stDesertPlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
@@ -353,7 +353,7 @@ Graphics
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="320" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stDesertPlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
@@ -397,12 +397,12 @@ Graphics
                         <Station type="&stStargateBeacon;" showOrbit="true" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="40" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stVolcanicPlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="80" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stCrateredPlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
@@ -412,7 +412,7 @@ Graphics
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
                     <Orbitals distance="320" angle="equidistant">
-                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Station type="&stPlanetoid;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
@@ -467,7 +467,9 @@ Graphics
 			<Orbitals count="2d4+4" distance="1350-1450" angle="minSeparation:10">
 				<Lookup table="FriendlyOuterStations" noMapLabel="true"/>
 			</Orbitals>
-            
+                     <Orbitals distance="1500" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                    </Orbitals>
         </SystemGroup>
         <Events>
             <OnGlobalSystemCreated>

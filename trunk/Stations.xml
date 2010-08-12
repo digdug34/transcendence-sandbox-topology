@@ -343,7 +343,7 @@ Graphics
                     </Device>
 
                     <Goods
-                        desc=	"You are docked at a the Triad's main commercial hub.  Virtually anything that can be bought or sold is available here, at a price, of course.">
+                        desc=	"You are docked at one of the Triad's main commercial hubs.  Virtually anything that can be bought or sold is available here, at a price, of course.">
                         <Actions>
                             <Action name="Buy Food" default="1" key="F">
                                 (comShowBuyScreen 
@@ -732,7 +732,7 @@ Graphics
 						(eq status 'enteredSystem)
 							(block Nil
 								(setq theTarget (random (sysFindObject gSource "T +founderAlien")))
-								(shpOrder gSource 'orbit (sysFindObject Nil "+anomaly;") 25 (random 20 40))
+								(shpOrder gSource 'orbit (sysFindObject Nil "N:1; +anomaly;") 25 (random 20 40))
 								(shpOrder gSource 'dock theTarget)
 								(shpOrder gSource 'wait (random 10 60))
 								(objSetData gSource "0010201F_status" 'dockedAtHub)
@@ -783,6 +783,8 @@ Graphics
 								
 						(eq status 'dockedAtStation)
 							(block (roll allWrecks)
+								; Orbit station we were at
+								(shpOrder gSource 'orbit (shpGetDockObj gSource) 5 (random 10 20))
 								; Randomly choose a path
 								(setq roll (random 1 100))
 								(switch
