@@ -35,31 +35,109 @@ Systems:
   0xEFFF0010 - 0xEFFF0100
 PlayerShips:
   0xEFFFA000 - 0xEFFFA100
-
+Planets and stars
+  0xEFFF2000 - 0xEFFF2100
+Stations (structures)
+  0xEFFF2101 - 0xEFFF2FFF
+    
 -->
     <!---   Core system #1  -  Starting system  --->
     
-    <SystemType UNID="&ssBoCFriendly01;">
+    <SystemType UNID="&ssBoCFriendly01;" noRandomEncounters="true">
+        <Tables>
+            <MajorStations>                      ;; these should be switched to hardcoded stations eventually
+                <Table>
+                    <Station chance="50"  type="&stArmsDealerRasiermesser;"noMapLabel="true"/>
+                    <Station chance="50"  type="&stArmsDealerMakayev;"noMapLabel="true"/>
+                </Table>
+            </MajorStations>
+            <MinorStations>                      ;; these should be switched to hardcoded stations eventually
+                <Table>
+                    <Station chance="100" type="&stCommonwealthSlums;" noMapLabel="true"/>
+                </Table>
+            </MinorStations>
+        </Tables>
+            
         <SystemGroup>
-            <Station type="&stBlueGiantStar;"/>
-            <Orbitals distance="30" angle="0" >
-                <Stargate objName="Core1-Core2" type="&stMajellenStargate;"/>
-            </Orbitals>
-            <Orbitals distance="30" angle="90" >
-                <Stargate objName="Core1-Core3" type="&stMajellenStargate;"/>
-            </Orbitals>
-            <Orbitals distance="30" angle="180" >
-                <Stargate objName="Gate1" type="&stMajellenStargate;"/>
-            </Orbitals>
-            <Orbitals distance="40" angle="180" >
-                <Stargate objName="Gate2" type="&stMajellenStargate;"/>
-            </Orbitals>
-            <Orbitals distance="100" angle="270" >
-                <Stargate objName="Endgame" type="&stMajellenStargate;"/>
-            </Orbitals>
-            <Orbitals distance="15" angle="270">
+            <Station type="&stCrateredPlanet;" />                                         ;; change this graphic, this is the main entry gate
+            <Orbitals distance="0" angle="0">
                 <Marker objName="Start"/>
             </Orbitals>
+            <!---
+                                            Hub gates
+                                        There will be more here eventually
+            --->
+			<Orbitals distance="20" angle="equidistant">
+                <Stargate objName="Core1-Core2" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Station type="&stStargateBeacon;"/>
+                <Station type="&stStargateBeacon;"/>
+                <Stargate objName="Core1-Core3" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Station type="&stStargateBeacon;"/>
+                <Station type="&stStargateBeacon;"/>
+                <Stargate objName="Gate1" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Station type="&stStargateBeacon;"/>
+                <Station type="&stStargateBeacon;"/>
+                <Stargate objName="Gate2" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Station type="&stStargateBeacon;"/>
+                <Station type="&stStargateBeacon;"/>
+                <Stargate objName="Endgame" type="&stMajellenStargate;" noMapLabel="true"/>                   ;; move/hide this
+                <Station type="&stStargateBeacon;"/>
+                <Station type="&stStargateBeacon;"/>
+            </Orbitals>
+
+            <!---
+                                            Heavy traffic and some minor stations
+            --->
+
+            <Orbitals count="15" distance="55" angle="equidistant">
+                <Lookup table="MinorStations" />
+            </Orbitals>
+
+            <!---
+                                         Three stars
+                                     each star has the major stations
+                                     orbitting it, currently just some random minor ones
+                                     as placeholders
+                                     
+            --->
+            <Orbitals count="3" distance="140" angle="equidistant">
+                <Group>
+                    <Primary>
+                        <Station    type="&stG-TypeStar;"
+                                    showOrbit="true"
+                                    name="Star 1"
+                                    />
+                    </Primary>
+                    <Orbitals distance="40" angle="equidistant">
+                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+                </Group>
+
+                <Group>
+                    <Primary>
+                        <Station type="&stG-TypeStar;"/>
+                    </Primary>
+                    <Orbitals distance="40" angle="equidistant">
+                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+               </Group>
+
+               <Group>
+                    <Primary>
+                        <Station type="&stG-TypeStar;"/>
+                    </Primary>
+                    <Orbitals distance="40" angle="equidistant">
+                        <Station type="&stGreenhousePlanet;" showOrbit="true"/>
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+               </Group>
+            </Orbitals>
+                
         </SystemGroup>
         <Events>
             <OnGlobalSystemCreated>
@@ -70,7 +148,7 @@ PlayerShips:
 
     <!---   Core system #2   --->
     
-    <SystemType UNID="&ssBoCFriendly02;">
+    <SystemType UNID="&ssBoCFriendly02;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -84,7 +162,7 @@ PlayerShips:
 
     <!---   Core system #3   --->
     
-    <SystemType UNID="&ssBoCFriendly03;">
+    <SystemType UNID="&ssBoCFriendly03;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -98,7 +176,7 @@ PlayerShips:
 
     <!---   KorolovHQ  --->
     
-    <SystemType UNID="&ssBoCFriendly04;">
+    <SystemType UNID="&ssBoCFriendly04;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -112,7 +190,7 @@ PlayerShips:
 
     <!---   Teraton Camp  --->
     
-    <SystemType UNID="&ssBoCFriendly05;">
+    <SystemType UNID="&ssBoCFriendly05;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -126,7 +204,7 @@ PlayerShips:
 
     <!---   Teraton HQ  --->
     
-    <SystemType UNID="&ssBoCFriendly06;">
+    <SystemType UNID="&ssBoCFriendly06;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -139,7 +217,7 @@ PlayerShips:
 
     <!---   CWMilitaOutpost  --->
     
-    <SystemType UNID="&ssBoCFriendly07;">
+    <SystemType UNID="&ssBoCFriendly07;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -153,7 +231,7 @@ PlayerShips:
 
     <!---   CWFLeetOutpost  --->
     
-    <SystemType UNID="&ssBoCFriendly08;">
+    <SystemType UNID="&ssBoCFriendly08;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -167,7 +245,7 @@ PlayerShips:
 
     <!---   Ringer outpost  --->
     
-    <SystemType UNID="&ssBoCFriendly09;">
+    <SystemType UNID="&ssBoCFriendly09;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -180,7 +258,7 @@ PlayerShips:
 
     <!---   Black market HQ  --->
     
-    <SystemType UNID="&ssBoCFriendly10;">
+    <SystemType UNID="&ssBoCFriendly10;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -194,7 +272,7 @@ PlayerShips:
 
     <!---   Rasiermesser HQ  --->
     
-    <SystemType UNID="&ssBoCFriendly11;">
+    <SystemType UNID="&ssBoCFriendly11;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -208,7 +286,7 @@ PlayerShips:
 
     <!---   Breadbasket  --->
     
-    <SystemType UNID="&ssBoCFriendly12;">
+    <SystemType UNID="&ssBoCFriendly12;" noRandomEncounters="true">
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
