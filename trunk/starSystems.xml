@@ -22,24 +22,47 @@
 	<!ENTITY ssBoCFriendly11	            "0xEFFFA022">
 	<!ENTITY ssBoCFriendly12	            "0xEFFFA023">
     
-	<!ENTITY rsAnomoly      	            "0xEFFF2000">
 	<!ENTITY stAnomoly      	            "0xEFFF2001">
-	<!ENTITY rsFounderAlien      	            "0xEFFF2002">
-	<!ENTITY stFounderAlien     	            "0xEFFF2003">
-	<!ENTITY rsFounderGateControl  	            "0xEFFF2004">
-	<!ENTITY stFounderGateControl	            "0xEFFF2005">
-	<!ENTITY tbHubTraffic      	            "0xEFFF2006">
-	<!ENTITY evHubTrafficBehavior    	    "0xEFFF2007">
-	<!ENTITY stPegasusStargate   	 	    "0xEFFF2008">
-	<!ENTITY stPegasusFarStargate    	    "0xEFFF2009">
+	<!ENTITY stFounderGateControl	        "0xEFFF2002">
+	<!ENTITY stPegasusStargate   	 	    "0xEFFF2003">
+	<!ENTITY stPegasusFarStargate    	    "0xEFFF2004">
+	<!ENTITY stTriadTradeDepot              "0xEFFF2105">
+	<!ENTITY stFounderAlien     	        "0xEFFF2006">
+
+	<!ENTITY rsAnomoly      	            "0xEFFF2044">       ;; temp unid
+	<!ENTITY rsFounderGateControl  	        "0xEFFF2045">       ;; temp unid
+	<!ENTITY rsFounderAlien      	        "0xEFFF2046">       ;; temp unid
 ]>
 
 <TranscendenceExtension UNID="&modBoCStarSystems;" version="1.0" name="BoC Star Systems" credits="Everyone">
+
 
 <!--  ###################################################################
       UNID SPACE
       ###################################################################
 
+	0xEFFF - T - III
+
+	T		Type ID. Within a module, the division of the namespace is
+			undefined. Transcendence uses this value to represent the
+			type of object assigned an UNID:
+
+			0	star system description
+			1	sovereigns
+			2	station types
+			3	ship classes
+			4	item types
+			5	special item types (virtuals)
+
+			8	random tables (items, encounters)
+			9	effects, energy fields, space env, etc
+			A	dock screens
+			B	powers
+
+			F	images and sound resources
+            
+
+            
 Adventure Setup:
   0xEFFF0001 - 0xEFFF0009
 Systems:
@@ -50,218 +73,11 @@ Planets and stars
   0xEFFF2000 - 0xEFFF2100
 Stations (structures)
   0xEFFF2101 - 0xEFFF2FFF
+Graphics
+  0xEFFFF000 - 0xEFFFFFFF
     
 -->
 
-<!----              Resources           --->
-<Image UNID="&rsAnomoly;"	bitmap="resources\nova5.bmp" bitmask="resources\nova5mask.bmp"/>
-
-
-	<StationType UNID="&stAnomoly;"
-		name=				"(star)"
-		scale=				"star"
-		backgroundObject=	"true" 
-		sovereign=			"&svIndependent;"
-
-		attributes=			"star; anomaly"
-		>
-    <Image			imageID="&rsAnomoly;" imageX="0" imageY="0" imageWidth="256" imageHeight="256" imageFrameCount="5" imageTicksPerFrame="2"/>
-	</StationType>
-	
-		<!-- Founder Alien Stations -->
-
-	<StationType UNID="&stFounderAlien;"
-			name=				"Founder Station"
-			sovereign=			"&svIndependent;"
-			dockScreen=			"Main"
-
-			multiHull=			"true"
-			immutable=			"true"
-			attributes=			"founderAlien; founder; populated"
-			noArticle=			"true"
-			>
-
-		<Image imageID="&rsStations7;" imageX="0" imageY="768" imageWidth="256" imageHeight="256"/>
-
-		<DockScreens>
-
-			<Main
-				name=			"=(objGetName gSource)"
-				>
-
-				<Panes>
-					<Default
-							desc=	"You are docked at one of the alien stations occupied by the Founders. A large energy barrier sepparates the public docking bay with the station's interior. Because this is just a placeholder text. BTW - someone make sure wolfy gets the new graphics by sunday. :3">
-
-						<Actions>
-							<Action name="Undock" cancel="1" key="U">
-								<Exit/>
-							</Action>
-
-						</Actions>
-
-					</Default>
-				</Panes>
-			</Main>
-
-		</DockScreens>
-
-		<DockingPorts>
-			<Port x="79"	y="75" />
-			<Port x="0"		y="100" />
-			<Port x="-73"	y="74" />
-			<Port x="-109"	y="0" />
-			<Port x="-87"	y="-75" />
-			<Port x="0"		y="-109" />
-			<Port x="82"	y="-82" />
-			<Port x="109"	y="8" />
-		</DockingPorts>
-	</StationType>
-
-		<!-- Tan Ru Dorem -->
-
-	<StationType UNID="&stFounderGateControl;"
-			name=				"Alien Far-Gate Control Center"
-			sovereign=			"&svIndependent;"
-			dockScreen=			"Main"
-
-			multiHull=			"true"
-			immutable=			"true"
-			attributes=			"founder; founderAlien; founderFarGateControl; populated"
-			noArticle=			"true"
-			>
-
-		<Image imageID="&rsStations7;" imageX="0" imageY="768" imageWidth="256" imageHeight="256"/>
-
-		<Events>
-			<OnCreate>
-				(block Nil
-					(enum (sysFindObject gSource "T +founder") theObj
-						(block Nil
-							; Create some visiting ships
-							(for i 1 (random 2 3)
-								(block (theShip)
-									(setq theShip (sysCreateShip 
-										&tbHubTraffic;
-										(sysVectorPolarOffset theObj (random 0 359) 10)
-										&svCommonwealth;
-										&evHubTrafficBehavior;
-										))
-										
-									(setq aDockObj theObj)
-									(objFireEvent theShip "OrderDockAtHub")
-									)
-								)
-							
-							; Register for events from all the objects that make up
-							; the arcology
-							(objRegisterForEvents gSource theObj)
-							)
-						)
-						
-					; Register a callbacks
-					(sysAddObjRecurringTimerEvent 90 gSource "OnTrafficControl")
-					)
-			</OnCreate>
-			<OnTrafficControl>
-				(block (totalShips)
-					; Count the number of ships under traffic control
-					(setq totalShips (count (sysFindObject Nil "s D:0010201F_status")))
-					
-					; If less than the ideal number, new ships jump in
-					(if (ls totalShips 200)
-						(block (theShip theTarget)
-							(setq theShip (sysCreateShip 
-								&tbHubTraffic;
-								(random (sysFindObject Nil "G"))
-								&svCommonwealth;
-								&evHubTrafficBehavior;
-								))
-								
-							(objFireEvent theShip "OrderEnterSystem")
-							)
-						)
-					)
-			</OnTrafficControl>
-		</Events>
-		
-		<DockScreens>
-
-			<Main
-				name=			"=(objGetName gSource)"
-				>
-
-				<Panes>
-					<Default
-							desc=	"You are docked at the station the founders use to control the Far-Gate network. From here, they can activate and deactivate the gates at will. A puppy is sitting in the docking bay, waiting for Wolfy to get the new graphics done. :3">
-
-						<Actions>
-							<Action name="Undock" cancel="1" key="U">
-								<Exit/>
-							</Action>
-
-						</Actions>
-
-					</Default>
-				</Panes>
-			</Main>
-
-		</DockScreens>
-
-		<DockingPorts>
-			<Port x="79"	y="75" />
-			<Port x="0"		y="100" />
-			<Port x="-73"	y="74" />
-			<Port x="-109"	y="0" />
-			<Port x="-87"	y="-75" />
-			<Port x="0"		y="-109" />
-			<Port x="82"	y="-82" />
-			<Port x="109"	y="8" />
-		</DockingPorts>
-	</StationType>
-	
-		<!-- Majellen Stargate -->
-
-	<StationType UNID="&stPegasusFarStargate;"
-			name=				"(stargate)"
-			sovereign=			"&svIndependent;"
-			dockScreen=			"Main"
-			dockingPorts=		"4"
-
-			multiHull=			"true"
-			immutable=			"true"
-			attributes=			"pegasus; farGate"
-
-			gateEffect=			"&efStargateOut;"
-
-			definiteArticle=	"true"
-			>
-		<Image imageID="&rsStargate;" imageX="0" imageY="128" imageWidth="192" imageHeight="192" imageFrameCount="12" imageTicksPerFrame="3"/>
-
-		<DockScreens>
-
-			<Main
-				name=			"=(objGetName gSource)"
-				>
-
-				<Panes>
-					<Default
-							desc=	"You are docked at an alien stargate, one that is connected to the Pegasus Far-Gate Network of stargates. These gates are controlled by the Triad from the control station in the Hub. Use of this gate comes at a price.">
-
-						<Actions>
-							<Action name="Undock" cancel="1" key="U">
-								<Exit/>
-							</Action>
-
-						</Actions>
-
-					</Default>
-				</Panes>
-			</Main>
-
-		</DockScreens>
-
-	</StationType>
 	
     <!---   Core system #1  -  Starting system  --->
     
@@ -269,13 +85,13 @@ Stations (structures)
         <Tables>
             <MajorStations>                      ;; these should be switched to hardcoded stations eventually
                 <Table>
-                    <Station chance="50"  type="&stArmsDealerRasiermesser;"noMapLabel="true"/>
-                    <Station chance="50"  type="&stArmsDealerMakayev;"noMapLabel="true"/>
+                    <Station chance="50"  type="&stTriadTradeDepot;"noMapLabel="true"/>
+                    <Station chance="50"  type="&stTriadTradeDepot;"noMapLabel="true"/>
                 </Table>
             </MajorStations>
             <MinorStations>                      ;; these should be switched to hardcoded stations eventually
                 <Table>
-                    <Station chance="100" type="&stCommonwealthSlums;" noMapLabel="true"/>
+                    <Station type="&stTriadTradeDepot;"/>
                 </Table>
             </MinorStations>
             <!-- Random Stations -->
@@ -338,6 +154,9 @@ Stations (structures)
             <Orbitals distance="0" angle="0">
                 <Marker objName="Start"/>
             </Orbitals>
+            <Orbitals debugOnly="true" distance="20" angle="0">
+                <Station type="&stTriadTradeDepot;" />   
+            </Orbitals>
             <!---
                                             Hub gates (Far-Gates)
                                         There will be more here eventually
@@ -385,21 +204,21 @@ Stations (structures)
             <!-- CW placeholder station representing a fortress -->
             
             <Orbitals count="1" distance="60-65" angle="random">
-            	<Station type="&stCommonwealthStationArmored;"/>
+            	<Station type="&stCommonwealthStationArmored;" noMapLabel="true"/>
             </Orbitals>
             
             <!-- high end stations; placeholders right now -->
             
             <Orbitals count="10" distance="70-100" angle="random">
-                <Lookup table="FriendlyStations" />
+                <Lookup table="FriendlyStations" noMapLabel="true"/>
             </Orbitals>
 
             <Orbitals count="10" distance="100-180" angle="random">
-                <Lookup table="MinorStations" />
+                <Lookup table="MinorStations" noMapLabel="true"/>
             </Orbitals>
 
             <Orbitals count="15" distance="220-400" angle="random">
-                <Lookup table="FriendlyOuterStations" />
+                <Lookup table="FriendlyOuterStations" noMapLabel="true"/>
             </Orbitals>
 
             <!-- inner belt -->
@@ -416,7 +235,7 @@ Stations (structures)
 			</Orbitals>
 			
 			<Orbitals count="2d2+1" distance="380-420" angle="minSeparation:10">
-				<Lookup table="FriendlyStations"/>
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
 			</Orbitals>
             
             <!---
@@ -646,7 +465,7 @@ Stations (structures)
 			</Orbitals>
 			
 			<Orbitals count="2d4+4" distance="1350-1450" angle="minSeparation:10">
-				<Lookup table="FriendlyOuterStations"/>
+				<Lookup table="FriendlyOuterStations" noMapLabel="true"/>
 			</Orbitals>
             
         </SystemGroup>
@@ -891,191 +710,4 @@ Stations (structures)
             </Orbitals>
         </SystemGroup>
     </SystemType>
-
-    <!-- Tables & Behaviors -->
-    
-    <!-- HUB Traffic -->
-    
-    <!-- BEHAVIORS -->
-
-	<ShipClass UNID="&evHubTrafficBehavior;"
-			class=				"(Hub traffic behavior)"
-			virtual=			"true"
-			
-			attributes=			"behaviorClass"
-			>
-
-		<Events>
-			<OrderDockAtHubStation>
-				(block Nil
-					(shpOrder gSource 'dock aDockObj)
-					(shpOrder gSource 'wait (random 10 200))
-					(objSetData gSource "0010201F_status" 'dockedAtHub)
-					)
-			</OrderDockAtHubStation>
-			
-			<OrderEnterSystem>
-				(objSetData gSource "0010201F_status" 'enteredSystem)
-			</OrderEnterSystem>
-			
-			<OnOrdersCompleted>
-				(block (status dockedAt allLoot)
-					; Different order depending on our current state
-					(setq status (objGetData gSource "0010201F_status"))
-					(setq dockedAt (shpGetDockObj gSource))
-					
-					; If we're docked at an object, dump any loot that we found
-					(if (and dockedAt
-							(objHasAttribute dockedAt "populated")
-							
-							; Compose a list of all loot on board that the station
-							; might want to buy from us.
-							
-							(setq allLoot (filter (objGetItems gSource "*~mf U") theItem
-								(objGetBuyPrice dockedAt theItem)
-								))
-							)
-						(block Nil
-							(enum allLoot theItem (objRemoveItem gSource theItem))
-							(enum allLoot theItem (objAddItem dockedAt theItem))
-							)
-						)
-					
-					; Figure out what to do next
-					(switch
-						(eq status 'enteredSystem)
-							(block Nil
-								(setq theTarget (random (sysFindObject gSource "T +founderAlien")))
-								(shpOrder gSource 'orbit (sysFindObject Nil "+anomaly;") 25 (random 20 40))
-								(shpOrder gSource 'dock theTarget)
-								(shpOrder gSource 'wait (random 10 60))
-								(objSetData gSource "0010201F_status" 'dockedAtHub)
-								)
-								
-						(eq status 'dockedAtHub)
-							(block (roll allWrecks)
-								; When leaving new victoria, orbit around for a bit
-								(shpOrder gSource 'orbit (shpGetDockObj gSource) 5 (random 10 20))
-								
-								; Randomly choose a path
-								(setq roll (random 1 100))
-								(switch
-									; Gate out
-									(leq roll 30)
-										(block Nil
-											(shpOrder gSource 'gate)
-											(objSetData gSource "0010201F_status" 'leavingSystem)
-											)
-											
-									; If there are wrecks in the area, loot them
-									(and (leq (objGetDestiny gSource) 180)
-											(not (objHasAttribute gSource "freighter"))
-											(leq (random 1 100) 50)
-											
-											; Compose a list of all wrecks in the area
-											
-											(setq allWrecks (filter (sysFindObject gSource "TK N:100; +shipwreck; -uncharted; -locked;") theObj
-												(not (objGetData theObj "0010201F_marked"))
-												))
-											)
-										(block (destObj)
-											(setq destObj (random allWrecks))
-											(shpOrder gSource 'loot destObj)
-											(objSetData destObj "0010201F_marked" True)
-											(objSetData gSource "0010201F_status" 'dockedAtStation)
-											)
-											
-									; Dock at a random station in the system
-									(block (theTarget)
-										(setq theTarget (random (sysFindObject gSource "TAF +populated; -founderAlien; -anomaly;")))
-										(shpOrder gSource 'dock theTarget)
-										(shpOrder gSource 'wait (random 10 20))
-										(objSetData gSource "0010201F_status" 'dockedAtStation)
-										)
-									)
-								)
-								
-						(eq status 'dockedAtStation)
-							(block (roll allWrecks)
-								; Randomly choose a path
-								(setq roll (random 1 100))
-								(switch
-									; Gate out
-									(leq roll 30)
-										(block Nil
-											(shpOrder gSource 'gate)
-											(objSetData gSource "0010201F_status" 'leavingSystem)
-											)
-											
-									; If there are wrecks in the area, loot them
-									(and (leq (objGetDestiny gSource) 180)
-											(not (objHasAttribute gSource "freighter"))
-											(leq (random 1 100) 50)
-											
-											; Compose a list of all wrecks in the area
-											
-											(setq allWrecks (filter (sysFindObject gSource "TK N:100; +shipwreck; -uncharted; -locked;") theObj
-												(not (objGetData theObj "0010201F_marked"))
-												))
-											)
-										(block (destObj)
-											(setq destObj (random allWrecks))
-											(shpOrder gSource 'loot destObj)
-											(objSetData destObj "0010201F_marked" True)
-											(objSetData gSource "0010201F_status" 'dockedAtStation)
-											)
-											
-									; Dock at founder stations
-									(leq roll 80)
-										(block (theTarget)
-											(setq theTarget (random (sysFindObject gSource "T +founderAlien")))
-											(shpOrder gSource 'orbit (sysFindObject Nil "+anomaly;") 20 (random 20 40))
-											(shpOrder gSource 'dock theTarget)
-											(shpOrder gSource 'wait (random 10 60))
-											(objSetData gSource "0010201F_status" 'dockedAtHub)
-											)
-											
-									; Dock at a random station in the system
-									(block (theTarget)
-										(setq theTarget (random (sysFindObject gSource "TAF +populated; -founderAlien; -anomaly;")))
-										(shpOrder gSource 'dock theTarget)
-										(shpOrder gSource 'wait (random 10 20))
-										(objSetData gSource "0010201F_status" 'dockedAtStation)
-										)
-									)
-								)
-						)
-						
-					; If we were docked at an object that we just looted, then destroy the object
-					(if (objGetData dockedAt "0010201F_marked")
-						(objDestroy dockedAt gSource)
-						)
-					)
-			</OnOrdersCompleted>
-		</Events>
-	</ShipClass>
-	
-<!-- SHIP TABLES -->
-
-	<ShipTable unid="&tbHubTraffic;">
-		<Table>
-			<Ship chance="2"	class="&scAntaresI;"/>
-			<Ship chance="4"	class="&scAntaresII;"/>
-			<Ship chance="3"	class="&scAntaresV;"/>
-			<Ship chance="3"	class="&scEI7000;"/>
-			<Ship chance="8"	class="&scEI500;"/>
-			<Ship chance="9"	class="&scEI200;"/>
-			<Ship chance="14"	class="&scEI100;"/>
-			<Ship chance="5"	class="&scIAVLight;"/>
-			<Ship chance="10"	class="&scIAVMedium;"/>
-			<Ship chance="5"	class="&scIAVHeavy;"/>
-			<Ship chance="10"	class="&scSapphireYacht;"/>
-			<Ship chance="3"	class="&scScarabFreighter;"/>
-			<Ship chance="14"	class="&scRoninB;"/>
-			<Ship chance="10"	class="&scWolfen;"/>
-		</Table>
-	</ShipTable>
-    
-    
-    
 </TranscendenceExtension>

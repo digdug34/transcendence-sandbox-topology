@@ -8,17 +8,46 @@
 ]>
 <TranscendenceExtension UNID="&modBoCPlayerShips;" version="1.0" name="BoC Playerships" credits="Everyone">
 
+
 <!--  ###################################################################
       UNID SPACE
       ###################################################################
 
+	0xEFFF - T - III
+
+	T		Type ID. Within a module, the division of the namespace is
+			undefined. Transcendence uses this value to represent the
+			type of object assigned an UNID:
+
+			0	star system description
+			1	sovereigns
+			2	station types
+			3	ship classes
+			4	item types
+			5	special item types (virtuals)
+
+			8	random tables (items, encounters)
+			9	effects, energy fields, space env, etc
+			A	dock screens
+			B	powers
+
+			F	images and sound resources
+            
+
+            
 Adventure Setup:
   0xEFFF0001 - 0xEFFF0009
 Systems:
   0xEFFF0010 - 0xEFFF0100
 PlayerShips:
   0xEFFFA000 - 0xEFFFA100
-
+Planets and stars
+  0xEFFF2000 - 0xEFFF2100
+Stations (structures)
+  0xEFFF2101 - 0xEFFF2FFF
+Graphics
+  0xEFFFF000 - 0xEFFFFFFF
+    
 -->
 	<ShipClass UNID="&scBoCSapphirePlayer;"
 			manufacturer=		"Zubrin Systems"
