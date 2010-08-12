@@ -21,6 +21,9 @@
 	<!ENTITY ssBoCFriendly10	            "0xEFFFA021">
 	<!ENTITY ssBoCFriendly11	            "0xEFFFA022">
 	<!ENTITY ssBoCFriendly12	            "0xEFFFA023">
+    
+	<!ENTITY rsAnomoly      	            "0xEFFF2000">
+	<!ENTITY stAnomoly      	            "0xEFFF2001">
 ]>
 
 <TranscendenceExtension UNID="&modBoCStarSystems;" version="1.0" name="BoC Star Systems" credits="Everyone">
@@ -41,6 +44,22 @@ Stations (structures)
   0xEFFF2101 - 0xEFFF2FFF
     
 -->
+
+<!----              Resources           --->
+<Image UNID="&rsAnomoly;"	bitmap="resources\nova5.bmp" bitmask="resources\nova5mask.bmp"/>
+
+
+	<StationType UNID="&stAnomoly;"
+		name=				"(star)"
+		scale=				"star"
+		backgroundObject=	"true" 
+		sovereign=			"&svIndependent;"
+
+		attributes=			"star"
+		>
+    <Image			imageID="&rsAnomoly;" imageX="0" imageY="0" imageWidth="256" imageHeight="256" imageFrameCount="5" imageTicksPerFrame="2"/>
+	</StationType>
+
     <!---   Core system #1  -  Starting system  --->
     
     <SystemType UNID="&ssBoCFriendly01;" noRandomEncounters="true">
@@ -59,7 +78,7 @@ Stations (structures)
         </Tables>
             
         <SystemGroup>
-            <Station type="&stCrateredPlanet;" />                                         ;; change this graphic, this is the main entry gate
+            <Station type="&stAnomoly;" />                                         ;; change this graphic, this is the main entry gate
             <Orbitals distance="0" angle="0">
                 <Marker objName="Start"/>
             </Orbitals>
@@ -89,7 +108,15 @@ Stations (structures)
                                             Heavy traffic and some minor stations
             --->
 
-            <Orbitals count="15" distance="55" angle="equidistant">
+            <Orbitals count="10" distance="55-75" angle="random">
+                <Lookup table="MinorStations" />
+            </Orbitals>
+
+            <Orbitals count="10" distance="80-180" angle="random">
+                <Lookup table="MinorStations" />
+            </Orbitals>
+
+            <Orbitals count="10" distance="180-350" angle="random">
                 <Lookup table="MinorStations" />
             </Orbitals>
 
@@ -100,41 +127,143 @@ Stations (structures)
                                      as placeholders
                                      
             --->
-            <Orbitals count="3" distance="140" angle="equidistant">
-                <Group>
+            <Orbitals count="3" distance="600" angle="equidistant">
+                <Group angle="0">
                     <Primary>
                         <Station    type="&stG-TypeStar;"
                                     showOrbit="true"
                                     name="Star 1"
                                     />
                     </Primary>
-                    <Orbitals distance="40" angle="equidistant">
+                    <Orbitals distance="600" angle="random">
+                        <Station type="&stStargateBeacon;" showOrbit="true" noMapLabel="true"/>
+                    </Orbitals>
+                    <Orbitals distance="20" angle="equidistant">
                         <Station type="&stGreenhousePlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
+                    <Orbitals count="8" distance="35" angle="equidistant">
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+                    <Orbitals count="14" distance="50" angle="equidistant">
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+
+					<Trojan>
+						<Group>
+                            <Primary>
+                                <Station type="&stMiningColony;" noMapLabel="true"/>
+                            </Primary>
+
+							<Orbitals count="3" distance="25-120" angle="random">
+                                <Station type="&stMiningColony;" noMapLabel="true"/>
+							</Orbitals>
+
+							<Orbitals count="20d4+4" distance="1-80" angle="random">
+								<Lookup table="AsteroidSmall"/>
+							</Orbitals>
+
+							<Orbitals count="20d4+4" distance="50-200" angle="random">
+								<Lookup table="AsteroidSmall"/>
+							</Orbitals>
+
+							<Orbitals count="10d6" distance="5-150" angle="random">
+								<Lookup table="AsteroidMedium"/>
+							</Orbitals>
+						</Group>
+					</Trojan>
                 </Group>
 
                 <Group>
                     <Primary>
                         <Station type="&stG-TypeStar;"/>
                     </Primary>
+                    <Orbitals distance="600" angle="random">
+                        <Station type="&stStargateBeacon;" showOrbit="true" noMapLabel="true"/>
+                    </Orbitals>
                     <Orbitals distance="40" angle="equidistant">
                         <Station type="&stGreenhousePlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
+                    <Orbitals count="8" distance="35" angle="equidistant">
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+                    <Orbitals count="14" distance="50" angle="equidistant">
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+
+					<Trojan>
+						<Group>
+                            <Primary>
+                                <Station type="&stMiningColony;" noMapLabel="true"/>
+                            </Primary>
+
+							<Orbitals count="3" distance="25-120" angle="random">
+                                <Station type="&stMiningColony;" noMapLabel="true"/>
+							</Orbitals>
+
+							<Orbitals count="20d4+4" distance="1-80" angle="random">
+								<Lookup table="AsteroidSmall"/>
+							</Orbitals>
+
+							<Orbitals count="20d4+4" distance="50-200" angle="random">
+								<Lookup table="AsteroidSmall"/>
+							</Orbitals>
+
+							<Orbitals count="10d6" distance="5-150" angle="random">
+								<Lookup table="AsteroidMedium"/>
+							</Orbitals>
+						</Group>
+					</Trojan>
                </Group>
 
                <Group>
                     <Primary>
                         <Station type="&stG-TypeStar;"/>
                     </Primary>
+                    <Orbitals distance="600" angle="random">
+                        <Station type="&stStargateBeacon;" showOrbit="true" noMapLabel="true"/>
+                    </Orbitals>
                     <Orbitals distance="40" angle="equidistant">
                         <Station type="&stGreenhousePlanet;" showOrbit="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                         <Lookup table="MajorStations" noMapLabel="true"/>
                     </Orbitals>
+                    <Orbitals distance="600">
+                        <Marker name="Star 3 orbit" showorbit="true"/>
+                    </Orbitals>
+                    <Orbitals count="8" distance="35" angle="equidistant">
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+                    <Orbitals count="14" distance="50" angle="equidistant">
+                        <Lookup table="MajorStations" noMapLabel="true"/>
+                    </Orbitals>
+
+					<Trojan>
+						<Group>
+                            <Primary>
+                                <Station type="&stMiningColony;" noMapLabel="true"/>
+                            </Primary>
+
+							<Orbitals count="3" distance="25-120" angle="random">
+                                <Station type="&stMiningColony;" noMapLabel="true"/>
+							</Orbitals>
+
+							<Orbitals count="20d4+4" distance="1-80" angle="random">
+								<Lookup table="AsteroidSmall"/>
+							</Orbitals>
+
+							<Orbitals count="20d4+4" distance="50-200" angle="random">
+								<Lookup table="AsteroidSmall"/>
+							</Orbitals>
+
+							<Orbitals count="10d6" distance="5-150" angle="random">
+								<Lookup table="AsteroidMedium"/>
+							</Orbitals>
+						</Group>
+					</Trojan>
                </Group>
             </Orbitals>
                 
