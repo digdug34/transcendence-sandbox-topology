@@ -161,7 +161,7 @@ Graphics
                                             Hub gates (Far-Gates)
                                         There will be more here eventually
             --->
-			<Orbitals distance="20" angle="equidistant">
+	    <Orbitals distance="20" angle="equidistant">
                 <Stargate objName="Core1-Core2" type="&stMajellenStargate;" noMapLabel="true"/>
                 <Station type="&stStargateBeacon;"/>
                 <Station type="&stStargateBeacon;"/>
@@ -266,6 +266,44 @@ Graphics
                         </Orbitals>
                         </Group>
                     </Orbitals>
+                    
+            <!-- normal gatenet gates -->
+                    
+            <Orbitals distance="400" angle="equidistant"> ;;These need to be linked somewhere later
+                <Stargate objName="Gate01" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate02" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate03" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate04" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate05" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate06" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate07" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate08" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate09" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate0A" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate0B" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate0C" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate0D" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate0E" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate0F" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate10" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate11" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate12" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate13" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate14" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate15" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate16" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate17" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate18" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate19" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate1A" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate1B" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate1C" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate1D" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate1E" type="&stMajellenStargate;" noMapLabel="true"/>
+                <Stargate objName="Gate1F" type="&stMajellenStargate;" noMapLabel="true"/>
+            </Orbitals>
+            
+            <!-- Threee stars --->
             
             <Orbitals count="3" distance="600" angle="equidistant">
                 <Group angle="0">
@@ -481,6 +519,57 @@ Graphics
     <!---   Core system #2   --->
     
     <SystemType UNID="&ssBoCFriendly02;" noRandomEncounters="true">
+    	<Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -489,6 +578,28 @@ Graphics
                 <Stargate objName="Gate1" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
@@ -503,12 +614,85 @@ Graphics
                 <Stargate objName="Gate1" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   KorolovHQ  --->
     
     <SystemType UNID="&ssBoCFriendly04;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -517,12 +701,85 @@ Graphics
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate4" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Teraton Camp  --->
     
     <SystemType UNID="&ssBoCFriendly05;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -531,12 +788,85 @@ Graphics
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate4" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Teraton HQ  --->
     
     <SystemType UNID="&ssBoCFriendly06;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -544,12 +874,85 @@ Graphics
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   CWMilitaOutpost  --->
     
     <SystemType UNID="&ssBoCFriendly07;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -558,12 +961,85 @@ Graphics
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate4" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   CWFLeetOutpost  --->
     
     <SystemType UNID="&ssBoCFriendly08;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -572,12 +1048,85 @@ Graphics
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate4" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Ringer outpost  --->
     
     <SystemType UNID="&ssBoCFriendly09;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -585,12 +1134,85 @@ Graphics
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Black market HQ  --->
     
     <SystemType UNID="&ssBoCFriendly10;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -599,12 +1221,85 @@ Graphics
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate4" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Rasiermesser HQ  --->
     
     <SystemType UNID="&ssBoCFriendly11;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -613,12 +1308,85 @@ Graphics
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate4" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Breadbasket  --->
     
     <SystemType UNID="&ssBoCFriendly12;" noRandomEncounters="true">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stBlueGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -626,69 +1394,507 @@ Graphics
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="FriendlyOuterStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Charon Pirates HQ   --->
     
     <SystemType UNID="&ssBoCEnemyHQ01;">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stRedGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
                 <Stargate objName="Gate1" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Ares HQ   --->
     
     <SystemType UNID="&ssBoCEnemyHQ02;">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stRedGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Sung HQ   --->
     
     <SystemType UNID="&ssBoCEnemyHQ03;">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stRedGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Ranx HQ   --->
     
     <SystemType UNID="&ssBoCEnemyHQ04;">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stRedGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="FriendlyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Random Enemy system - 2 stargates   --->
     
     <SystemType UNID="&ssBoC2Gate01;">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stRedGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
                 <Stargate objName="Gate1" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="EnemyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Random Enemy system - 3 stargates   --->
     
     <SystemType UNID="&ssBoC3Gate01;">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stRedGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -696,12 +1902,85 @@ Graphics
                 <Stargate objName="Gate2" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="EnemyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 
     <!---   Random Enemy system - 4 stargates   --->
     
     <SystemType UNID="&ssBoC4Gate01;">
+        <Tables>
+    			<FriendlyOuterStations>
+				<Table>
+					<Station weight="20" type="&stContainerHabitat;"/>
+					<Station weight="20" type="&stCommonwealthSlums;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stIceFarm;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stSistersOfDomina;"/>
+					<Station weight="5"  type="&stHotel;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+				</Table>
+			</FriendlyOuterStations>
+
+			<FriendlyStations>
+				<Table>
+					<Station weight="20" type="&stCorporateEnclave;"/>
+					<Station weight="20" type="&stCommonwealthResidentials;"/>
+					<Station weight="15" type="&stFuelDepot;"/>
+					<Station weight="15" type="&stHotel;"/>
+					<Station weight="10" type="&stContainerHabitat;"/>
+					<Station weight="10" type="&stCommonwealthSlums;"/>
+					<Station weight="10" type="&stArmorDealer;"/>
+					<Station weight="10" type="&stArmsDealer;"/>
+					<Station weight="10" type="&stManufacturingPlant;"/>
+					<Station weight="5"  type="&stTinkerGathering;"/>
+					<Station weight="5"  type="&stCommonwealthDryDock;"/>
+					<Station weight="5"  type="&stArmsDealerRasiermesser;"/>
+					<Station weight="5"  type="&stArmsDealerMakayev;"/>
+					<Station weight="5"  type="&stInsuranceCompany;"/>
+					<Station weight="5"  type="&stSistersOfDomina;"/>
+					<Station weight="2"  type="&stArmsDealerBushido;"/>
+				</Table>
+			</FriendlyStations>
+
+			<EnemyStations>
+				<Table>
+					<Station weight="15" type="&stOutlawHaven;"				noReinforcements="true"/>
+					<Station weight="15" type="&stCharonPirateOutpost3;"	noReinforcements="true"/>
+					<Station weight="10" type="&stTerroristCamp;"			noReinforcements="true"/>
+					<Station weight="10" type="&stMarauderOutpost;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stTerroristCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stMarauderCompound;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stDrugCartelOutpost;"		noReinforcements="true"/>
+					<Station weight="5"  type="&stWeaponsCache;"			noReinforcements="true"/>
+					<Station weight="5"  type="&stSungSlaveCamp;"			noReinforcements="true"/>
+				</Table>
+			</EnemyStations>
+    	</Tables>
         <SystemGroup>
             <Station type="&stRedGiantStar;"/>
             <Orbitals distance="30" angle="equidistant">
@@ -710,6 +1989,28 @@ Graphics
                 <Stargate objName="Gate3" type="&stMajellenStargate;"/>
                 <Stargate objName="Gate4" type="&stMajellenStargate;"/>
             </Orbitals>
+            <!-- Content -->
+            <Orbitals distance="100" angle="random">
+				<Group>
+					<Siblings count="40" distribution="4d2">
+						<Lookup table="AsteroidSmallFrost"/>
+					</Siblings>
+
+					<Siblings count="5" distribution="2d2">
+						<Lookup table="AsteroidMediumFrost"/>
+					</Siblings>
+				</Group>
+	    </Orbitals>
+			
+	    <Orbitals count="2d4+4" distance="135-145" angle="minSeparation:10">
+				<Lookup table="EnemyStations" noMapLabel="true"/>
+	    </Orbitals>
+           <Orbitals distance="200" angle="equidistant">
+                        <Station type="&stMethaneGasGiant;" showOrbit="true"/>
+                        <Orbitals count="2d5" distance ="10d2" angle="random">
+                        	<Lookup table="EnemyStations" noMapLabel="true"/>
+                        </Orbitals>
+           </Orbitals>
         </SystemGroup>
     </SystemType>
 </TranscendenceExtension>
