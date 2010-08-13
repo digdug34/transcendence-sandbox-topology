@@ -32,9 +32,9 @@
 			B	powers
 
 			F	images and sound resources
-            
 
-            
+
+
 Adventure Setup:
   0xEFFF0001 - 0xEFFF0009
 Systems:
@@ -47,29 +47,30 @@ Stations (structures)
   0xEFFF2101 - 0xEFFF2FFF
 Graphics
   0xEFFFF000 - 0xEFFFFFFF
-    
+
 -->
+
 	<ShipClass UNID="&scBoCSapphirePlayer;"
-			manufacturer=		"Zubrin Systems"
-			class=				"Sapphire"
-			type=				"yacht"
-			score=				"95"
+			manufacturer=       "Zubrin Systems"
+			class=              "Sapphire"
+			type=               "yacht"
+			score=              "95"
 
-			mass=				"30"
-			reactorPower=		"150"
-			fuelCapacity=		"37500"
-			cargoSpace=			"50"
-			thrust=				"150"
-			rotationCount=		"40"
-			maneuver=			"2"
-			maxSpeed=			"20"
+			mass=               "30"
+			reactorPower=       "150"
+			fuelCapacity=       "37500"
+			cargoSpace=         "50"
+			thrust=             "150"
+			rotationCount=      "40"
+			maneuver=           "2"
+			maxSpeed=           "20"
 
-			maxArmor=			"6000"
-			maxCargoSpace=		"150"
-			maxDevices=			"8"
+			maxArmor=           "6000"
+			maxCargoSpace=      "150"
+			maxDevices=         "8"
 
-			leavesWreck=		"30"
-            attributes=         "BoC,notInPartI"
+			leavesWreck=        "30"
+      attributes=         "BoC,notInPartI"
 			>
 
 		<Armor>
@@ -103,36 +104,36 @@ Graphics
 		</DriveImages>
 
 		<PlayerSettings
-			desc=				"The versatile Sapphire yacht strikes a good balance between a gunship and a freighter."
-			largeImage=			"&rsZubrinLarge;"
-			initialClass=		"true"
+			desc=             "The versatile Sapphire yacht strikes a good balance between a gunship and a freighter."
+			largeImage=       "&rsZubrinLarge;"
+			initialClass=     "true"
 			startingCredits=	"10d100+1000"
 
 			startingSystem=		"Core1"
-			startingPos=		"Start"
+			startingPos=      "Start"
 			>
 
 			<ArmorDisplay>
 				<ArmorSection name="forward"
-						imageID="&rsZubrinArmor;" 
+						imageID="&rsZubrinArmor;"
 						imageX="0" imageY="0" imageWidth="52" imageHeight="29"
 						destX="42" destY="15" hpX="55" hpY="14"
 						nameY="8" nameBreakWidth="200" nameDestX="0" nameDestY="10" />
 
 				<ArmorSection name="starboard"
-						imageID="&rsZubrinArmor;" 
+						imageID="&rsZubrinArmor;"
 						imageX="52" imageY="0" imageWidth="22" imageHeight="59"
 						destX="92" destY="45" hpX="95" hpY="60"
 						nameY="30" nameBreakWidth="360" nameDestX="12" nameDestY="0" />
 
 				<ArmorSection name="port"
-						imageID="&rsZubrinArmor;" 
+						imageID="&rsZubrinArmor;"
 						imageX="142" imageY="0" imageWidth="22" imageHeight="59"
 						destX="22" destY="45" hpX="15" hpY="60"
 						nameY="52" nameBreakWidth="200" nameDestX="0" nameDestY="8" />
 
 				<ArmorSection name="aft"
-						imageID="&rsZubrinArmor;" 
+						imageID="&rsZubrinArmor;"
 						imageX="74" imageY="0" imageWidth="68" imageHeight="14"
 						destX="34" destY="103" hpX="55" hpY="105"
 						nameY="74" nameBreakWidth="360" nameDestX="12" nameDestY="0" />
@@ -143,7 +144,7 @@ Graphics
 			</ShieldDisplay>
 
 			<ReactorDisplay>
-				<Image imageID="&rsZubrinReactor;" 
+				<Image imageID="&rsZubrinReactor;"
 						imageX="0" imageY="0" imageWidth="256" imageHeight="60"/>
 
 				<PowerLevelImage imageID="&rsZubrinReactor;"
@@ -163,34 +164,32 @@ Graphics
 			</ReactorDisplay>
 
 		</PlayerSettings>
-        
-
 	</ShipClass>
 
 	<!-- Player Ship: EI500 Freighter -->
 
 	<ShipClass UNID="&scBoCEI100XPlayer;"
-			manufacturer=		"Earth Industries"
-			class=				"EI500"
-			type=				"freighter"
-			score=				"105"
+			manufacturer=       "Earth Industries"
+			class=              "EI500"
+			type=               "freighter"
+			score=              "105"
 
-			mass=				"250"
-			reactorPower=		"250"
-			fuelCapacity=		"60000"
-			cargoSpace=			"200"
-			thrust=				"200"
-			rotationCount=		"40"
-			maneuver=			"4"
-			maxSpeed=			"18"
+			mass=               "250"
+			reactorPower=       "250"
+			fuelCapacity=       "60000"
+			cargoSpace=         "200"
+			thrust=             "200"
+			rotationCount=      "40"
+			maneuver=           "4"
+			maxSpeed=           "18"
 
-			maxArmor=			"20000"
-			maxCargoSpace=		"200"
-			maxDevices=			"9"
-			maxWeapons=			"2"
+			maxArmor=           "20000"
+			maxCargoSpace=      "200"
+			maxDevices=         "9"
+			maxWeapons=         "2"
 
-			leavesWreck=		"75"
-            attributes=         "BoC,notInPartI"
+			leavesWreck=        "75"
+      attributes=         "BoC,notInPartI"
 			>
 
 		<Armor>
@@ -235,35 +234,35 @@ Graphics
 			/>
 
 		<PlayerSettings
-			desc=				"The EI500 is slow and ungraceful, but its omnidirectional laser can hit even the fastest gunships. Seven open slots for devices give you lots of upgrade flexibility."
+			desc=           "The EI500 is slow and ungraceful, but its omnidirectional laser can hit even the fastest gunships. Seven open slots for devices give you lots of upgrade flexibility."
 			largeImage=			"&rsEI100XLarge;"
 			initialClass=		"true"
 
-			startingSystem=		"Core1"
+			startingSystem=	"Core1"
 			startingPos=		"Start"
 			>
 
 			<ArmorDisplay>
 				<ArmorSection name="forward"
-						imageID="&rsEI100XArmor;" 
+						imageID="&rsEI100XArmor;"
 						imageX="0" imageY="0" imageWidth="90" imageHeight="9"
 						destX="23" destY="32" hpX="55" hpY="27"
 						nameY="8" nameBreakWidth="360" nameDestX="12" nameDestY="0" />
 
 				<ArmorSection name="starboard"
-						imageID="&rsEI100XArmor;" 
+						imageID="&rsEI100XArmor;"
 						imageX="90" imageY="0" imageWidth="9" imageHeight="56"
 						destX="104" destY="41" hpX="98" hpY="60"
 						nameY="30" nameBreakWidth="275" nameDestX="0" nameDestY="8" />
 
 				<ArmorSection name="port"
-						imageID="&rsEI100XArmor;" 
+						imageID="&rsEI100XArmor;"
 						imageX="189" imageY="0" imageWidth="9" imageHeight="56"
 						destX="23" destY="41" hpX="12" hpY="60"
 						nameY="52" nameBreakWidth="200" nameDestX="0" nameDestY="8" />
 
 				<ArmorSection name="aft"
-						imageID="&rsEI100XArmor;" 
+						imageID="&rsEI100XArmor;"
 						imageX="99" imageY="0" imageWidth="90" imageHeight="9"
 						destX="23" destY="97" hpX="55" hpY="97"
 						nameY="74" nameBreakWidth="200" nameDestX="0" nameDestY="8" />
@@ -274,7 +273,7 @@ Graphics
 			</ShieldDisplay>
 
 			<ReactorDisplay>
-				<Image imageID="&rsZubrinReactor;" 
+				<Image imageID="&rsZubrinReactor;"
 						imageX="0" imageY="0" imageWidth="256" imageHeight="60"/>
 
 				<PowerLevelImage imageID="&rsZubrinReactor;"
@@ -294,33 +293,32 @@ Graphics
 			</ReactorDisplay>
 
 		</PlayerSettings>
-
 	</ShipClass>
 
 	<!-- Player Ship: Wolfen-class Gunship -->
 
 	<ShipClass UNID="&scBoCWolfenPlayer;"
-			manufacturer=		""
-			class=				"Wolfen"
-			type=				"gunship"
-			score=				"225"
+			manufacturer=       ""
+			class=              "Wolfen"
+			type=               "gunship"
+			score=              "225"
 
-			mass=				"30"
-			reactorPower=		"100"
-			fuelCapacity=		"25000"
-			cargoSpace=			"35"
-			thrust=				"300"
-			rotationCount=		"40"
-			maneuver=			"2"
-			maxSpeed=			"25"
+			mass=               "30"
+			reactorPower=		    "100"
+			fuelCapacity=		    "25000"
+			cargoSpace=			    "35"
+			thrust=				      "300"
+			rotationCount=      "40"
+			maneuver=			      "2"
+			maxSpeed=			      "25"
 
-			maxArmor=			"10000"
-			maxCargoSpace=		"100"
-			maxDevices=			"8"
-			maxNonWeapons=		"4"
+			maxArmor=           "10000"
+			maxCargoSpace=      "100"
+			maxDevices=         "8"
+			maxNonWeapons=      "4"
 
-			leavesWreck=		"20"
-            attributes=         "BoC,notInPartI"
+			leavesWreck=        "20"
+      attributes=         "BoC,notInPartI"
 			>
 
 		<Armor>
@@ -357,35 +355,35 @@ Graphics
 		</DriveImages>
 
 		<PlayerSettings
-			desc=				"Fast and deadly, the Wolfen is designed for combat. Though limited in cargo capacity, it has lots of room for more weapons."
+			desc=           "Fast and deadly, the Wolfen is designed for combat. Though limited in cargo capacity, it has lots of room for more weapons."
 			largeImage=			"&rsWolfenLarge;"
 			initialClass=		"true"
 
-			startingSystem=		"Core1"
+			startingSystem=	"Core1"
 			startingPos=		"Start"
 			>
 
 			<ArmorDisplay>
 				<ArmorSection name="forward"
-						imageID="&rsWolfenArmor;" 
+						imageID="&rsWolfenArmor;"
 						imageX="0" imageY="0" imageWidth="52" imageHeight="15"
 						destX="42" destY="19" hpX="55" hpY="18"
 						nameY="8" nameBreakWidth="200" nameDestX="0" nameDestY="10" />
 
 				<ArmorSection name="starboard"
-						imageID="&rsWolfenArmor;" 
+						imageID="&rsWolfenArmor;"
 						imageX="75" imageY="0" imageWidth="23" imageHeight="69"
 						destX="94" destY="34" hpX="97" hpY="60"
 						nameY="30" nameBreakWidth="360" nameDestX="12" nameDestY="0" />
 
 				<ArmorSection name="port"
-						imageID="&rsWolfenArmor;" 
+						imageID="&rsWolfenArmor;"
 						imageX="52" imageY="0" imageWidth="23" imageHeight="69"
 						destX="19" destY="34" hpX="13" hpY="60"
 						nameY="52" nameBreakWidth="200" nameDestX="0" nameDestY="8" />
 
 				<ArmorSection name="aft"
-						imageID="&rsWolfenArmor;" 
+						imageID="&rsWolfenArmor;"
 						imageX="0" imageY="75" imageWidth="52" imageHeight="16"
 						destX="42" destY="103" hpX="55" hpY="107"
 						nameY="74" nameBreakWidth="360" nameDestX="12" nameDestY="0" />
@@ -396,7 +394,7 @@ Graphics
 			</ShieldDisplay>
 
 			<ReactorDisplay>
-				<Image imageID="&rsZubrinReactor;" 
+				<Image imageID="&rsZubrinReactor;"
 						imageX="0" imageY="0" imageWidth="256" imageHeight="60"/>
 
 				<PowerLevelImage imageID="&rsZubrinReactor;"
@@ -416,6 +414,6 @@ Graphics
 			</ReactorDisplay>
 
 		</PlayerSettings>
-
 	</ShipClass>
+
 </TranscendenceExtension>
