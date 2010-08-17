@@ -29,13 +29,110 @@
   <!ENTITY stTriadTradeDepot            "0xEFFF2105">
   <!ENTITY stFounderAlien               "0xEFFF2006">
 
-  <!ENTITY rsAnomoly                    "0xEFFF2044">       ;; temp unid
+  <!ENTITY rsAnomoly                    "0xEFFF2044">       ;; temp unid 
   <!ENTITY rsFounderGateControl         "0xEFFF2045">       ;; temp unid
   <!ENTITY rsFounderAlien               "0xEFFF2046">       ;; temp unid
+  <!ENTITY stFargate                    "0xEFFF2047">       ;; temp unid
+  <!ENTITY scGateController             "0xEFFF2048">       ;; temp unid
 ]>
 
 <TranscendenceExtension UNID="&modBoCStarSystems;" version="1.0" name="BoC Star Systems" credits="Everyone">
 
+	<StationType UNID="&stFargate;"
+			name=				"(stargate)"
+			sovereign=			"&svIndependent;"
+			dockScreen=			"Main"
+			dockingPorts=		"4"
+
+			multiHull=			"true"
+			immutable=			"true"
+			attributes=			"majellen, uncharted, fargate"
+			inactive=			"true"
+
+			gateEffect=			"&efStargateOut;"
+
+			definiteArticle=	"true"
+			>
+		<Image imageID="&rsStargate;" imageX="0" imageY="128" imageWidth="192" imageHeight="192" imageFrameCount="12" imageTicksPerFrame="3"/>
+
+		<DockScreens>
+
+			<Main
+				name=			"=(objGetName gSource)"
+				>
+
+				<Panes>
+					<Default
+							desc=	"You are docked at an alien stargate. These giant structures are used by the Ancient Races to move their starships across the Galaxy. Stargates are the best mode of faster-than-light travel and they are the only method known to humans.">
+                    <Actions>
+							<Action name="Activate" default="1" key="A">
+                                (scrShowPane gScreen "Purchase")
+							</Action>
+							<Action name="Undock" cancel="1" key="U">
+								<Exit/>
+							</Action>
+						</Actions>
+					</Default>
+                    
+                    <Purchase
+                        desc="The fargates are tightly contolled by the Triad and they charge 5000 credits to use it.">
+                        <Initialize>
+                            ;; (scrEnableAction gScreen 0 (geq (plyGetCredits gplayer) 5000))
+                        </Initialize>
+						<Actions>
+							<Action name="Pay" default="1" key="P">
+                                (block Nil
+                                    ;;(plyCharge gplayer 5000)
+                                    (staSetActive gSource)
+                                    (plyMessage gPlayer "The Triad thanks you for your patronage.  Please travel safely.")
+                                    (scrExitDock gScreen)
+                                )
+							</Action>
+							<Action name="Back" cancel="1" key="B">
+								<Navigate pane="Default"/>
+							</Action>
+						</Actions>
+					</Purchase>
+				</Panes>
+			</Main>
+
+		</DockScreens>
+
+        <Events>
+			<onCreate>
+                (block (controller)
+                    (setq controller (sysCreateShip &scGateController; gSource &svIndependent;))
+                    (objSetData controller "controller" (objGetID gSource))
+                )
+			</onCreate>
+        </Events>
+	</StationType>
+
+	<!--    gate controller  -->
+
+	<ShipClass UNID="&scGateController;"
+			class=				"(fargate controller)"
+			virtual=			"true"
+			attributes=			"gateController">
+			
+		<Events>
+			<onCreate>
+                (block nil
+                    (sysAddObjRecurringTimerEvent (random 28 32) gSource "Check")
+                )
+			</onCreate>
+            <Check>
+                (block ((home (objGetObjByID (objGetData gSource "Controller"))))
+                    (if (and (leq (sysVectorDistance gPlayerShip home) 10)
+                        ;; (objHasItem gPlayerShip "someitem")                      ;; TODO: this virtual item needs to be made
+                        True)
+                        (staSetActive home)
+                        (staSetInActive home)
+                    )
+                )
+            </Check>
+        </Events>
+	</ShipClass>
 
 <!--  ###################################################################
       UNID SPACE
@@ -163,20 +260,20 @@ Graphics
     There will be more here eventually
 -->
       <Orbitals distance="20" angle="equidistant">
-        <Stargate objName="Core1-Core2" type="&stMajellenStargate;" noMapLabel="true"/>
+        <Stargate objName="Core1-Core2" type="&stFargate;" noMapLabel="true"/>
         <Station type="&stStargateBeacon;"/>
         <Station type="&stStargateBeacon;"/>
-        <Stargate objName="Core1-Core3" type="&stMajellenStargate;" noMapLabel="true"/>
+        <Stargate objName="Core1-Core3" type="&stFargate;" noMapLabel="true"/>
         <Station type="&stStargateBeacon;"/>
         <Station type="&stStargateBeacon;"/>
-        <Stargate objName="Gate1" type="&stMajellenStargate;" noMapLabel="true"/>
+        <Stargate objName="Gate1" type="&stFargate;" noMapLabel="true"/>
         <Station type="&stStargateBeacon;"/>
         <Station type="&stStargateBeacon;"/>
-        <Stargate objName="Gate2" type="&stMajellenStargate;" noMapLabel="true"/>
+        <Stargate objName="Gate2" type="&stFargate;" noMapLabel="true"/>
         <Station type="&stStargateBeacon;"/>
         <Station type="&stStargateBeacon;"/>
 <!-- TODO: move/hide this -->
-        <Stargate objName="Endgame" type="&stMajellenStargate;" noMapLabel="true"/>
+        <Stargate objName="Endgame" type="&stFargate;" noMapLabel="true"/>
         <Station type="&stStargateBeacon;"/>
         <Station type="&stStargateBeacon;"/>
       </Orbitals>
