@@ -1,7 +1,0 @@
-* Figure out what sections each developer will do
-* Provide documentation on each part of the xml
-* begin rough design for xml
-* make people happy
-* eat pie or cake* 
-
-	* Denotes Azar_Wolf's topic of course. ;)
