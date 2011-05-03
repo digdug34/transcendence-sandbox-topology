@@ -1,0 +1,797 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE TranscendenceExtension
+[	<!ENTITY unidExtension		"0xDCAF5d00">
+
+
+	<!ENTITY adSandbox  		"0xDCAF5d01">
+	<!ENTITY rsGalaxyMap			"0xDCAF5d02">
+	<!ENTITY myMapSandbox			"0xDCAF5d03">
+	<!ENTITY ssSplitSystem1	"0xDCAF5d06">
+	<!ENTITY ssSplitSystem2 "0xDCAF5d07">
+	<!ENTITY ssSplitSystem3 "0xDCAF5d08">
+	<!ENTITY ssSplitSystem4 "0xDCAF5d09">
+	<!ENTITY ssBridgeAres	"0xDCAF5d10">
+	<!ENTITY ssBridgeRinger "0xDCAF5d11">
+	<!ENTITY ssBridgeCommonwealth	"0xDCAF5d12">
+	<!ENTITY myMapAres	"0xDCAF5d13">
+	<!ENTITY myMapCommon	"0xDCAF5d14">
+	<!ENTITY myMapRinger	"0xDCAF5d15">
+
+
+	]>
+
+<TranscendenceAdventure UNID="0xDCAF5d00" version="1.1" credit="" name="The Sandbox">
+
+<!-- Adventure Description -->
+<AdventureDesc
+		UNID=						"&adSandbox;"
+		name=						"The Sandbox"
+		startingShipCriteria="* -notInPartI"
+		backgroundID=	"&rsGalaxyMap;"
+			>
+		<Events>
+			<GetGlobalAchievements>
+				(intGetGlobalAchievements)
+			</GetGlobalAchievements>
+		<OnGameStart>
+			(block Nil
+					(gamSetCrawlImage &rsProlog1;)
+				(gamSetCrawlText (cat
+
+
+
+"Sandbox Intro"
+					))
+				)
+		</OnGameStart>
+
+
+			<OnGameEnd>
+				(block Nil
+					(gamSetCrawlImage
+						(if (eq aEndGameReason 'leftHumanSpace)
+							&rsEndGameEscaped;
+							&rsEndGameDestroyed;
+							)
+						)
+
+					(gamSetCrawlText
+						(plyComposeString gPlayer
+							(cat
+								"%name% " aEpitaph ". "
+								"%name% visited "
+								(if (eq aSystemsVisited 1)
+									"a single star system "
+									(cat aSystemsVisited " star systems ")
+									)
+								"and destroyed "
+								(switch
+									(or (eq aEnemiesDestroyed 0) (not aBestEnemyClass))
+										"no enemy ships"
+
+									(eq aEnemiesDestroyed aBestEnemiesDestroyed)
+										(if (eq aEnemiesDestroyed 1)
+											(shpGetClassName aBestEnemyClass 0x04)
+											(cat aEnemiesDestroyed " " (shpGetClassName aBestEnemyClass 0x02))
+											)
+
+									(eq aBestEnemiesDestroyed 1)
+										(cat aEnemiesDestroyed " enemy ships, including " (shpGetClassName aBestEnemyClass 0x04))
+
+									(cat aEnemiesDestroyed " enemy ships, including " aBestEnemiesDestroyed " " (shpGetClassName aBestEnemyClass 0x02))
+									)
+								". "
+								(if (eq aEndGameReason 'leftHumanSpace)
+									"\n\nTo be continued..."
+									"%He% never reached the Galactic Core."
+									)
+								)
+							)
+						)
+					)
+			</OnGameEnd>
+	</Events>
+	</AdventureDesc>
+	<Image UNID="&rsGalaxyMap;"	bitmap="Galaxy.jpg" />
+
+<SystemMap unid="&myMapSandbox;"
+      name="Triad Core"
+      backgroundImage="&rsGalaxyMap;"
+      sizeX="900"
+      sizeY="604"
+      >
+
+	<SystemTopology>
+
+
+
+					<!-- LEVEL I -->
+
+		<Node ID="SE" rootNode="true" x="0" y="0">
+			<System
+					name=			"Triad Core"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+			
+				<StarGate Name="Outbound" DestID="B1" DestGate="Inbound"/>
+				<Stargate Name="Inbound" DestID="B2" DestGate="Inbound"/>
+				<Stargate Name="Split" DestID="B3" DestGate="Inbound"/>
+
+			</StarGates>
+
+			
+		</Node>
+		<Node ID="B1" rootNode="true" x="0" y="270">
+			<System
+					name=			"Ares Border Guard"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Outbound"/>
+
+	
+
+			</StarGates>
+
+			
+		</Node>
+		<Node ID="B2" rootNode="true" x="-100" y="-240">
+			<System
+					name=			"Commonwealth Border Guard"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Inbound"/>
+
+			<!--	<Stargate Name="Inbound" DestID="B2" DestGate="Inbound"/>
+				<Stargate Name="Split" DestID="B3" DestGate="Inbound"/> -->
+
+			</StarGates>
+
+			
+		</Node>
+		<Node ID="B3" rootNode="true" x="150" y="-240">
+			<System
+					name=			"Ringer Border Guard"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Split"/>
+
+
+
+			</StarGates>
+
+			
+		</Node>
+	</SystemTopology>
+	</SystemMap>
+	<SystemMap unid="&myMapAres;"
+		name="Ares Branch"
+		backgroundImage="&rsGalaxyMap;"
+		sizeX="900"
+		sizeY="604"
+      >
+
+	<SystemTopology>
+		<Node ID="AB1" x="0" y="-280" rootNode="true">
+			<System
+					level=			"1"
+					attributes=		"ungoverned"
+					variant=		"commonwealth"
+					>
+	
+					<System name="Ares System"	UNID="&ssBridgeAres;"/>
+
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="[Prev]"/>
+				
+			</StarGates>
+		</Node>	 
+	</SystemTopology>
+	</SystemMap>
+	<SystemMap unid="&myMapRinger;"
+		name="Ringer Space"
+		backgroundImage="&rsGalaxyMap;"
+		sizeX="900"
+		sizeY="604"
+      >
+
+	<SystemTopology>
+		<Node ID="RB1" x="-350" y="-150" rootNode="true">
+			<System
+					level=			"1"
+					attributes=		"ungoverned"
+					variant=		"unknown"
+					>
+	
+					<System name="Ringer System"	UNID="&ssBridgeRinger;"/>
+
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="[Prev]"/>
+
+			</StarGates>
+		</Node>	 
+
+	</SystemTopology>
+	</SystemMap>
+	<SystemMap unid="&myMapCommon;"
+		name="Commonwealth Space"
+		backgroundImage="&rsGalaxyMap;"
+		sizeX="900"
+		sizeY="604"
+      >
+
+	<SystemTopology>
+		<Node ID="CB1" x="350" y="-10" rootNode="true">
+			<System
+					level=			"1"
+					attributes=		"ungoverned"
+					variant=		"unknown"
+					>
+	
+					<System name="Commonwealth System"	UNID="&ssBridgeCommonwealth;"/>
+
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="[Prev]"/>
+
+			</StarGates>
+		</Node>	 
+
+	</SystemTopology>
+	</SystemMap>
+	<!-- EarthSpace (Dead End Split Binary) -->
+
+	<SystemType UNID="&ssSplitSystem1;">
+		<SystemGroup>
+			<Lookup table="YellowStarAndRedDwarfBinarySystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant,!void">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+			
+			
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet,!void">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80"
+					locationCriteria=	"!void" 
+					stationCriteria=	"!primary,!debris,+envWater,-envAvoidsWater" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<RandomLocation count="2d12" locationCriteria="*void">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</RandomLocation>
+		</SystemGroup>
+	</SystemType>
+	
+		<!-- EarthSpace (Split Normal) -->
+
+	<SystemType UNID="&ssSplitSystem2;">
+		<SystemGroup>
+			<Lookup table="YellowStarSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+								<Marker objName="Start" xOffset="0" yOffset="200"/>
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envWater,-envAvoidsWater" 
+					percentEnemies=		"65"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+	</SystemType>
+	
+		<!-- EarthSpace (Asteroids) -->
+
+	<SystemType UNID="&ssSplitSystem3;">
+		<SystemGroup>
+			<Lookup table="AsteroidBeltSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+			
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80"
+					stationCriteria=	"!primary,!debris,+envEarth,-envAvoidsEarth" 
+					percentEnemies=		"65"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+	</SystemType>
+	
+		<!-- EarthSpace (Desert) -->
+	<SystemType UNID="&ssBridgeAres;">
+		<SystemGroup>
+			<Lookup table="DesertSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+		<Events>
+			<OnGlobalTopologyCreated>
+				(block nil
+					(sysAddStargateTopology "AB1" "Inbound" "B1" "Outbound")
+				)
+			</OnGlobalTopologyCreated>
+
+			<OnGlobalSystemCreated>
+				(if (eq (sysGetNode) "B1")
+					(block Nil
+
+						; Create a stargate in deep space away from everything
+						(sysCreateStargate 
+							&stStargate;
+							(sysVectorRandom Nil (random 100 120) 300 "t")
+							"Outbound"
+							"AB1"
+							"Inbound"
+						)
+					)
+				) 
+			</OnGlobalSystemCreated>			
+		</Events>
+	</SystemType>
+	<SystemType UNID="&ssBridgeCommonwealth;">
+		<SystemGroup>
+			<Lookup table="DesertSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+		<Events>
+			<OnGlobalTopologyCreated>
+				(block nil
+					(sysAddStargateTopology "CB1" "Inbound" "B2" "Outbound")
+				)
+			</OnGlobalTopologyCreated>
+
+			<OnGlobalSystemCreated>
+				(if (eq (sysGetNode) "B2")
+					(block Nil
+
+						; Create a stargate in deep space away from everything
+						(sysCreateStargate 
+							&stStargate;
+							(sysVectorRandom Nil (random 100 120) 300 "t")
+							"Outbound"
+							"CB1"
+							"Inbound"
+						)
+					)
+				) 
+			</OnGlobalSystemCreated>		
+		</Events>
+	</SystemType>
+	<SystemType UNID="&ssBridgeRinger;">
+		<SystemGroup>
+			<Lookup table="DesertSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+		<Events>
+			<OnGlobalTopologyCreated>
+				(block nil
+					(sysAddStargateTopology "RB1" "Inbound" "B3" "Outbound")
+				)
+			</OnGlobalTopologyCreated>
+
+			<OnGlobalSystemCreated>
+				(if (eq (sysGetNode) "B3")
+					(block Nil
+
+						; Create a stargate in deep space away from everything
+						(sysCreateStargate 
+							&stStargate;
+							(sysVectorRandom Nil (random 100 120) 300 "t")
+							"Outbound"
+							"RB1"
+							"Inbound"
+						)
+					)
+				) 
+			</OnGlobalSystemCreated>		
+		</Events>
+	</SystemType>
+	<SystemType UNID="&ssSplitSystem4;">
+		<SystemGroup>
+			<Lookup table="DesertSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+	</SystemType>
+	<Globals>
+		(block nil
+			(setq shpGetCombatPotential
+				(lambda (ship)
+					(block (armorHP combatPotential)
+						(setq armorHP (armGetHitPoints (shpGetArmor ship)))
+						(setq armorHP (add armorHP (divide armorHP 2)))
+					)
+				)
+			)
+		)
+	</Globals>
+
+</TranscendenceAdventure>
