@@ -119,13 +119,127 @@
 
 			<StarGates>
 			
-				<StarGate Name="Outbound" DestID="B1" DestGate="Inbound"/>
+				<StarGate Name="Outbound" DestID="AC1" DestGate="Inbound"/>
 				<Stargate Name="Inbound" DestID="B2" DestGate="Inbound"/>
 				<Stargate Name="Split" DestID="B3" DestGate="Inbound"/>
 
 			</StarGates>
 
 			
+		</Node>
+
+		<Node ID="AC1" x="-15" y="70">
+			<System
+					name=		"Alpha 482"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC2" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC1a" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC1a" x="34" y="98">
+			<System
+					name=		"Theta 235"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC1b" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC1" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC1b" x="12" y="192">
+			<System
+					name=		"Eta Omega 7"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC1c" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC1a" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC2" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC1c" x="-22" y="260">
+			<System
+					name=		"Theta Pi 7"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC3" DestGate="Split"/>
+				<StarGate Name="Inbound" DestID="AC1b" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC1ca" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC1ca" x="-43" y="220">
+			<System
+					name=		"Phi 734"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Inbound" DestID="AC1c" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC2" x="20" y="170">
+			<System
+					name=		"Alpha Lambda 5"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC1b" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC3" x="-34" y="240">
+			<System
+					name=		"Gamma Zeta 3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC4" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC2" DestGate="Outbound"/>
+				<StarGate name="Split" DestID="AC1c" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC4" x="63" y="260">
+			<System
+					name=		"Phi 435"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC3" DestGate="Outbound"/>
+			</StarGates>
 		</Node>
 		<Node ID="B1" rootNode="true" x="0" y="270">
 			<System
@@ -137,9 +251,9 @@
 			</System>
 
 			<StarGates>
-				<StarGate Name="Inbound" DestID="SE" DestGate="Outbound"/>
-
-	
+				<StarGate Name="Outbound" DestID="B3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC4" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC1" DestGate="Split"/>
 
 			</StarGates>
 
@@ -781,17 +895,6 @@
 			</Orbitals>
 		</SystemGroup>
 	</SystemType>
-	<Globals>
-		(block nil
-			(setq shpGetCombatPotential
-				(lambda (ship)
-					(block (armorHP combatPotential)
-						(setq armorHP (armGetHitPoints (shpGetArmor ship)))
-						(setq armorHP (add armorHP (divide armorHP 2)))
-					)
-				)
-			)
-		)
-	</Globals>
+
 
 </TranscendenceAdventure>
