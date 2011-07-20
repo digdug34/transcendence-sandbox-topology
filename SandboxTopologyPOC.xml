@@ -1,5 +1,7 @@
 <?xml version="1.0" ?>
 
+<?xml version="1.0" ?>
+
 <!DOCTYPE TranscendenceExtension
 [	<!ENTITY unidExtension		"0xDCAF5d00">
 
@@ -120,14 +122,300 @@
 			<StarGates>
 			
 				<StarGate Name="Outbound" DestID="AC1" DestGate="Inbound"/>
-				<Stargate Name="Inbound" DestID="B2" DestGate="Inbound"/>
-				<Stargate Name="Split" DestID="B3" DestGate="Inbound"/>
+				<Stargate Name="Inbound" DestID="BC1" DestGate="Inbound"/>
+				<Stargate Name="Split" DestID="RC1" DestGate="Inbound"/>
 
 			</StarGates>
 
 			
 		</Node>
+		<Node ID="RC1" x="30" y="-30">
+			<System
+					name=		"8JC Reikan"
+					level=		"1"
+					attributes=	"newBeyond"
 
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC2" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Split"/>
+				<StarGate Name="Split" DestID="RC1a" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC1a" x="74" y="-68">
+			<System
+					name=		"MP8 Kuegar"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC1b" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC1" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC1b" x="120" y="-102">
+			<System
+					name=		"Xeemar Alpha 6"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC1c" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC1a" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RC2" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC1c" x="120" y="-150">
+			<System
+					name=		"TR9 Byegar"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC3" DestGate="Split"/>
+				<StarGate Name="Inbound" DestID="RC1b" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RC1ca" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC1ca" x="153" y="-190">
+			<System
+					name=		"GR8R Thantou"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Inbound" DestID="RC1c" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC2" x="160" y="-210">
+			<System
+					name=		"Beagan Tau 3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RC1b" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC3" x="220" y="-200">
+			<System
+					name=		"Zarachi 5"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC4" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC2" DestGate="Outbound"/>
+				<StarGate name="Split" DestID="RC1c" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC4" x="280" y="-240">
+			<System
+					name=		"Claudius D7"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC3" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="B3" rootNode="true" x="350" y="-270">
+			<System
+					name=			"RBC894243"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC4" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RC1" DestGate="Split"/>
+
+			</StarGates>
+
+			
+		</Node>
+<!--
+============================================================================================================================
+============================================================================================================================
+============================================================================================================================
+================================================================================================================================
+=============================================================================================================================
+==============================================================================================================================
+===============================================================================================================================
+COMMONWEALTH CONTROLLED SPACE \/
+
+-->
+		<Node ID="BC1" x="-25" y="-30">
+			<System
+					name=		"New Kansas"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC2" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="BC1a" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC1a" x="-83" y="-80">
+			<System
+					name=		"Ulysus 232"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC1b" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC1" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC1b" x="-120" y="-92">
+			<System
+					name=		"New Washington"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC1c" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC1a" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="BC2" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC1c" x="-180" y="-110">
+			<System
+					name=		"Tyre's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC3" DestGate="Split"/>
+				<StarGate Name="Inbound" DestID="BC1b" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="BC1ca" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC1ca" x="-213" y="-130">
+			<System
+					name=		"Curtis 734"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Inbound" DestID="BC1c" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC2" x="-250" y="-170">
+			<System
+					name=		"Russel 574"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="BC1b" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC3" x="-289" y="-210">
+			<System
+					name=		"Zacharia's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC4" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC2" DestGate="Outbound"/>
+				<StarGate name="Split" DestID="BC1c" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC4" x="-310" y="-240">
+			<System
+					name=		"New Massachusetts"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B2" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC3" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="B2" rootNode="true" x="-350" y="-270">
+			<System
+					name=			"St. Kaare's Star"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC4" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="BC1" DestGate="Split"/>
+
+			</StarGates>
+
+			
+		</Node>
+		
+	<!--	
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+ARES \/\/\/\/
+		-->
 		<Node ID="AC1" x="-15" y="70">
 			<System
 					name=		"Alpha 482"
@@ -243,7 +531,7 @@
 		</Node>
 		<Node ID="B1" rootNode="true" x="0" y="270">
 			<System
-					name=			"Ares Border Guard"
+					name=			"AR Alpha 6"
 					level=			"1"
 					attributes=		"newBeyond"
 					>
@@ -259,43 +547,7 @@
 
 			
 		</Node>
-		<Node ID="B2" rootNode="true" x="-100" y="-240">
-			<System
-					name=			"Commonwealth Border Guard"
-					level=			"1"
-					attributes=		"newBeyond"
-					>
-				<System UNID="&ssSplitSystem2;"/>
-			</System>
-
-			<StarGates>
-				<StarGate Name="Inbound" DestID="SE" DestGate="Inbound"/>
-
-			<!--	<Stargate Name="Inbound" DestID="B2" DestGate="Inbound"/>
-				<Stargate Name="Split" DestID="B3" DestGate="Inbound"/> -->
-
-			</StarGates>
-
-			
-		</Node>
-		<Node ID="B3" rootNode="true" x="150" y="-240">
-			<System
-					name=			"Ringer Border Guard"
-					level=			"1"
-					attributes=		"newBeyond"
-					>
-				<System UNID="&ssSplitSystem2;"/>
-			</System>
-
-			<StarGates>
-				<StarGate Name="Inbound" DestID="SE" DestGate="Split"/>
-
-
-
-			</StarGates>
-
-			
-		</Node>
+	
 	</SystemTopology>
 	</SystemMap>
 	<SystemMap unid="&myMapAres;"
@@ -334,7 +586,7 @@
 	<SystemTopology>
 		<Node ID="RB1" x="-350" y="-150" rootNode="true">
 			<System
-					level=			"1"
+					level=			"RCS Kruman 982"
 					attributes=		"ungoverned"
 					variant=		"unknown"
 					>
@@ -642,7 +894,7 @@
 		<Events>
 			<OnGlobalTopologyCreated>
 				(block nil
-					(sysAddStargateTopology "AB1" "Inbound" "B1" "Outbound")
+					(sysAddStargateTopology "AB1" "Inbound" "B1" "Jump")
 				)
 			</OnGlobalTopologyCreated>
 
@@ -654,7 +906,7 @@
 						(sysCreateStargate 
 							&stStargate;
 							(sysVectorRandom Nil (random 100 120) 300 "t")
-							"Outbound"
+							"Jump"
 							"AB1"
 							"Inbound"
 						)
@@ -727,7 +979,7 @@
 		<Events>
 			<OnGlobalTopologyCreated>
 				(block nil
-					(sysAddStargateTopology "CB1" "Inbound" "B2" "Outbound")
+					(sysAddStargateTopology "CB1" "Inbound" "B2" "Jump")
 				)
 			</OnGlobalTopologyCreated>
 
@@ -739,7 +991,7 @@
 						(sysCreateStargate 
 							&stStargate;
 							(sysVectorRandom Nil (random 100 120) 300 "t")
-							"Outbound"
+							"Jump"
 							"CB1"
 							"Inbound"
 						)
@@ -812,7 +1064,7 @@
 		<Events>
 			<OnGlobalTopologyCreated>
 				(block nil
-					(sysAddStargateTopology "RB1" "Inbound" "B3" "Outbound")
+					(sysAddStargateTopology "RB1" "Inbound" "B3" "Jump")
 				)
 			</OnGlobalTopologyCreated>
 
@@ -824,7 +1076,7 @@
 						(sysCreateStargate 
 							&stStargate;
 							(sysVectorRandom Nil (random 100 120) 300 "t")
-							"Outbound"
+							"Jump"
 							"RB1"
 							"Inbound"
 						)
