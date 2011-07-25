@@ -1,7 +1,5 @@
 <?xml version="1.0" ?>
 
-<?xml version="1.0" ?>
-
 <!DOCTYPE TranscendenceExtension
 [	<!ENTITY unidExtension		"0xDCAF5d00">
 
@@ -19,6 +17,7 @@
 	<!ENTITY myMapAres	"0xDCAF5d13">
 	<!ENTITY myMapCommon	"0xDCAF5d14">
 	<!ENTITY myMapRinger	"0xDCAF5d15">
+	<!ENTITY stWormhole		"0xDCAF5d16">
 
 
 	]>
@@ -565,15 +564,198 @@ ARES \/\/\/\/
 					variant=		"commonwealth"
 					>
 	
-					<System name="Ares System"	UNID="&ssBridgeAres;"/>
+					<System name="ACS Beta Nu Omicron"	UNID="&ssBridgeAres;"/>
 
 			</System>
 
 			<StarGates>
 				<StarGate Name="Inbound" DestID="[Prev]"/>
-				
+				<StarGate name="Outbound" DestID="ACS1" destGate="Inbound"/>
 			</StarGates>
 		</Node>	 
+		<Node ID="ACS1" x="0" y="-240">
+			<System
+					name=		"ACS Gamma 6"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="ACSR1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AB1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="ACSL1" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSL1" x="-80" y="-180">
+			<System
+					name=		"ACS Beta Phi"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACS1" DestGate="Split"/>
+				<StarGate Name="Outbound" DestID="ACSL2" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSL2" x="-200" y="-90">
+			<System
+					name=		"ACS Nu 824"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSL3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSR1" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="ACSL3" x="-280" y="0">
+			<System
+					name=		"ACS Delta Gamma"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSL4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSL4" x="-200" y="90">
+			<System
+					name=		"ACS Iota Kappa"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSL5" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSL5" x="-80" y="180">
+			<System
+					name=		"ACS Lambda Xi Pi"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACS2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSR4" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="ACS2" x="0" y="280">
+			<System
+					name=		"ACS Omicron Theta"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL5" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR5" DestGate="Outbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSR1" x="80" y="-180">
+			<System
+					name=		"ACS Omega 9"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACS1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSL2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSR2" x="200" y="-90">
+			<System
+					name=		"ACS Gamma Nu Gamma"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSR1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSR5" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSR3" x="280" y="0">
+			<System
+					name=		"ACS Beta Epsilon"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSR2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSR4" x="200" y="90">
+			<System
+					name=		"ACS Theta 3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSR3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR5" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSL5" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="ACSR5" x="80" y="180">
+			<System
+					name=		"ACS Omicron Mu"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSR4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACS2" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="ACSR2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
 	</SystemTopology>
 	</SystemMap>
 	<SystemMap unid="&myMapRinger;"
@@ -1147,6 +1329,8 @@ ARES \/\/\/\/
 			</Orbitals>
 		</SystemGroup>
 	</SystemType>
-
+	<!--<Modules>
+			<Module fileName="Anomalies.xml"/>
+	</Modules>-->
 
 </TranscendenceAdventure>
