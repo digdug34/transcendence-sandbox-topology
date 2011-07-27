@@ -1,33 +1,33 @@
 <?xml version="1.0" ?>
 
 <!DOCTYPE TranscendenceExtension
-[	<!ENTITY unidExtension		"0xDCAF5d00">
+[	<!ENTITY unidExtension		"0xEFFFFd00">
 
 
-	<!ENTITY adSandbox  		"0xDCAF5d01">
-	<!ENTITY rsGalaxyMap			"0xDCAF5d02">
-	<!ENTITY myMapSandbox			"0xDCAF5d03">
-	<!ENTITY ssSplitSystem1	"0xDCAF5d06">
-	<!ENTITY ssSplitSystem2 "0xDCAF5d07">
-	<!ENTITY ssSplitSystem3 "0xDCAF5d08">
-	<!ENTITY ssSplitSystem4 "0xDCAF5d09">
-	<!ENTITY ssBridgeAres	"0xDCAF5d10">
-	<!ENTITY ssBridgeRinger "0xDCAF5d11">
-	<!ENTITY ssBridgeCommonwealth	"0xDCAF5d12">
-	<!ENTITY myMapAres	"0xDCAF5d13">
-	<!ENTITY myMapCommon	"0xDCAF5d14">
-	<!ENTITY myMapRinger	"0xDCAF5d15">
-	<!ENTITY stWormhole		"0xDCAF5d16">
+	<!ENTITY adSandbox  		"0xEFFFFd01">
+	<!ENTITY rsGalaxyMap			"0xEFFFFd02">
+	<!ENTITY myMapSandbox			"0xEFFFFd03">
+	<!ENTITY ssSplitSystem1	"0xEFFFFd06">
+	<!ENTITY ssSplitSystem2 "0xEFFFFd07">
+	<!ENTITY ssSplitSystem3 "0xEFFFFd08">
+	<!ENTITY ssSplitSystem4 "0xEFFFFd09">
+	<!ENTITY ssBridgeAres	"0xEFFFFd10">
+	<!ENTITY ssBridgeRinger "0xEFFFFd11">
+	<!ENTITY ssBridgeCommonwealth	"0xEFFFFd12">
+	<!ENTITY myMapAres	"0xEFFFFd13">
+	<!ENTITY myMapCommon	"0xEFFFFd14">
+	<!ENTITY myMapRinger	"0xEFFFFd15">
+	<!ENTITY stWormhole		"0xEFFFFd16">
 
 
 	]>
 
-<TranscendenceAdventure UNID="0xDCAF5d00" version="1.1" credit="" name="The Sandbox">
+<TranscendenceAdventure UNID="0xEFFFFd00" version="1.1" credit="" name="Sandbox">
 
 <!-- Adventure Description -->
 <AdventureDesc
 		UNID=						"&adSandbox;"
-		name=						"The Sandbox"
+		name=						"Sandbox"
 		startingShipCriteria="* -notInPartI"
 		backgroundID=	"&rsGalaxyMap;"
 			>
@@ -104,10 +104,6 @@
       >
 
 	<SystemTopology>
-
-
-
-					<!-- LEVEL I -->
 
 		<Node ID="SE" rootNode="true" x="0" y="0">
 			<System
@@ -550,7 +546,7 @@ ARES \/\/\/\/
 	</SystemTopology>
 	</SystemMap>
 	<SystemMap unid="&myMapAres;"
-		name="Ares Branch"
+		name="Ares Controlled Space"
 		backgroundImage="&rsGalaxyMap;"
 		sizeX="900"
 		sizeY="604"
@@ -768,21 +764,203 @@ ARES \/\/\/\/
 	<SystemTopology>
 		<Node ID="RB1" x="-350" y="-150" rootNode="true">
 			<System
-					level=			"RCS Kruman 982"
+					level=			"1"
 					attributes=		"ungoverned"
 					variant=		"unknown"
 					>
 	
-					<System name="Ringer System"	UNID="&ssBridgeRinger;"/>
+					<System name="RCS Kruman 932"	UNID="&ssBridgeRinger;"/>
 
 			</System>
 
 			<StarGates>
 				<StarGate Name="Inbound" DestID="[Prev]"/>
-
+				<StarGate Name="Outbound" DestID="RCS1" DestGate="Inbound"/>
 			</StarGates>
 		</Node>	 
+		<Node ID="RCS1" x="-300" y="-200">
+			<System
+					name=		"8433 Manchester"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RCSR1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RB1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RCSL1" DestGate="Inbound"/>
 
+			</StarGates>
+		</Node>
+		<Node ID="RCSL1" x="-280" y="-180">
+			<System
+					name=		"Wessel Gamma 9"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCS1" DestGate="Split"/>
+				<StarGate Name="Outbound" DestID="RCSL2" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSL2" x="-200" y="-90">
+			<System
+					name=		"Chazad 933D"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSL3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSR1" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RCSL3" x="-110" y="0">
+			<System
+					name=		"Hetten Omega 9"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSL4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSL4" x="-40" y="110">
+			<System
+					name=		"Jeckel Alpha 28 B3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSL5" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSL5" x="20" y="160">
+			<System
+					name=		"Reutha Tau 33E"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCS2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSR4" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RCS2" x="70" y="280">
+			<System
+					name=		"Caaradar Phi Alpha"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL5" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR5" DestGate="Outbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSR1" x="-230" y="-160">
+			<System
+					name=		"Orianas B3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCS1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSL2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSR2" x="-130" y="-75">
+			<System
+					name=		"Meaben Sigma 8"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSR1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSR5" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSR3" x="-30" y="0">
+			<System
+					name=		"Ruutan 932"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSR2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSR4" x="-110" y="90">
+			<System
+					name=		"HJC 9383 Tylar"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSR3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR5" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSL5" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RCSR5" x="-170" y="180">
+			<System
+					name=		"Beta 4 Copernia"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSR4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCS2" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RCSR2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
 	</SystemTopology>
 	</SystemMap>
 	<SystemMap unid="&myMapCommon;"

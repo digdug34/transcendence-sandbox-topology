@@ -1,0 +1,235 @@
+<?xml version="1.0" ?>
+<!DOCTYPE TranscendenceExtension
+[
+	<!ENTITY unidAWExtension			"0xefffd000">
+	<!ENTITY wepSolarFlareLrg			"0xefffd200">
+	<!ENTITY wepSolarFlareMed			"0xefffd201">
+	<!ENTITY wepSolarFlareSml			"0xefffd202">
+	<!ENTITY wepSolarFlare				"0xefffd203">
+
+]>
+
+<TranscendenceExtension UNID="&unidAWExtension;"  name="anomaly Weapon" credits="DSMK2" version="1.1">
+
+	<ItemType UNID="&wepSolarFlareLrg;"
+			name=				"Solar Flare Launcher Large"
+			level=				"10"
+			value=				"600000"
+			mass=				"6000"
+			frequency=			"notrandom"
+			modifiers=			"MajorItem;"
+
+			description=		"Shoots harmful sunflares."
+			>
+
+		<Image imageID="&rsItems1;" imageX="96" imageY="0" imageWidth="96" imageHeight="96"/>
+
+		<Weapon
+				type=				"missile"
+				damage=				"plasma:16; radiation2;"
+				fireRate=			"50"
+				missileSpeed=		"100"
+				lifetime=			"500"
+				hitPoints=			"100000"
+				powerUse=			"0"
+				interaction= "100"
+				passthrough= "100"
+				
+				>
+			<Effect>
+				<Flare
+					style=			"fadingBlast"
+					radius=			"40"
+					primaryColor=	"0xFF, 0xE1, 0x00"
+					
+				/>
+
+				<ParticleComet
+						particleCount=	"200"
+						primaryColor=	"0xff, 0xff, 0x80"
+
+						width=			"40"
+						length=			"200"
+						/>
+			</Effect>
+
+		</Weapon>
+
+	</ItemType>
+	
+	<ItemType UNID="&wepSolarFlareMed;"
+			name=				"Solar Flare Launcher Medium"
+			level=				"10"
+			value=				"600000"
+			mass=				"6000"
+			frequency=			"notrandom"
+			modifiers=			"MajorItem;"
+
+			description=		"Shoots harmful sunflares."
+			>
+
+		<Image imageID="&rsItems1;" imageX="96" imageY="0" imageWidth="96" imageHeight="96"/>
+
+		<Weapon
+				type=				"missile"
+				damage=				"plasma:10; radiation2;"
+				fireRate=			"10"
+				missileSpeed=		"100"
+				lifetime=			"500"
+				hitPoints=			"100000"
+				powerUse=			"0"
+				interaction= "100"
+				passthrough= "100"
+			
+				>
+			<Effect>
+				<Flare
+					style=			"fadingBlast"
+					radius=			"20"
+					primaryColor=	"0xFF, 0xb3, 0x00"
+					
+				/>
+
+				<ParticleComet
+						particleCount=	"200"
+						primaryColor=	"0xFF, 0xb3, 0x00"
+						width=			"20"
+						length=			"120"
+						/>
+			</Effect>
+
+		</Weapon>
+
+	</ItemType>
+	
+	<ItemType UNID="&wepSolarFlareSml;"
+			name=				"Solar Flare Launcher Small"
+			level=				"10"
+			value=				"600000"
+			mass=				"6000"
+			frequency=			"notrandom"
+			modifiers=			"MajorItem;"
+
+			description=		"Shoots harmful sunflares."
+			>
+
+		<Image imageID="&rsItems1;" imageX="96" imageY="0" imageWidth="96" imageHeight="96"/>
+
+		<Weapon
+				type=				"missile"
+				damage=				"plasma:5; radiation2;"
+				fireRate=			"50"
+				missileSpeed=		"100"
+				lifetime=			"500"
+				hitPoints=			"100000"
+				powerUse=			"0"
+				interaction= "100"
+				passthrough= "100"
+				
+				>
+			<Effect>
+				<Flare
+					style=			"fadingBlast"
+					radius=			"10"
+					primaryColor=	"0xFF, 0x80, 0x00"
+					
+				/>
+
+				<ParticleComet
+						particleCount=	"200"
+						primaryColor=	"0xFF, 0x80, 0x00"
+
+						width=			"10"
+						length=			"80"
+						/>
+			</Effect>
+
+		</Weapon>
+
+	</ItemType>
+	
+	<ItemType UNID="&wepSolarFlare;"
+			name=				"Solar Flare Launcher"
+			level=				"10"
+			value=				"600000"
+			mass=				"6000"
+			frequency=			"notrandom"
+			modifiers=			"MajorItem;"
+
+			description=		"Shoots harmful sunflares."
+			>
+
+		<Image imageID="&rsItems1;" imageX="96" imageY="0" imageWidth="96" imageHeight="96"/>
+
+		<Weapon
+				type=				"missile"
+				damage=				"plasma:20; radiation5;"
+				fireRate=			"50"
+				missileSpeed=		"100"
+				lifetime=			"500"
+				hitPoints=			"100000"
+				powerUse=			"0"
+				interaction= "100"
+				passthrough= "100"
+			
+				>
+			<Effect>
+				<MoltenBolt
+						width=				"10"
+						growth=				"24"
+						primaryColor=		"0xFF, 0xE1, 0x00"
+						secondaryColor=		"0xff, 0xff, 0xff"
+						/>
+			</Effect>
+
+		</Weapon>
+		<Events>
+			<OnFireWeapon>
+				(block Nil
+					(for size 0 5
+					(block Nil
+					; Left Arc
+					(for ang 0 20 
+						(block (random)
+							(setq random (rollDice 1 100))
+							(switch
+								(leq random 15)
+									(sysCreateWeaponFire &wepSolarFlareSml; gSource aFirePos (add (add 340 ang ) (shpGetDirection gplayerShip)) (rollDice 8 10 20) Nil)
+									
+								(and (leq random 30) (gr random 15))
+									(sysCreateWeaponFire &wepSolarFlareMed; gSource aFirePos (add (add 340 ang) (shpGetDirection gplayerShip)) (rollDice 8 10 20) Nil)
+									
+								(and (leq random 45) (gr random 30))
+									(sysCreateWeaponFire &wepSolarFlareLrg; gSource aFirePos (add (add 340 ang) (shpGetDirection gplayerShip)) (rollDice 8 10 20) Nil)
+								
+								0
+							)
+						)
+					)
+					; Right Arc
+					(for ang 0 20 
+						(block (random)
+							(setq random (rollDice 1 100))
+							(switch
+								(leq random 15)
+									(sysCreateWeaponFire &wepSolarFlareSml; gSource aFirePos (add ang (shpGetDirection gplayerShip)) (rollDice 8 10 20) Nil)
+									
+								(and (leq random 30) (gr random 15))
+									(sysCreateWeaponFire &wepSolarFlareMed; gSource aFirePos (add ang (shpGetDirection gplayerShip)) (rollDice 8 10 20) Nil)
+									
+								(and (leq random 45) (gr random 30))
+									(sysCreateWeaponFire &wepSolarFlareLrg; gSource aFirePos (add ang (shpGetDirection gplayerShip)) (rollDice 8 10 20) Nil)
+								
+								0
+								
+							)
+						)
+					)
+					)
+					)
+				)
+			</OnFireWeapon>
+		</Events>
+	</ItemType>
+
+</TranscendenceExtension>
