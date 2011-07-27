@@ -1,0 +1,553 @@
+<?xml version="1.0" ?>
+<!DOCTYPE TranscendenceExtension
+[
+    <!ENTITY modGT_TrafficBehaviour         "0xDCBA0200">
+    <!ENTITY tbGT_TrafficEscorts            "0xDCBA0201">
+]>
+
+<TranscendenceExtension UNID="&modGT_TrafficBehaviour;" version="1.0">
+
+<!--
+    NOTES:
+
+
+    TODO
+        --  Limit buying to freighters, except for equipment upgrades
+        --  Limit selling to a random amount of items. This should avoid
+            freighters just dumping their entire inventory in one go
+            (question: should this be avoided at all?)
+        --  playtest InitialItem criteria to ensure no bugs or wildly 
+			inapproriate items
+		--	
+
+
+    OBSERVATIONS:
+        scEI500 does not have the attribute freighter set :/
+        possibly there are others that suffer from the same
+        --  because of this I have changed the way we acertain
+            if the current ship is a freighter from objHasAttribute
+            to a lookup in a list
+-->
+
+    <Globals>
+        (block Nil
+
+            (setq gt_TrafficDebug Nil)
+
+            (setq gt_TrafficCredit (lambda (source credit)
+                (block (current)
+                    (if (not (setq current (objGetData source "gt_Credits")))
+                        (setq current 0)
+                    )
+                    (setq current (add (int current) credit))
+                    (objSetData source "gt_Credits" current)
+                    current
+                )
+            ))
+
+            (setq gt_TrafficCharge (lambda (source credit)
+                (block (current)
+                    (if (not (setq current (objGetData source "gt_Credits")))
+                        (setq current 0)
+                    )
+                    (if (ls (setq current (subtract (int current) credit)) 0)
+                        (setq current 0)
+                    )
+                    (objSetData source "gt_Credits" current)
+                    current
+                )
+            ))
+
+            (setq gt_TrafficGetBalance (lambda (source)
+                (block (current)
+                    (if (not (setq current (objGetData source "gt_Credits")))
+                        (setq current 0)
+                    )
+                    (int current)
+                )
+            ))
+
+            (setq gt_TrafficFreighterTypes (list
+                &scAntaresI; &scEI100; &scAntaresII; &scEI200;
+                &scEI500; &scAntaresV; &scEI7000; &scScarabFreighter;
+            ))
+
+            (setq gt_TrafficBuggyStations (list
+                &stSistersOfDomina; &stCommonwealthResidentials;
+                &stCommonwealthSlums; &stContainerHabitat; &stBeringStation;
+            ))
+
+            ;; If we're docked at an object, sell any loot we can
+            ;; if we are a freighter, buy commodities, and perhaps
+            ;; a reactor upgrade, shield upgrade, armor upgrade.
+            ;; If we are not a freighter, only buy device upgrades
+            ;; and potentially install it.
+            ;; No ship can hold more than it's cargoSpace allows.
+            (setq gt_TrafficConductTrade (lambda (dockObj)
+                ;; don't trade with buggy stations at all!
+                (if (not (find gt_TrafficBuggyStations (staGetType dockObj)))
+                    (block (sellCriteria sellItems buyItems transactions)
+
+                        (if gt_trafficdebug (dbgLog (objGetName gSource 1) " [" gSource "] trading with " (objGetName dockObj) " [" dockObj "] [credits] " (gt_TrafficGetBalance gSource)))
+
+                        ;; first we build a list of items to sell
+                        (if (objGetItems gSource "lI")
+                            (setq sellCriteria "*~m U")
+                            (setq sellCriteria "* U")
+                        )
+                        ;; XXX: do we really need to check if price is greater than 0?
+                        (setq sellItems (filter (objGetItems gSource sellCriteria) theItem (gr (objGetBuyPrice dockObj theItem) 0)))
+
+                        ;; check if any of our items can be used to restock 'sell only' items
+                        (enum (objGetItems gSource sellCriteria) theItem
+                            (if (and (objGetSellPrice dockObj theItem) (not (objGetBuyPrice dockObj theItem))
+                                (leq (objHasItem dockObj theItem) (multiply 2 (itmGetAverageAppearing theItem))))
+                                ;; we found an item that the station sells but won't buy
+                                ;; we will not transfer any credits, and assume the freighter was 
+                                ;; contracted for this transport
+                                (block Nil
+                                    (objRemoveItem gSource theItem)
+                                    (objAddItem dockObj theItem)
+                                    (if gt_TrafficDebug (dbgLog "  ---] Restocking "(itmGetName theItem 8)))
+                                )
+                            )
+                        )
+                        ;; loop over all sellItems, and either calculate total or weed out item
+                        (enum sellItems theItem
+                            (if (or
+                                    (gr (objHasItem dockObj theItem) (multiply (itmGetAverageAppearing theItem) 3))
+                                    (leq (objGetBalance dockObj) 5000)
+                                )
+                                ;; dockObj not interested - remove item from sale list
+                                (setq sellItems (lnkRemove sellItems (find sellItems theItem) Nil))
+                                ;; dockObj will buy - calculate saleTotal and remove item from gSource + transfer credits
+                                (block (cost)
+                                    (setq cost (multiply (objGetBuyPrice dockObj theItem) (itmGetCount theItem)))
+                                    (objRemoveItem gSource theItem)
+                                    (gt_TrafficCredit gSource cost)
+                                    (objCharge dockObj cost)
+                                    (if gt_TrafficDebug (dbgLog "  ---] Selling " (itmGetCount theItem) " " (itmGetName theItem 0) " for " cost))
+                                )
+                            )
+                        )
+
+                        ;; now build a list of items that we can/want to buy
+                        (setq buyItems (filter (objGetItems dockObj "* U") theItem (and
+                            (gr (objGetSellPrice dockObj theItem) 0)
+                            (or
+                                (ls (objGetSellPrice dockObj theItem) (itmGetActualPrice theItem)) ;; item is a good deal
+                                (gr (itmGetCount theItem) (multiply (itmGetAverageAppearing theItem) 3)) ;; dockedAt is overflowing
+                                (ls (random 1 100) 50) ;; random chance
+                            )
+                        )))
+
+                        ;; now we do the actual shopping. We only buy if the station has sufficient to offer
+                        ;; to avoid completely emptying stations
+                        (if (gr (count buyItems) 5) (block Nil
+                            (setq transactions 0)
+                            (enumWhile (shuffle buyItems) (leq transactions (random 1 4 1)) theItem
+                                (block (quantity cost affordQuantity buyQuantity fitQuantity)
+
+                                    ;; calculate how many we can afford and have cargo space for
+                                    (setq quantity (itmGetCount theItem))
+                                    (setq cost (int (objGetSellPrice dockObj theItem)))
+                                    (setq affordQuantity (divide (gt_TrafficGetBalance gSource) cost))
+                                    (if (gr (itmGetMass theItem) 0)
+                                        (setq fitQuantity (divide (objGetCargoSpaceLeft gSource) (itmGetMass theItem)))
+                                        (setq fitQuantity quantity)
+                                    )
+                                    (if (and (gr affordQuantity 0) (gr fitQuantity 0)) (block Nil
+                                        (setq buyQuantity (if (gr affordQuantity quantity) quantity affordQuantity))
+                                        (setq buyQuantity (if (gr buyQuantity fitQuantity) fitQuantity buyQuantity))
+
+                                        ;; now we actually buy a random quantity between 1 and buyQuantity
+                                        (setq buyQuantity (random 1 buyQuantity))
+
+                                        (if (gr buyQuantity 0) (block Nil
+                                            (setq cost (multiply cost buyQuantity))
+                                            (objCredit dockObj cost)
+                                            (gt_TrafficCharge gSource cost)
+                                            (objRemoveItem dockObj theItem buyQuantity)
+                                            (objAddItem gSource theItem buyQuantity)
+                                            (setq transactions (add transactions 1))
+                                            (if gt_TrafficDebug (dbgLog "  [--- Buying " buyQuantity " " (itmGetName theItem 0) " for " cost))
+                                        ))
+                                    ))
+                                )
+                            )
+                        ))
+                        ;; transfer sellgoods to dockObj. We do this so late
+                        ;; to avoid buying items we just sold to the station
+                        (enum sellItems theItem
+                            (objAddItem dockObj theItem)
+                        )
+
+                        (if gt_TrafficDebug (dbgLog "  Balance After Transaction: " (gt_TrafficGetBalance gSource)))
+
+                        ;; remove any no-sale overstocked items from the station
+                        ;; this is considered part of the freighters contract
+                        (enum (objGetItems dockObj "*U") theItem
+                            (if (and (gr (objGetBuyPrice dockObj theItem) 0)
+                                    (eq (objGetSellPrice dockObj theItem) 0)
+                                    (gr (itmGetCount theItem) (itmGetMaxAppearing theItem))
+                                )
+                                (block (quantity fitQuantity)
+                                    ;; calculate how many we can fit
+                                    (setq quantity (itmGetCount theItem))
+                                    (if (gr (itmGetMass theItem) 0)
+                                        (setq fitQuantity (divide (objGetCargoSpaceLeft gSource) (itmGetMass theItem)))
+                                        (setq fitQuantity quantity)
+                                    )
+                                    (setq quantity (if (gr (quantity fitQuantity) fitQuantity quantity)))
+
+                                    ;; select a random amount up to the fit limit
+                                    (setq quantity (random (divide quantity 5) (divide quantity 3)))
+                                    (if (ls quantity 1) (setq quantity 1))
+                                    (objRemoveItem dockObj theItem quantity)
+                                    (objAddItem gSource theItem quantity)
+                                    (if gt_TrafficDebug (dbgLog "  [--- Removing " quantity " overstocked " (itmGetName i 4)))
+                                )
+                            )
+                        )
+                    )
+                )
+            ))
+
+            ;; we need to rewrite this to handle the looting manually,
+            ;; at least if we want to limit to actual cargo
+            (setq gt_TrafficLootWreck (lambda (wreck)
+                (block Nil
+                    (if gt_TrafficDebug (dbgLog (objGetName gSource 1) " [" gSource "] looting " (objGetName wreck) " [" wreck "]"))
+                    (shpOrder gSource 'loot wreck)
+                    (objSetData wreck "0010300c_marked" True)
+                    (objSetData gSource "behavior" 'looting)
+                )
+            ))
+
+            ;;
+            ;; generates an appropriate amount of cargo for a freighter
+            ;; without overloading the ship
+            ;;
+            ;; @param target	- the ship having cargo added
+            ;; @param curve		- the formatted level curve string used
+            ;;						example:	"--ucu -----"
+            ;; @param quantity	- the number of calls
+            ;;			NOTE: the quantity does not directly reference
+            ;; 				how many items will be created as the function
+            ;;				will generate a random amount as per averageAppearing
+            ;;
+            ;;	**optional parameter**
+            ;; @param itemList	- a list of itemStructs
+            ;;			This provides an alternative method of generating cargo
+            ;;			if you want to specify exactly what will be in the ship.
+            ;;
+            (setq gt_TrafficAddInitialItems (lambda (target curve quantity itemList)
+                (block (criteria (sysLevel (sysGetLevel)) (value 0))
+                    (setq curve (dsf_CalcLevelCurve (item curve 0) (item curve 1)))
+                    (switch
+
+                        itemList
+                            True ;; we already have our item list
+
+                        (leq sysLevel 3)
+                            (setq criteria (lambda Nil (block ((chance (random 1 100)))
+                                (switch
+                                    (leq chance 5) ;; 5% of medicine
+                                        "t +Meds; -Illegal; &lt;=$200"
+                                    (leq chance 10) ;; 5% of luxury goods
+                                        "t +Lux; -Illegal; &lt;=$200"
+                                    (leq chance 15) ;; 5% chance of drugs
+                                        "t +Illegal; +Consumable; -ID; &lt;=$200"
+                                    (leq chance 35) ;; 20% chance of food
+                                        "t +Food; &lt;=$200"
+                                    (leq chance 80) ;; 45% chance of random stuff
+                                        "tu~m f:cu -Food; -Lux; -Meds; -Illegal; -Military; &lt;=$200"
+                                    (leq chance 85) ;; 5% chance of a common weapon
+                                        "wlm f:cu -Illegal; -Military;"
+                                    (leq chance 90) ;; 5% chance of a shield or armor
+                                        "sa f:cu -Illegal; -Military;"
+                                    (leq chance 95) ;; 5% chance of a misc device
+                                        "bdrv f:cu -Illegal; -Military;"
+                                    "wsad +MajorItem; +Military" ;; 5% chance for military equipment
+                                )
+                            )))
+
+                        (leq sysLevel 5)
+                            (setq criteria (lambda Nil (block ((chance (random 1 100)))
+                                (switch
+                                    (leq chance 5) ;; 5% of medicine
+                                        "t +Meds; -Illegal; &lt;=$500"
+                                    (leq chance 10) ;; 5% of luxury goods
+                                        "t +Lux; -Illegal; &lt;=$500"
+                                    (leq chance 15) ;; 5% chance of drugs
+                                        "t +Illegal; +Consumable; -ID; &lt;=$500"
+                                    (leq chance 30) ;; 15% chance of food
+                                        "t +Food; &lt;=$500"
+                                    (leq chance 65) ;; 35% chance of random stuff
+                                        "tu~m f:cu -Food; -Lux; -Meds; -Illegal; -Military; &lt;=$500"
+                                    (leq chance 75) ;; 10% chance of a common weapon
+                                        (switch
+                                            (eq (modulo chance 2) 0) ;; 5% chance for common, 5% for specialty
+                                                "wlm f:cu -Illegal; -Military;"
+                                            "wlm +Specialty;"
+                                        )
+                                    (leq chance 85) ;; 10% chance of a shield or armor
+                                        (switch
+                                            (eq (modulo chance 2) 0) ;; 5% chance for common, 5% for specialty
+                                                "sa f:cu -Illegal; -Military;"
+                                            "sa +Specialty"
+                                        )
+                                    (leq chance 95) ;; 10% chance of a misc device
+                                        "bdrv f:cu -Illegal; -Military;"
+                                    "wsad +MajorItem; +Military" ;; 5% chance for military equipment
+                                )
+                            )))
+
+                        (leq sysLevel 7)
+                            (setq criteria (lambda Nil (block ((chance (random 1 100)))
+                                (switch
+                                    (leq chance 5) ;; 5% of medicine
+                                        "t +Meds; -Illegal;"
+                                    (leq chance 10) ;; 5% of luxury goods
+                                        "t +Lux; -Illegal;"
+                                    (leq chance 20) ;; 10% chance of food
+                                        "t +Food;"
+                                    (leq chance 45) ;; 25% chance of random stuff
+                                        "tu~m -Illegal; -Military; &lt;=$800"
+                                    (leq chance 60) ;; 15% chance of a common weapon
+                                        (switch
+                                            (eq (modulo chance 2) 0) ;; 7% chance for common, 8% for specialty
+                                                "wlm f:cu -Illegal;"
+                                            "wlm +Specialty;"
+                                        )
+                                    (leq chance 75) ;; 15% chance of a shield or armor
+                                        (switch
+                                            (eq (modulo chance 2) 0) ;; 5% chance for common, 5% for specialty
+                                                "sa f:cu -Illegal;"
+                                            "sa +Specialty"
+                                        )
+                                    (leq chance 85) ;; 10% chance of a misc device
+                                        "bdrv f:cu -Illegal; -Military;"
+                                    (leq chance 90) ;; 5% chance of alien items
+                                        "* +Alien;"
+                                    "wsad +MajorItem; +Military" ;; 5% chance for military equipment
+                                )
+                            )))
+
+                        (geq sysLevel 8)
+                            (setq criteria (lambda Nil (block ((chance (random 1 100)))
+                                (switch
+                                    (leq chance 5) ;; 5% of medicine
+                                        "t +Meds; -Illegal;"
+                                    (leq chance 10) ;; 5% of luxury goods
+                                        "t +Lux; -Illegal;"
+                                    (leq chance 20) ;; 10% chance of food
+                                        "t +Food;"
+                                    (leq chance 45) ;; 25% chance of random stuff
+                                        "tu~m -Illegal; -Military; &lt;=$800"
+                                    (leq chance 60) ;; 15% chance of a common weapon
+                                        (switch
+                                            (eq (modulo chance 2) 0) ;; 7% chance for common, 8% for specialty
+                                                "wlm f:cu -Illegal;"
+                                            "wlm +Specialty;"
+                                        )
+                                    (leq chance 75) ;; 15% chance of a shield or armor
+                                        (switch
+                                            (eq (modulo chance 2) 0) ;; 5% chance for common, 5% for specialty
+                                                "sa f:cu -Illegal;"
+                                            "sa +Specialty"
+                                        )
+                                    (leq chance 85) ;; 10% chance of a misc device
+                                        "bdrv f:cu -Illegal; -Military;"
+                                    (leq chance 90) ;; 5% chance of alien items
+                                        "* +Alien;"
+                                    "wsad +MajorItem; +Military" ;; 5% chance for military equipment
+                                )
+                            )))
+                    )
+                    ;; if we don't have an item list, we generate one ourselves
+                    (if (not itemList) (block ((itemList (list)))
+                        (for i 1 quantity (lnkAppend itemList (itmCreateRandom (criteria) curve)))
+                    ))
+                    ;; now we enumerate over a shuffled itemList and add the items if they fit
+                    (enum (shuffle itemList) theItem (block (fitQuantity transfer)
+                        (setq transfer (itmGetCount theItem))
+                        (if (gr (itmGetMass theItem) 0)
+                            (setq fitQuantity (divide (objGetCargoSpaceLeft gSource) (itmGetMass theItem)))
+                            (setq fitQuantity transfer)
+                        )
+                        (setq transfer (if (gr transfer fitQuantity) fitQuantity transfer))
+                        (if (gr transfer 0) (block Nil
+                            (if gt_TrafficDebug (dbgLog "  --  Adding " transfer " " (itmGetName theItem 0) " worth " (multiply transfer (itmGetActualPrice theItem))))
+                            (setq value (add value (multiply transfer (itmGetActualPrice theItem))))
+                            (objAddItem gSource theItem transfer)
+                        ))
+                    ))
+                    ;; return value
+                    value
+                )
+            ))
+
+            ;;
+            ;; Creates escorts for freighters appropriate for the system level
+            ;;
+            ;; @param target - the freighter to be escorted
+            ;; @param quantity - how many escorts will be created
+            ;;
+            (setq gt_TrafficSpawnEscort (lambda (target quantity) (block Nil
+                (if (leq quantity 0) (setq quantity 0))
+                (if gt_TrafficDebug (dbgLog "  Adding " quantity " escorts"))
+                (for i 1 quantity (block (theShip)
+                    (setq theShip (sysCreateShip &tbGT_TrafficEscorts; (objGetPos target) &svCommonwealth; "fleet"))
+                    (if gt_TrafficDebug (dbgLog "  --  Adding " (objGetName theShip 1) " as escort"))
+                    (shpCancelOrders theShip)
+                    (shpOrderEscort theShip target)
+                ))
+            )))
+
+        )
+    </Globals>
+
+    <ShipClass UNID="&evCommTrafficBehavior;"
+        class=          "(commonwealth traffic behavior)"
+        virtual=        "true"
+        attributes=     "behaviorClass"
+        >
+
+        <Events>
+            <OrderBeginTraffic>
+                (block Nil
+                    ;; If the home station is not set, set it now
+                    (if (not (objGetObjRefData gSource "home"))
+                        (block (homeObj)
+                            (setq homeObj (sysFindObject gSource "TAFN +commonwealth; +primary;"))
+                            (if (not homeObj)
+                                (setq homeObj (sysFindObject gSource "TAFN +populated; -occupation;"))
+                            )
+                            (objSetObjRefData gSource "home" homeObj)
+                        )
+                    )
+
+                    (if gt_TrafficDebug (dbgLog "Spawning Traffic: " (objGetName gSource 1) " [" gSource "] [destiny] " (objGetDestiny gSource) " [cargo] " (shpGetDataField gSource "cargoSpace")))
+
+                    ;; add starting credits to gSource.
+                    (block (credit)
+                        (if (find gt_TrafficFreighterTypes (shpGetClass gSource))
+                            (setq credit (multiply (shpGetDataField gSource "cargoSpace") (rollDice 2 10)))
+                            (setq credit (multiply (shpGetDataField gSource "cargoSpace") (rollDice 10 20)))
+                        )
+                        (setq credit (add credit (multiply (sysGetLevel) (sysGetLevel) 50)))
+                        (gt_TrafficCredit gSource credit)
+                        (if gt_TrafficDebug (dbgLog "  Added Credits: " credit))
+                    )
+
+                    ;; if gSource is a freighter, add some starting cargo
+                    (if (find gt_TrafficFreighterTypes (shpGetClass gSource))
+                        (block (quantity value)
+                            ;; no less than 1 and no more than 20 items
+                            (setq quantity (dsf_Constrain (divide (objGetDestiny gSource) 20) 1 20))
+                            (setq value (gt_TrafficAddInitialItems gSource (list (sysGetLevel) 2) quantity))
+                            (if gt_TrafficDebug (dbgLog "  Added " quantity " items to initial cargo with a value of " value " credits."))
+
+                            ;; some freighters with high value get escorts
+                            ;; we also allow for a random element, since the player should not
+                            ;; be able to rely on valuable freighters having escorts
+                            (if (or
+                                    (and (gr value (multiply (sysGetLevel) 2000)) (gr (objGetDestiny gSource 180)))
+                                    (and (ls (random 1 100) 33) (setq value (gt_TrafficGetBalance gSource)))
+                                )
+                                (gt_TrafficSpawnEscort gSource (min (divide value (multiply (sysGetLevel) 2000)) 4))
+                            )
+                        )
+                    )
+
+                    ;; Save behaviour
+                    (objSetData gSource "0010300C_traffic" True)
+                    (objSetData gSource "behavior" 'enteredSystem)
+                )
+            </OrderBeginTraffic>
+
+            <OnOrdersCompleted>
+                (block (behavior newBehavior allDests dockObj allWrecks allLoot)
+                    (setq behavior (objGetData gSource "behavior"))
+                    (setq dockObj (shpGetDockObj gSource))
+
+                    ;; if we are docked at a populated station, try a trade
+                    (if (and dockObj (objHasAttribute dockObj "populated"))
+                        (gt_TrafficConductTrade dockObj)
+                    )
+
+                    ;; Figure out what to do next
+                    (switch
+
+                        ;; 50% chance of looting any nearby wrecks.
+                        ;; If we are a freighter or our destiny is too
+                        ;; high, then skip looting
+                        (and 
+                            (leq (objGetDestiny gSource) 180)
+                            (not (find gt_TrafficFreighterTypes (shpGetClass gSource)))
+                            (leq (random 1 100) 50)
+                            (setq allWrecks (filter (sysFindObject gSource "TK N:100; +shipwreck; -uncharted; -locked;") theObj
+                                (not (objGetData theObj "0010300c_marked"))
+                            ))
+                        )
+                            (gt_TrafficLootWreck (random allWrecks))
+
+                        ;; 20% chance of gating out if we have no destination
+                        (or (and (not (eq behavior 'enteredSystem)) (leq (random 1 100) 20))
+                            (not 
+                                ;; Find potential destinations. Exclude current station and stations without docking space
+                                (setq allDests (filter (sysFindObject gSource "TAF +populated; -korolovShipping; -occupation;") theObj 
+                                    (and (gr (objGetOpenDockingPortCount theObj) 1)
+                                        (or (not dockObj) (not (eq dockObj theObj)))
+                                    )
+                                ))
+                            )
+                        )
+                            (block (gateObj)
+                                (setq gateObj (random (sysFindObject gSource "G -uncharted;")))
+                                (shpOrder gSource 'gate gateObj)
+                                (objSetData gSource "behavior" 'leavingSystem)
+                                (if gt_TrafficDebug (dbgLog (objGetName gSource 1) " [" gSource "] gating out"))
+                            )
+
+                        ;; Otherwise, we go to another station
+                        (block (destObj)
+                            ;; don't dock at residentials (if we are a freighter?)
+                            (setq destObj (random allDests))
+                            (shpOrder gSource 'dock destObj)
+                            (shpOrder gSource 'wait (random 10 60))
+                            (objSetData gSource "behavior" 'docked)
+                            (if gt_TrafficDebug (dbgLog (objGetName gSource 1) " [" gSource "] docking with " (objGetName destObj) " [" destObj "]"))
+                        )
+                    )
+
+                    ;; If we were docked at an object that we just looted,
+                    ;; and the object is empty, then destroy the object
+                    (if (and (objGetData dockObj "0010300c_marked") (not (objGetItems dockObj "*U")))
+                        (objDestroy dockObj gSource)
+                    )
+                )
+            </OnOrdersCompleted>
+        </Events>
+    </ShipClass>
+
+    <ShipTable unid="&tbGT_TrafficEscorts;">
+        <LevelTable>
+            <Ship levelFrequency="cccr- -----" count="1" class="&scRoninA;"/>
+            <Ship levelFrequency="cccrr -----" count="1" class="&scIAVLight;"/>
+            <Ship levelFrequency="ruucc cr---" count="1" class="&scRoninB;"/>
+            <Ship levelFrequency="uuucc cur--" count="1" class="&scWolfen;"/>
+            <Ship levelFrequency="---uu ccccu" count="1" class="&scRoninC;"/>
+            <Ship levelFrequency="-rrcc crr--" count="1" class="&scIAVMedium;"/>
+            <Ship levelFrequency="uuucc ccccc" count="1" class="&scCenturion;"/>
+            <Ship levelFrequency="--ruu ucccc" count="1" class="&scIAVHeavy;"/>
+            <Ship levelFrequency="--ruc cuuuu" count="1" class="&scManticore;"/>
+            <Ship levelFrequency="----- -uuuu" count="1" class="&scBritannia;"/>
+        </LevelTable>
+    </ShipTable>
+
+</TranscendenceExtension>
+<!--
+vim:enc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=tscript:
+-->

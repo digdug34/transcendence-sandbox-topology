@@ -1,0 +1,1557 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE TranscendenceExtension
+[	<!ENTITY unidExtension		"0xEFFFFd00">
+
+
+	<!ENTITY adSandbox  		"0xEFFFFd01">
+	<!ENTITY rsGalaxyMap			"0xEFFFFd02">
+	<!ENTITY myMapSandbox			"0xEFFFFd03">
+	<!ENTITY ssSplitSystem1	"0xEFFFFd06">
+	<!ENTITY ssSplitSystem2 "0xEFFFFd07">
+	<!ENTITY ssSplitSystem3 "0xEFFFFd08">
+	<!ENTITY ssSplitSystem4 "0xEFFFFd09">
+	<!ENTITY ssBridgeAres	"0xEFFFFd10">
+	<!ENTITY ssBridgeRinger "0xEFFFFd11">
+	<!ENTITY ssBridgeCommonwealth	"0xEFFFFd12">
+	<!ENTITY myMapAres	"0xEFFFFd13">
+	<!ENTITY myMapCommon	"0xEFFFFd14">
+	<!ENTITY myMapRinger	"0xEFFFFd15">
+	<!ENTITY stWormhole		"0xEFFFFd16">
+	;0xEFFFExxx-RPC
+	;Dynamic Dockscreen.xml:
+	;0xEFFFEA00
+	<!ENTITY dsGenericDockscreen	"0xEFFFEA00">
+	<!ENTITY dsUnique				"0xEFFFEA01">
+	<!ENTITY stDockScreenSpawner	"0xEFFFEA02">
+	<!ENTITY stDockScreenController	"0xEFFFEA03">
+	;Ares Extension- RPC.xml
+	;0xEFFFEB00
+	<!ENTITY ecMeritEconomy			"0xEFFFEB00">
+		
+	;Advanced LRS.xml
+	;0xEFFFEC00
+    <!ENTITY ovgc			"0xEFFFEC01">
+    <!ENTITY ovgs			"0xEFFFEC02">
+    <!ENTITY ovgt			"0xEFFFEC03">
+    <!ENTITY ovrc			"0xEFFFEC04">
+    <!ENTITY ovrs			"0xEFFFEC05">
+    <!ENTITY ovrt			"0xEFFFEC06">
+    <!ENTITY ovoc			"0xEFFFEC07">
+    <!ENTITY ovos			"0xEFFFEC08">
+    <!ENTITY ovot			"0xEFFFEC09">
+    <!ENTITY ovyc			"0xEFFFEC10">
+    <!ENTITY ovys			"0xEFFFEC11">
+    <!ENTITY ovyt			"0xEFFFEC12">
+    <!ENTITY ovbc			"0xEFFFEC13">
+    <!ENTITY ovbs			"0xEFFFEC14">
+    <!ENTITY ovbt			"0xEFFFEC15">
+    <!ENTITY ovpc			"0xEFFFEC16">
+    <!ENTITY ovps			"0xEFFFEC17">
+    <!ENTITY ovpt			"0xEFFFEC18">
+	
+    <!ENTITY rsPing			"0xEFFFEC19">
+    <!ENTITY dsChangeSovSettings			"0xEFFFEC20">
+	
+    <!ENTITY stLRShelper			"0xEFFFEC21">
+    <!ENTITY itADVLRS				"0xEFFFEC22">
+	
+	
+
+	]>
+
+<TranscendenceAdventure UNID="0xEFFFFd00" version="1.1" credit="" name="Sandbox">
+
+<!-- Adventure Description -->
+<AdventureDesc
+		UNID=						"&adSandbox;"
+		name=						"Sandbox"
+		startingShipCriteria="* -notInPartI"
+		backgroundID=	"&rsGalaxyMap;"
+			>
+		<Events>
+			<GetGlobalAchievements>
+				(intGetGlobalAchievements)
+			</GetGlobalAchievements>
+		<OnGameStart>
+			(block Nil
+					(gamSetCrawlImage &rsProlog1;)
+				(gamSetCrawlText (cat
+
+
+
+"Sandbox Intro"
+					))
+				)
+		</OnGameStart>
+
+
+			<OnGameEnd>
+				(block Nil
+					(gamSetCrawlImage
+						(if (eq aEndGameReason 'leftHumanSpace)
+							&rsEndGameEscaped;
+							&rsEndGameDestroyed;
+							)
+						)
+
+					(gamSetCrawlText
+						(plyComposeString gPlayer
+							(cat
+								"%name% " aEpitaph ". "
+								"%name% visited "
+								(if (eq aSystemsVisited 1)
+									"a single star system "
+									(cat aSystemsVisited " star systems ")
+									)
+								"and destroyed "
+								(switch
+									(or (eq aEnemiesDestroyed 0) (not aBestEnemyClass))
+										"no enemy ships"
+
+									(eq aEnemiesDestroyed aBestEnemiesDestroyed)
+										(if (eq aEnemiesDestroyed 1)
+											(shpGetClassName aBestEnemyClass 0x04)
+											(cat aEnemiesDestroyed " " (shpGetClassName aBestEnemyClass 0x02))
+											)
+
+									(eq aBestEnemiesDestroyed 1)
+										(cat aEnemiesDestroyed " enemy ships, including " (shpGetClassName aBestEnemyClass 0x04))
+
+									(cat aEnemiesDestroyed " enemy ships, including " aBestEnemiesDestroyed " " (shpGetClassName aBestEnemyClass 0x02))
+									)
+								". "
+								(if (eq aEndGameReason 'leftHumanSpace)
+									"\n\nTo be continued..."
+									"%He% never reached the Galactic Core."
+									)
+								)
+							)
+						)
+					)
+			</OnGameEnd>
+	</Events>
+	</AdventureDesc>
+	<Image UNID="&rsGalaxyMap;"	bitmap="Galaxy.jpg" />
+
+<SystemMap unid="&myMapSandbox;"
+      name="Triad Core"
+      backgroundImage="&rsGalaxyMap;"
+      sizeX="900"
+      sizeY="604"
+      >
+
+	<SystemTopology>
+
+		<Node ID="SE" rootNode="true" x="0" y="0">
+			<System
+					name=			"Triad Core"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+			
+				<StarGate Name="Outbound" DestID="AC1" DestGate="Inbound"/>
+				<Stargate Name="Inbound" DestID="BC1" DestGate="Inbound"/>
+				<Stargate Name="Split" DestID="RC1" DestGate="Inbound"/>
+
+			</StarGates>
+
+			
+		</Node>
+		<Node ID="RC1" x="30" y="-30">
+			<System
+					name=		"8JC Reikan"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC2" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Split"/>
+				<StarGate Name="Split" DestID="RC1a" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC1a" x="74" y="-68">
+			<System
+					name=		"MP8 Kuegar"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC1b" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC1" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC1b" x="120" y="-102">
+			<System
+					name=		"Xeemar Alpha 6"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC1c" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC1a" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RC2" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC1c" x="120" y="-150">
+			<System
+					name=		"TR9 Byegar"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC3" DestGate="Split"/>
+				<StarGate Name="Inbound" DestID="RC1b" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RC1ca" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC1ca" x="153" y="-190">
+			<System
+					name=		"GR8R Thantou"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Inbound" DestID="RC1c" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC2" x="160" y="-210">
+			<System
+					name=		"Beagan Tau 3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RC1b" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC3" x="220" y="-200">
+			<System
+					name=		"Zarachi 5"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RC4" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC2" DestGate="Outbound"/>
+				<StarGate name="Split" DestID="RC1c" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="RC4" x="280" y="-240">
+			<System
+					name=		"Claudius D7"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC3" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="B3" rootNode="true" x="350" y="-270">
+			<System
+					name=			"RBC894243"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RC4" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RC1" DestGate="Split"/>
+
+			</StarGates>
+
+			
+		</Node>
+<!--
+============================================================================================================================
+============================================================================================================================
+============================================================================================================================
+================================================================================================================================
+=============================================================================================================================
+==============================================================================================================================
+===============================================================================================================================
+COMMONWEALTH CONTROLLED SPACE \/
+
+-->
+		<Node ID="BC1" x="-25" y="-30">
+			<System
+					name=		"New Kansas"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC2" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="BC1a" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC1a" x="-83" y="-80">
+			<System
+					name=		"Ulysus 232"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC1b" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC1" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC1b" x="-120" y="-92">
+			<System
+					name=		"New Washington"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC1c" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC1a" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="BC2" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC1c" x="-180" y="-110">
+			<System
+					name=		"Tyre's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC3" DestGate="Split"/>
+				<StarGate Name="Inbound" DestID="BC1b" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="BC1ca" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC1ca" x="-213" y="-130">
+			<System
+					name=		"Curtis 734"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Inbound" DestID="BC1c" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC2" x="-250" y="-170">
+			<System
+					name=		"Russel 574"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="BC1b" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC3" x="-289" y="-210">
+			<System
+					name=		"Zacharia's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="BC4" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC2" DestGate="Outbound"/>
+				<StarGate name="Split" DestID="BC1c" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="BC4" x="-310" y="-240">
+			<System
+					name=		"New Massachusetts"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B2" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC3" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="B2" rootNode="true" x="-350" y="-270">
+			<System
+					name=			"St. Kaare's Star"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="BC4" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="BC1" DestGate="Split"/>
+
+			</StarGates>
+
+			
+		</Node>
+		
+	<!--	
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+=======================================================================================================================================================
+ARES \/\/\/\/
+		-->
+		<Node ID="AC1" x="-15" y="70">
+			<System
+					name=		"Alpha 482"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC2" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="SE" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC1a" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC1a" x="34" y="98">
+			<System
+					name=		"Theta 235"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC1b" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC1" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC1b" x="12" y="192">
+			<System
+					name=		"Eta Omega 7"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC1c" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC1a" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC2" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC1c" x="-22" y="260">
+			<System
+					name=		"Theta Pi 7"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC3" DestGate="Split"/>
+				<StarGate Name="Inbound" DestID="AC1b" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC1ca" DestGate="Inbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC1ca" x="-43" y="220">
+			<System
+					name=		"Phi 734"
+					level=		"1"
+					attributes=	"newBeyond"
+
+					>
+					<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Inbound" DestID="AC1c" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC2" x="20" y="170">
+			<System
+					name=		"Alpha Lambda 5"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC1b" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC3" x="-34" y="240">
+			<System
+					name=		"Gamma Zeta 3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="AC4" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC2" DestGate="Outbound"/>
+				<StarGate name="Split" DestID="AC1c" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="AC4" x="63" y="260">
+			<System
+					name=		"Phi 435"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC3" DestGate="Outbound"/>
+			</StarGates>
+		</Node>
+		<Node ID="B1" rootNode="true" x="0" y="270">
+			<System
+					name=			"AR Alpha 6"
+					level=			"1"
+					attributes=		"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Outbound" DestID="B3" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AC4" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="AC1" DestGate="Split"/>
+
+			</StarGates>
+
+			
+		</Node>
+	
+	</SystemTopology>
+	</SystemMap>
+	<SystemMap unid="&myMapAres;"
+		name="Ares Controlled Space"
+		backgroundImage="&rsGalaxyMap;"
+		sizeX="900"
+		sizeY="604"
+      >
+
+	<SystemTopology>
+		<Node ID="AB1" x="0" y="-280" rootNode="true">
+			<System
+					level=			"1"
+					attributes=		"ungoverned"
+					variant=		"commonwealth"
+					>
+	
+					<System name="ACS Beta Nu Omicron"	UNID="&ssBridgeAres;"/>
+
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="[Prev]"/>
+				<StarGate name="Outbound" DestID="ACS1" destGate="Inbound"/>
+			</StarGates>
+		</Node>	 
+		<Node ID="ACS1" x="0" y="-240">
+			<System
+					name=		"ACS Gamma 6"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="ACSR1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="AB1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="ACSL1" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSL1" x="-80" y="-180">
+			<System
+					name=		"ACS Beta Phi"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACS1" DestGate="Split"/>
+				<StarGate Name="Outbound" DestID="ACSL2" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSL2" x="-200" y="-90">
+			<System
+					name=		"ACS Nu 824"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSL3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSR1" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="ACSL3" x="-280" y="0">
+			<System
+					name=		"ACS Delta Gamma"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSL4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSL4" x="-200" y="90">
+			<System
+					name=		"ACS Iota Kappa"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSL5" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSL5" x="-80" y="180">
+			<System
+					name=		"ACS Lambda Xi Pi"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACS2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSR4" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="ACS2" x="0" y="280">
+			<System
+					name=		"ACS Omicron Theta"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSL5" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR5" DestGate="Outbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSR1" x="80" y="-180">
+			<System
+					name=		"ACS Omega 9"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACS1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSL2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSR2" x="200" y="-90">
+			<System
+					name=		"ACS Gamma Nu Gamma"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSR1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSR5" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSR3" x="280" y="0">
+			<System
+					name=		"ACS Beta Epsilon"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSR2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="ACSR4" x="200" y="90">
+			<System
+					name=		"ACS Theta 3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSR3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACSR5" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="ACSL5" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="ACSR5" x="80" y="180">
+			<System
+					name=		"ACS Omicron Mu"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="ACSR4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="ACS2" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="ACSR2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+	</SystemTopology>
+	</SystemMap>
+	<SystemMap unid="&myMapRinger;"
+		name="Ringer Space"
+		backgroundImage="&rsGalaxyMap;"
+		sizeX="900"
+		sizeY="604"
+      >
+
+	<SystemTopology>
+		<Node ID="RB1" x="-350" y="-150" rootNode="true">
+			<System
+					level=			"1"
+					attributes=		"ungoverned"
+					variant=		"unknown"
+					>
+	
+					<System name="RCS Kruman 932"	UNID="&ssBridgeRinger;"/>
+
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="[Prev]"/>
+				<StarGate Name="Outbound" DestID="RCS1" DestGate="Inbound"/>
+			</StarGates>
+		</Node>	 
+		<Node ID="RCS1" x="-300" y="-200">
+			<System
+					name=		"8433 Manchester"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="RCSR1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="RB1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RCSL1" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSL1" x="-280" y="-180">
+			<System
+					name=		"Wessel Gamma 9"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCS1" DestGate="Split"/>
+				<StarGate Name="Outbound" DestID="RCSL2" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSL2" x="-200" y="-90">
+			<System
+					name=		"Chazad 933D"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSL3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSR1" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RCSL3" x="-110" y="0">
+			<System
+					name=		"Hetten Omega 9"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSL4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSL4" x="-40" y="110">
+			<System
+					name=		"Jeckel Alpha 28 B3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSL5" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSL5" x="20" y="160">
+			<System
+					name=		"Reutha Tau 33E"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCS2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSR4" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RCS2" x="70" y="280">
+			<System
+					name=		"Caaradar Phi Alpha"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSL5" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR5" DestGate="Outbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSR1" x="-230" y="-160">
+			<System
+					name=		"Orianas B3"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCS1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSL2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSR2" x="-130" y="-75">
+			<System
+					name=		"Meaben Sigma 8"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSR1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSR5" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSR3" x="-30" y="0">
+			<System
+					name=		"Ruutan 932"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSR2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="RCSR4" x="-110" y="90">
+			<System
+					name=		"HJC 9383 Tylar"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSR3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCSR5" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="RCSL5" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="RCSR5" x="-170" y="180">
+			<System
+					name=		"Beta 4 Copernia"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="RCSR4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="RCS2" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="RCSR2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+	</SystemTopology>
+	</SystemMap>
+	<SystemMap unid="&myMapCommon;"
+		name="Commonwealth Space"
+		backgroundImage="&rsGalaxyMap;"
+		sizeX="900"
+		sizeY="604"
+      >
+
+	<SystemTopology>
+		<Node ID="CB1" x="350" y="-10" rootNode="true">
+			<System
+					level=			"1"
+					attributes=		"ungoverned"
+					variant=		"unknown"
+					>
+	
+					<System name="Commonwealth System"	UNID="&ssBridgeCommonwealth;"/>
+
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound" DestID="[Prev]"/>
+
+			</StarGates>
+		</Node>	 
+
+	</SystemTopology>
+	</SystemMap>
+	<!-- EarthSpace (Dead End Split Binary) -->
+
+	<SystemType UNID="&ssSplitSystem1;">
+		<SystemGroup>
+			<Lookup table="YellowStarAndRedDwarfBinarySystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant,!void">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+			
+			
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet,!void">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80"
+					locationCriteria=	"!void" 
+					stationCriteria=	"!primary,!debris,+envWater,-envAvoidsWater" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<RandomLocation count="2d12" locationCriteria="*void">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</RandomLocation>
+		</SystemGroup>
+	</SystemType>
+	
+		<!-- EarthSpace (Split Normal) -->
+
+	<SystemType UNID="&ssSplitSystem2;">
+		<SystemGroup>
+			<Lookup table="YellowStarSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+								<Marker objName="Start" xOffset="0" yOffset="200"/>
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envWater,-envAvoidsWater" 
+					percentEnemies=		"65"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+	</SystemType>
+	
+		<!-- EarthSpace (Asteroids) -->
+
+	<SystemType UNID="&ssSplitSystem3;">
+		<SystemGroup>
+			<Lookup table="AsteroidBeltSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+			
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80"
+					stationCriteria=	"!primary,!debris,+envEarth,-envAvoidsEarth" 
+					percentEnemies=		"65"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+	</SystemType>
+	
+		<!-- EarthSpace (Desert) -->
+	<SystemType UNID="&ssBridgeAres;">
+		<SystemGroup>
+			<Lookup table="DesertSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+		<Events>
+			<OnGlobalTopologyCreated>
+				(block nil
+					(sysAddStargateTopology "AB1" "Inbound" "B1" "Jump")
+				)
+			</OnGlobalTopologyCreated>
+
+			<OnGlobalSystemCreated>
+				(if (eq (sysGetNode) "B1")
+					(block Nil
+
+						; Create a stargate in deep space away from everything
+						(sysCreateStargate 
+							&stStargate;
+							(sysVectorRandom Nil (random 100 120) 300 "t")
+							"Jump"
+							"AB1"
+							"Inbound"
+						)
+					)
+				) 
+			</OnGlobalSystemCreated>			
+		</Events>
+	</SystemType>
+	<SystemType UNID="&ssBridgeCommonwealth;">
+		<SystemGroup>
+			<Lookup table="DesertSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+		<Events>
+			<OnGlobalTopologyCreated>
+				(block nil
+					(sysAddStargateTopology "CB1" "Inbound" "B2" "Jump")
+				)
+			</OnGlobalTopologyCreated>
+
+			<OnGlobalSystemCreated>
+				(if (eq (sysGetNode) "B2")
+					(block Nil
+
+						; Create a stargate in deep space away from everything
+						(sysCreateStargate 
+							&stStargate;
+							(sysVectorRandom Nil (random 100 120) 300 "t")
+							"Jump"
+							"CB1"
+							"Inbound"
+						)
+					)
+				) 
+			</OnGlobalSystemCreated>		
+		</Events>
+	</SystemType>
+	<SystemType UNID="&ssBridgeRinger;">
+		<SystemGroup>
+			<Lookup table="DesertSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+		<Events>
+			<OnGlobalTopologyCreated>
+				(block nil
+					(sysAddStargateTopology "RB1" "Inbound" "B3" "Jump")
+				)
+			</OnGlobalTopologyCreated>
+
+			<OnGlobalSystemCreated>
+				(if (eq (sysGetNode) "B3")
+					(block Nil
+
+						; Create a stargate in deep space away from everything
+						(sysCreateStargate 
+							&stStargate;
+							(sysVectorRandom Nil (random 100 120) 300 "t")
+							"Jump"
+							"RB1"
+							"Inbound"
+						)
+					)
+				) 
+			</OnGlobalSystemCreated>		
+		</Events>
+	</SystemType>
+	<SystemType UNID="&ssSplitSystem4;">
+		<SystemGroup>
+			<Lookup table="DesertSystem"/>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+			
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant,!void">
+						<Stargate objName="Split" type="&stStargate;">
+							<Satellites>
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="130" />
+								<Station type="&stStargateBeacon;" xOffset="0" yOffset="-130" />
+							</Satellites>
+						</Stargate>
+			</RandomLocation>
+
+			<!-- Primary Station (90% chance) -->
+
+			<RandomLocation probability="90" locationCriteria="++LifeZone,*planet">
+				<RandomStation stationCriteria="*friendly,*primary"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<FillLocations
+					percentFull=		"80" 
+					stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+					percentEnemies=		"70"
+					separateEnemies=	"true"
+					/>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+		</SystemGroup>
+	</SystemType>
+	<Modules>
+	<!--
+			<Module fileName="Anomalies.xml"/>
+			-->
+			<Module fileName="Dynamic Dockscreens.xml"/>
+			<Module fileName="Advanced LRS.xml"/>
+			<Module fileName="Sandbox Playerships.xml"/>
+	</Modules>
+
+</TranscendenceAdventure>

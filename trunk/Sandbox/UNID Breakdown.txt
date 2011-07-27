@@ -1,0 +1,8 @@
+The UNID for Sandbox is 0xEFFFxxxx. The 5th number determines which modder created that UNID. 
+Mine is F, so everything I make for sandbox will have the unid 0xEFFFFxxx. 
+When you post to say you'll help with something, please ask for a specific character. 
+(Taken from this page http://neurohack.com/transcendence/forums/viewtopic.php?f=5&t=4419 )
+
+Sandbox personal UNID list: 
+Drako Slyith 0xEFFFFxxx 
+RPC 0xEFFFExxx

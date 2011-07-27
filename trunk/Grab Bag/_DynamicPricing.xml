@@ -1,0 +1,370 @@
+<?xml version="1.0" ?>
+<!DOCTYPE TranscendenceExtension
+[
+    <!ENTITY modGT_DynamicPricing                "0xDCBA0210">
+    <!ENTITY stGT_GlobalTraderStation            "0xDCBA0211">
+    <!ENTITY stGT_SystemTraderStation            "0xDCBA0212">
+]>
+
+<TranscendenceExtension UNID="&modGT_DynamicPricing;" version="1.0" name="GT_DynamicPricing_Ver01" credits="Alterecco, Prophet">
+
+    <Globals>
+        (block Nil
+
+            (setq gt_PricingDebug True)
+
+            ;;
+            ;; the master list contains pricing information on every station the mod affects
+            ;; it contains the initial pricing adjustment that will be modified by the rules
+            ;; each station unid is followed by a two lists, one for sell items and one for buy
+            ;; each list is followed by a hashlist where the first term is either 
+            ;; an item criteria string or an item unid and the second term is the margin integer.
+            ;;
+            (setq gt_MasterTradeList (list
+
+                ;; Starton Eridani
+                &stStartonEridani; (list
+                    ;; the buy and sell lists affect only this station
+                    'Sell (list
+                        "*NU -Illegal; -ID; -NotForSale;"               110
+                    )
+                    'Buy (list
+                        "amswNU -Illegal; -NotForSale;"                 50
+                        "*NU -Illegal; -ID; -NotForSale;"               90
+                        "*NU -Illegal; -ID;"                            10
+                    )
+                    ;; the Influence list affect prices of the indicated items
+                    'Influence (list
+                        "*"                                             5
+                    )
+                )
+
+                ;; Ice Farm
+                &stIceFarm; (list
+                    'Sell (list
+                        "*NU +Lux; -NotForSale;"                        75
+                    )
+                    'Buy (list
+                        &itHydrocarbons;                                200
+                        &itHelium3FuelRod;                              200
+                        &itOrganicAcid;                                 200
+                        &itMedicalSupplies;                             200
+                        &itHyperfiberRoll;                              200
+                        &itBiofactorPaste;                              200
+                    )
+                    'Influence (list
+                        "* +Food;"                                      -15
+                        &itHydrocarbons;                                20
+                        &itHelium3FuelRod;                              20
+                        &itOrganicAcid;                                 20
+                        &itMedicalSupplies;                             20
+                        &itHyperfiberRoll;                              20
+                        &itBiofactorPaste;                              20
+                    )
+                )
+
+                ;; Agricultural station
+                &stAgriculturalStation; (list
+                    'Sell (list
+                        "*NU +Food; -Illegal; -Lux; -NotForSale;"       75
+                    )
+                    'Buy (list
+                        "*NU +Lux; -Illegal; -NotForSale; &lt;=$250;"   125
+                        &itHydrocarbons;                    150
+                        &itHelium3FuelRod;                  150
+                        &itOrganicAcid;                     150
+                        &itMedicalSupplies;                 150
+                        &itHyperfiberRoll;                  150
+                        &itBiofactorPaste;                  150
+                    )
+                    'Influence (list
+                        "* +Food;"                                      -20
+                        &itHydrocarbons;                                15
+                        &itHelium3FuelRod;                              15
+                        &itOrganicAcid;                                 15
+                        &itMedicalSupplies;                             15
+                        &itHyperfiberRoll;                              15
+                        &itBiofactorPaste;                              15
+                    )
+                )
+
+                ;; Mining Colony
+                &stMiningColony; (list
+                    'Sell (list
+                        "*NU +Ore; -NotForSale;"                        90
+                    )
+                    'Buy (list
+                        "*NU +Food; -Illegal; -NotForSale;"             90
+                    )
+                    'Influence (list
+                        "* +Food;"                                      10
+                        "* +Ore;"                                       -10
+                    )
+                )
+
+                ;; Tempus Lab
+                &stTempusLab; (list
+                    'Sell (list
+                        "*NU +Illegal; -ID"                             75
+                    )
+                    'Buy (list
+                    )
+                    'Influence (list
+                        "*NU +Illegal; -ID"                             -25
+                    )
+                )
+
+                ;; It's unclear whether we can modify prices at the BM shipyard and station
+                ;; as they use gMargin functions to set their prices and not a Trade element
+                ;; BM shipyard
+                &stBlackMarketShipyard; (list
+                    'Sell (list
+                        "*NU +Military;"                                90
+                        "* +Illegal;"                                   85
+                    )
+                    'Buy (list
+                        ;; normally the prices are set using the players BM level
+                        ;; I don't think we can replicate that here unless we find
+                        ;; a way to simulate, and overwrite use of gMargin functions
+                        "*NU +Military;"                                125
+                        "* +Illegal;"                                   110
+                    )
+                    'Influence (list
+                        "*NU +Illegal; -ID"                             -25
+                    )
+                )
+
+                ;; BM Station
+                &stBlackMarketStation; (list
+                    'Sell (list
+                        "*NU +Military;"                                90
+                        "* +Illegal;"                                   85
+                    )
+                    'Buy (list
+                        ;; normally the prices are set using the players BM level
+                        ;; I don't think we can replicate that here unless we find
+                        ;; a way to simulate, and overwrite use of gMargin functions
+                        "*NU +Military;"                                125
+                        "* +Illegal;"                                   110
+                    )
+                    'Influence (list
+                        "*NU +Illegal; -ID"                             -25
+                    )
+                )
+
+                ;; Adventure outfitters
+                &stAdventurerOutfitters; (list
+                    'Sell (list
+                        "*NU -Illegal; -ID; -NotForSale;"               115
+                    )
+                    'Buy (list
+                        "adumfNU -Illegal; -ID; -NotForSale;"           50
+                        "adumfNU -Illegal; -ID;"                        10
+                    )
+                    'Influence (list
+                        "adumf"                                         -5
+                    )
+                )
+
+                ;; Armor Dealer
+                &stArmorDealer; (list
+                    'Sell (list
+                        "*NU -Illegal; -ID; -NotForSale;"               110
+                    )
+                    'Buy (list
+                        "asU -Illegal; -NotForSale;"                     90
+                        "asU -Illegal; -ID;"                             10
+                    )
+                    'Influence (list
+                        "as"                                            -30
+                    )
+                )
+
+                ;; Arms Dealer
+                &stArmsDealer; (list
+                    'Sell (list
+                        "*NU -Illegal; -ID; -NotForSale;"               110
+                    )
+                    'Buy (list
+                        "mwU -Illegal; -NotForSale;"                    60
+                        "mwU -Illegal; -ID;"                            10
+                    )
+                    'Influence (list
+                        "mw"                                            -30
+                    )
+                )
+
+                ;; Makayev dealer
+                &stArmsDealerMakayev; (list
+                    'Sell (list
+                        "*NU -Illegal; -ID; -NotForSale;"               120
+                    )
+                    'Buy (list
+                    )
+                    'Influence (list
+                        "* +Makayev"                                    -20
+                    )
+                )
+
+                ;; Bushido Delaer
+                &stArmsDealerBushido; (list
+                    'Sell (list
+                        "*NU -Illegal; -ID; -NotForSale;"               120
+                    )
+                    'Buy (list
+                    )
+                    'Influence (list
+                        "* +Bushido"                                    -20
+                    )
+                )
+
+                ;; Auton Dealer
+                &stAutonDealer; (list
+                    'Sell (list
+                        "*NU -Illegal; -ID; -NotForSale;"               110
+                    )
+                    'Buy (list
+                        "*NU +Auton; -Illegal; -NotForSale;"            90
+                    )
+                    'Influence (list
+                        "*+Auton;"                                      -15
+                    )
+                )
+
+                ;; Corporate Enclave
+                &stCorporateEnclave; (list
+                    'Sell (list
+                    )
+                    'Buy (list
+                        "*NU +Lux; -Illegal;"                           120
+                        "*NU +Meds; -Illegal;"                          120
+                        "*NU +Food; -Illegal;"                          110
+                        "*NU +Res; -Illegal;"                           105
+                        ;; the +illegal items are governed with gMargin
+                        ;; and should be added if we get that functionality
+                    )
+                    'Influence (list
+                        "* +Lux;"                                       5
+                        "* +Meds;"                                      5
+                        "* +Food;"                                      5
+                        "* +Res;"                                       5
+                    )
+                )
+
+                ;; Fuel Depot
+                &stFuelDepot; (list
+                    'Sell (list
+                        "*NU -Illegal; -ID; -NotForSale;"               100
+                    )
+                    'Buy (list
+                    )
+                    'Influence (list
+                        "f"                                             -25
+                    )
+                )
+            ))
+
+            ;;
+            ;; this func will 'undo' all our price adjustments resetting prices
+            ;; to their values defined in gt_MasterTradeList 'Buy and 'Sell lists
+            ;;
+            ;; @param obj: The station that is doing the buying and selling
+            ;;
+            ;; @returns: Boolean True if successful, Nil otherwise
+            ;;
+            ;; @example: (gt_objResetPrices (sysFindObject gPlayerShip "TAFN"))
+            ;;
+			(setq gt_objResetPrices (lambda (obj)
+				(block (buyList sellList)
+					(if (setq buyList (dsf_HashGet (dsf_HashGet gt_MasterTradeList (staGetType obj)) 'Buy))
+                        (enum (dsf_hashTokeys sellList) var (objAddSellOrder obj var (dsf_HashGet sellList var)))
+                    )
+					(if (setq sellList (dsf_HashGet (dsf_HashGet gt_MasterTradeList (staGetType obj)) 'Sell))
+                        (enum (dsf_HashtoKeys buyList) var (objAddBuyOrder obj var (dsf_HashGet buyList var)))
+					)
+				)
+			))
+            
+            ;;
+            ;; This is the bread and butter of the mod, adjusting the buy and sell prices
+            ;; of all items at a station
+            (setq gt_objComputePrices (lambda (sta shp) (block (stationList)
+                (if gt_PricingDebug (dbglog (objGetName shp 1)" docked with "(objGetName sta 1)))
+
+                ;; reset this station's prices so we can increment fresh prices
+                (gt_objResetPrices sta)
+
+                ;; make a list of all the stations in this system (converted to UNIDs)
+                (setq stationList (dsf_ListMap (sysFindObject gPlayerShip "TAF +populated") sta (staGetType sta)))
+                ;; exclude all the stations that are not in the master trade list
+                ;; if there are multiple stations of a type they appear multiple times in the list (as I suppose they should)
+                (setq stationList (dsf_ListIntersect (dsf_HashToKeys gt_MasterTradeList) stationList))
+
+                ;; enumerate over the stationList and adjust the current stations items according to the rules in the master trade list
+                (enum stationList theStation (block (influence types)
+                    ;; get the list of items or criteria the station influences 
+                    (setq influence (dsf_HashGet (dsf_HashGet gt_MasterTradeList theStation) 'Influence))
+                    ;; extract the types from the influence list (the key in the influence list)
+                    (setq types (dsf_HashToKeys influence))
+                    ;; now enum over the types, and apply their respective rule to any items that match
+                    (enum types type (block Nil
+                        ;; the rules are applied indiscriminately to the station, adjusting the sell prices
+                        (gt_objIncSellOrder sta type (dsf_HashGet influence type))
+                        ;; if the docked ship has a matching item, the station's buy price is adjusted
+                        (if (isInt type)
+                            (if (objHasItem shp (itmCreate type 1)) (gt_objIncBuyOrder sta type (dsf_HashGet influence type)))
+                            (enum (objGetItems shp type) theItem (gt_objIncBuyOrder sta type (dsf_HashGet influence type)))
+                        )
+                    ))
+                ))
+            )))
+
+            ;; The primitives objAddBuyOrder and objAddSellOrder no not honour
+            ;; prior adjustments so we need some functions to increment the values
+            (setq gt_objIncBuyOrder (lambda (obj itm num)
+                (objAddBuyOrder obj itm (add (divide (multiply 100 (objGetBuyPrice obj itm)) (itmGetPrice (itmCreate itm 1))) num))
+            ))
+
+            (setq gt_objIncSellOrder (lambda (obj itm num)
+                (objAddSellOrder obj itm (add (divide (multiply 100 (objGetSellPrice obj itm)) (itmGetPrice (itmCreate itm 1))) num))
+             ))
+        )
+    </Globals>
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; TIMER STATIONS
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    <StationType UNID="&stGT_GlobalTraderStation;"
+    backgroundObject=   "true"
+    virtual=            "true"
+    >
+        <Events>
+            <OnGlobalSystemCreated>
+                (sysCreateStation &stGT_SystemTraderStation; (sysVectorPolarOffset Nil 0 100000))
+            </OnGlobalSystemCreated>
+        </Events>
+    </StationType>
+
+    <StationType UNID="&stGT_SystemTraderStation;"
+        backgroundObject="true"
+        >
+        <Image imageID="&rsStar1;" imageX="0" imageY="0" imageWidth="1" imageHeight="1"/>
+        <Events>
+            <OnCreate>
+                (sysAddObjTimerEvent 30 gSource "Registration")
+            </OnCreate>
+
+            <Registration>
+                (objRegisterForEvents gSource gPlayerShip)
+            </Registration>
+
+            <OnObjDocked>
+                (gt_objComputePrices aDockTarget aObjDocked)
+            </OnObjDocked>
+        </Events>
+    </StationType>
+</TranscendenceExtension>
+<!--
+vim:enc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=tscript:
+-->

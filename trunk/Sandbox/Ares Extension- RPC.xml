@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<!DOCTYPE TranscendenceModule
+
+<!--
+<Trade currency="Merit" max="50000" replenish="2500">
+			<Sell	criteria="fmut +Consumable; -Illegal;" priceAdj="115" inventoryAdj="100"/>
+			<Sell	criteria="*NU -Illegal; -ID; -NotForSale;"	priceAdj="110"/>
+			;sell ares weapons:
+			;sell misc 
+			<Sell	criteria="*NU -Illegal; -ID; -NotForSale;"	priceAdj="110"/>
+		</Trade>
+-->
+
+<EconomyType UNID="&ecMeritEconomy;"
+      id="Merit"
+      currency="Merit|Merots"
+      conversion="1000"
+      />
+
+
+<!-- Ares Outpost -->
+
+	<StationType UNID="&stAresOutpost;"
+			name=				"Ares outpost"
+			sovereign=			"&svAres;"
+			abandonedScreen=	"&dsAbandonedStation;"
+			dockScreen=			"&dsAbandonedStation;"
+			dockingPorts=		"8"
+			canAttack=			"true"
+
+			multiHull=			"true"
+			armorID=			"&itLightTharsisPlate;"
+			hitPoints=			"200"
+			fireRateAdj=		"40"
+			explosionType=		"&vtThermoExplosion1;"
+			ejectaType=			"&vtWreckEjecta;"
+			
+			attributes=			"ares,enemy,envAir,envEarth,envFire,envWater,populated"
+			levelFrequency=		"----- rcur- ----- ----- -----"
+			locationCriteria=	"*"
+			>
+
+		<Image			imageID="&rsStations7;" imageX="0" imageY="640" imageWidth="128" imageHeight="128"/>
+
+		<Devices>
+			<Device deviceID="&itLightningCannon;" omnidirectional="true"/>
+		</Devices>
+
+		<Ships>
+			<Ship		count="1d6"		class="&scSandstorm;" orders="guard"/>
+		</Ships>
+
+		<Reinforcements minShips="5">
+			<Ship		count="1d4"		class="&scSandstorm;" orders="guard"/>
+		</Reinforcements>
+
+		<Trade currency="Merit" max="50000" replenish="2500">
+			<Sell	criteria="fmut +Consumable; -Illegal;" priceAdj="90" inventoryAdj="100"/>
+			<Sell	criteria="afmut +MinorItem; -Illegal;"	priceAdj="110"/>
+			<Sell	criteria="wsd +MajorItem; -Illegal;"	priceAdj="110"/>
+		</Trade>
+		
+		<Items>
+			<Item count="1d3" table="&trConsumables7;"/>
+			<Item count="1"	table="&trConsumables8;"/>
+			<Item count="1"	table="&trMinorItem7;"/>
+			<Item count="1"	table="&trMinorItem8;"/>
+			<Item count="1"	table="&trMajorItem7;"/>
+		</Items>
+	</StationType>
+
+	<!-- Ares Commune -->
+
+	<StationType UNID="&stAresCommune;"
+			name=				"Ares commune"
+			sovereign=			"&svAres;"
+			abandonedScreen=	"&dsAbandonedStation;"
+			dockScreen=			"&dsAbandonedStation;"
+			dockingPorts=		"8"
+			canAttack=			"true"
+
+			multiHull=			"true"
+			armorID=			"&itTharsisPlate;"
+			hitPoints=			"600"
+			explosionType=		"&vtThermoExplosion3;"
+			ejectaType=			"&vtWreckEjecta;"
+
+			attributes=			"ares,aresMajor,enemy,envAir,envEarth,envFire,envWater,populated"
+			levelFrequency=		"----- -vuur ----- ----- -----"
+			locationCriteria=	"*"
+			enemyExclusionRadius="60"
+			>
+
+		<Image			imageID="&rsStations7;" imageX="0" imageY="0" imageWidth="256" imageHeight="256"/>
+
+		<Ships>
+			<Ship		count="1d2"		class="&scTundra;" orders="guard"/>
+			<Ship		count="1d6"		class="&scSandstorm;" orders="patrol" patrolDist="5"/>
+		</Ships>
+
+		<Reinforcements minShips="6">
+			<Table>
+				<Ship chance="75"	count="1d4" class="&scSandstorm;" orders="patrol" patrolDist="5"/>
+				<Ship chance="25"	count="1" class="&scTundra;" orders="guard" />
+			</Table>
+		</Reinforcements>
+
+		<Trade currency="Merit" max="50000" replenish="2500">
+			<Sell	criteria="fmut +Consumable; -Illegal;" priceAdj="90" inventoryAdj="100"/>
+			<Sell	criteria="afmut +MinorItem; -Illegal;"	priceAdj="110"/>
+			<Sell	criteria="wsd +MajorItem; -Illegal;"	priceAdj="110"/>
+		</Trade>
+		
+		<Items>
+			<Item count="1d3" table="&trConsumables7;"/>
+			<Item count="1"	table="&trConsumables8;"/>
+			<Item count="1"	table="&trMinorItem7;"/>
+			<Item count="1"	table="&trMinorItem8;"/>
+			<Item count="1"	table="&trMajorItem7;"/>			
+		</Items>
+
+		<Satellites>
+			<Orbitals count="2d4" distance="12" angle="equidistant">
+				<Ship class="&scAresCannon;" count="1" sovereign="&svAres;" orders="hold"/>
+			</Orbitals>
+		</Satellites>
+	</StationType>
+
+	<!-- Ares Shipyard -->
+
+	<StationType UNID="&stAresShipyard;"
+			name=				"Ares shipyard"
+			sovereign=			"&svAres;"
+			abandonedScreen=	"&dsAbandonedStation;"
+			dockScreen=			"&dsAbandonedStation;"
+			dockingPorts=		"8"
+			canAttack=			"true"
+
+			multiHull=			"true"
+			armorID=			"&itMassiveTharsisPlate;"
+			hitPoints=			"1000"
+			explosionType=		"&vtThermoExplosion4;"
+			ejectaType=			"&vtWreckEjecta;"
+
+			attributes=			"ares,aresMajor,enemy,envAir,envEarth,envFire,envWater,populated"
+			levelFrequency=		"----- --vuu ----- ----- -----"
+			locationCriteria=	"*"
+			enemyExclusionRadius="100"
+			>
+
+		<Image			imageID="&rsStations9;" imageX="0" imageY="256" imageWidth="256" imageHeight="256"/>
+
+		<Ships>
+			<Ship		count="1d2"		class="&scTundra;" orders="guard"/>
+			<Ship		count="1d6"		class="&scSandstorm;" orders="patrol" patrolDist="5"/>
+			<Table>
+				<Ship	chance="40"	count="1d4+2"	class="&scChasm;" orders="patrol" patrolDist="5"/>
+				<Ship	chance="40" count="1d2" class="&scDeimos;" orders="patrol" patrolDist="8"/>
+				<Ship	chance="10" count="4d6"	class="&scSandstorm;" orders="patrol" patrolDist="8"/>
+				<Ship	chance="10" count="1"	class="&scPhobos;"	orders="guard"/>
+			</Table>
+		</Ships>
+
+		<Construction constructionRate="500" maxConstruction="10">
+			<Table>
+				<Ship chance="40"	count="1"	class="&scSandstorm;"	 orders="patrol" patrolDist="5"/>
+				<Ship chance="20"	count="1"	class="&scChasm;"		 orders="patrol" patrolDist="5"/>
+				<Ship chance="20"	count="1"	class="&scTundra;"		 orders="patrol" patrolDist="8"/>
+				<Ship chance="10"	count="1"	class="&scDeimos;"		 orders="patrol" patrolDist="8"/>
+				<Ship chance="5"	count="1"	class="&scDeimos;"		 orders="wander"/>
+				<Ship chance="5"	count="1"	class="&scPhobos;"		 orders="patrol" patrolDist="150"/>
+			</Table>
+		</Construction>
+
+		<Trade currency="Merit" max="50000" replenish="2500">
+			<Sell	criteria="fmut +Consumable; -Illegal;" priceAdj="90" inventoryAdj="100"/>
+			<Sell	criteria="afmut +MinorItem; -Illegal;"	priceAdj="110"/>
+			<Sell	criteria="wsd +MajorItem; -Illegal;"	priceAdj="110"/>
+		</Trade>
+		
+		<Items>
+			<Item count="1d3" table="&trConsumables8;"/>
+			<Item count="1"	table="&trConsumables9;"/>
+			<Item count="1"	table="&trMinorItem8;"/>
+			<Item count="1"	table="&trMinorItem9;"/>
+			<Item count="1"	table="&trMajorItem8;"/>			
+		</Items>
+
+		<Satellites>
+			<Orbitals count="2d6" distance="12" angle="equidistant">
+				<Ship class="&scAresCannon;" count="1" sovereign="&svAres;" orders="hold"/>
+			</Orbitals>
+		</Satellites>
+	
+	</StationType>
+
+</TranscendenceModule>

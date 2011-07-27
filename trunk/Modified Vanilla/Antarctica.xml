@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TranscendenceModule>
+
+	<!-- Dantalion star system 
+        Changes:
+                Removed Dantalion settlement
+                Removed Antarctica placement event from system
+    -->
+
+	<SystemType UNID="&ssDantalion;">
+
+		<SystemGroup>
+
+			<!-- Star -->
+
+			<Station type="&stRedGiantStar;"/>
+
+			<!-- Worlds -->
+
+			<Orbitals count="1d3+4" BodeDistanceStart="1d12+70" BodeDistanceEnd="1d110+760" angle="random">
+
+				<Variants>
+					<Lookup	maxRadius="100" table="Vulcanoids"/>
+					<Table maxRadius="300">
+						<Lookup chance="75" table="VolcanicWorld"/>
+						<Lookup chance="20" table="DesertWorld"/>
+						<Lookup chance="5"  table="RockyWorld"/>
+					</Table>
+					<Table maxRadius="500">
+						<Lookup chance="25" table="DesertWorld"/>
+						<Lookup chance="50" table="VolcanicWorld"/>
+						<Lookup chance="15" table="RockyWorld"/>
+						<Lookup chance="10" table="GasGiant"/>
+					</Table>
+					<Table maxRadius="2000">
+						<Lookup chance="5"  table="DesertWorld"/>
+						<Lookup chance="15" table="IcyWorld"/>
+						<Lookup chance="20" table="GasGiant"/>
+						<Lookup chance="40" table="MethaneGiant"/>
+						<Lookup chance="15" table="RingedWorld"/>
+						<Lookup chance="5"  table="OuterRockyGroup"/>
+					</Table>
+				</Variants>
+
+			</Orbitals>
+
+			<!-- Place the two stargates -->
+
+			<RandomLocation locationCriteria="++OuterSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateInbound"/>
+			</RandomLocation>
+
+			<RandomLocation locationCriteria="++InnerSystem,-asteroids,-gasgiant">
+				<Lookup table="StargateOutbound"/>
+			</RandomLocation>
+
+			<!-- Random Stations -->
+
+			<Variants>
+				<FillLocations
+						variant=			"commonwealth"
+						percentFull=		"80"
+						stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+						percentEnemies=		"75"
+						separateEnemies=	"true"
+						/>
+
+				<FillLocations
+						variant=			"ungoverned"
+						percentFull=		"80" 
+						stationCriteria=	"!primary,!debris,+envFire,-envAvoidsFire" 
+						percentEnemies=		"75"
+						separateEnemies=	"true"
+						/>
+			</Variants>
+
+			<!-- Random Debris -->
+
+			<RandomLocation probability="50" locationCriteria="++OuterSystem,++asteroids">
+				<Orbitals count="1d6" distance="1d8+6" angle="random">
+					<RandomStation stationCriteria="*debris"/>
+				</Orbitals>
+			</RandomLocation>
+
+			<FillLocations
+					percentFull=		"50"
+					stationCriteria=	"*debris"
+					/>
+
+			<!-- Void Encounters -->
+
+			<Orbitals count="1d12" distance="3d200+240" angle="random" exclusionRadius="100">
+				<Table>
+					<RandomStation chance="80" stationCriteria="*debris"/>
+					<RandomStation chance="18" stationCriteria="*enemy" locationAttribs="void"/>
+					<RandomStation chance="2"  stationCriteria="*friendly,!debris,!primary" locationAttribs="void"/>
+				</Table>
+			</Orbitals>
+
+		</SystemGroup>
+
+	</SystemType>
+
+</TranscendenceModule>

@@ -1,0 +1,429 @@
+<?xml version="1.0" ?>
+<TranscendenceModule>
+
+
+<Image UNID="&rsPing;" bitmap="Resources/blips2.jpg" bitmask="Resources/blips2mask.bmp"	loadOnUse="true"/>
+
+
+	<OverlayType UNID="&ovgc;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="0" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovgs;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="14" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovgt;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="28" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovrc;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="42" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovrs;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="56" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovrt;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="70" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovoc;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="84" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovos;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="98" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovot;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="112" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovyc;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="126" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovys;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="140" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovyt;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="154" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovbc;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="168" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovbs;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="182" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovbt;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="196" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovpc;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="210" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovps;">
+		<Effect >
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="224" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	<OverlayType UNID="&ovpt;">
+		<Effect>
+			<Image imageID="&rsPing;" imageWidth="14" imageHeight="14" imageX="0" imageY="238" imageFrameCount="1" imageTicksPerFrame="123"/>
+		</Effect>
+	</OverlayType>
+	
+	<globals>
+	(block Nil
+	
+;store data on an object with an easy short piece of code elsewhere
+	(setq sbSetData (Lambda (name value)
+		(typSetGlobalData &ovgc; name value)
+	))
+;retrieve the previously set data
+	(setq sbGetData (Lambda ('name)
+		(typgetGlobalData &ovgc; name)
+	))	
+	
+	
+	(setq sbCheckScannerStation (Lambda ('name)
+		(if (or (not (eq 1 (sysGetData "sbScannerStation"))) (isError (sysGetData "sbScannerStation")))
+			(block Nil
+				(sysCreateStation &stLRShelper; (objGetPos gSource))
+				(sysSetData "sbScannerStation" 1)
+			)
+		)
+	))	
+	
+		(setq sbScannerCode (lambda (source)
+			(block Nil
+				(if (eq Nil (sbGetData "on"))
+					(sbSetData "on" 1)
+				)
+				(if (eq 1 (sbGetData "on"))
+					(block (list obj)
+						(setq list (sysFindObject source (cat "AstN:100;")))
+						(enum list obj
+							(block (distance direction unid size)
+							;find the distance
+								(setq distance (objGetDistance source obj))
+								(setq distance (divide distance 6))
+							;find the angle to target
+								(setq direction (sysVectorAngle (sysVectorSubtract (objGetPos obj) (objGetPos source))))
+
+								
+							;determine the shape
+								(if (eq Nil (sbGetData "station"))
+									(sbSetData "station" "s")
+								)
+								(setq size (item (objGetImageDesc obj) 4))
+								(switch
+									(not (objIsShip obj))
+										(if (eq "s" (sbGetData "station"))
+											(setq shape "s")
+											(setq shape "t")
+										)
+									(geq size 80)
+										(if (eq "s" (sbGetData "station"))
+											(setq shape "t")
+											(setq shape "s")
+										)
+									(setq shape "c")
+								)
+								
+							;determine the color
+								(setq sov (objGetSovereign obj))
+								(setq color (sbGetData (cat sov)))
+								(if (eq color Nil)
+									(block Nil
+										(switch 
+											(eq 'enemy (sovGetDisposition sov &svPlayer;))
+												(setq color "r")
+											(eq 'friend (sovGetDisposition sov &svPlayer;))
+												(setq color "g")
+											(setq color "y")
+										)
+										(sbSetData (cat sov) (cat color))
+										(sbSetData "sovList" (lnkAppend (sbGetData "sovList") (list sov color)))
+									)
+								)
+								(setq color (sbGetData (cat sov)))
+								
+							;if not on the player ship draw it
+								(if (geq distance 1)
+									(objAddOverlay 
+										source
+										(sbGetUnid color shape)
+										(sysVectorPolarOffset gSource direction distance)
+										0
+										10
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		))
+		
+		(setq sbGetUnid (lambda (c s)
+			(switch
+				(and (eq c "g") (eq s "c"))
+					&ovgc;
+				(and (eq c "g") (eq s "s"))
+					&ovgs;
+				(and (eq c "g") (eq s "t"))
+					&ovgt;
+				(and (eq c "r") (eq s "c"))
+					&ovrc;
+				(and (eq c "r") (eq s "s"))
+					&ovrs;
+				(and (eq c "r") (eq s "t"))
+					&ovrt;
+				(and (eq c "o") (eq s "c"))
+					&ovoc;
+				(and (eq c "o") (eq s "s"))
+					&ovos;
+				(and (eq c "o") (eq s "t"))
+					&ovot;
+				(and (eq c "y") (eq s "c"))
+					&ovyc;
+				(and (eq c "y") (eq s "s"))
+					&ovys;
+				(and (eq c "y") (eq s "t"))
+					&ovyt;
+				(and (eq c "b") (eq s "c"))
+					&ovbc;
+				(and (eq c "b") (eq s "s"))
+					&ovbs;
+				(and (eq c "b") (eq s "t"))
+					&ovbt;
+				(and (eq c "p") (eq s "c"))
+					&ovpc;
+				(and (eq c "p") (eq s "s"))
+					&ovps;
+				(and (eq c "p") (eq s "t"))
+					&ovpt;
+				&ovps;
+			)
+		))
+		
+		(setq sbSovList (lambda Nil
+			(block (sovlist (list) sbIndex)
+				(setq sbIndex 0)
+				(enum (sbGetData "sovList") sov
+					(block Nil
+						(lnkAppend sovlist (list
+							(cat (typGetDataField (item sov 0) "name"))
+							Nil
+							(cat "this sovereign's color is " (sbColorList (item sov 1)))
+							(item sov 0)
+							sbIndex
+						))
+						(setq sbIndex (add sbIndex 1))
+					)
+				)
+				sovlist
+			)
+		))
+		
+		(setq sbColorList (lambda (col)
+			(switch
+				(eq col "g")
+					"green"
+				(eq col "r")
+					"red"
+				(eq col "y")
+					"yellow"
+				(eq col "o")
+					"orange"
+				(eq col "b")
+					"blue"
+				(eq col "p")
+					"purple"
+				"error: color not found"
+			)
+		))
+		
+		(setq sbSetColor (lambda (newColor)
+			(block (sbIndex)
+				(setq sovlist (sbGetData "sovList"))
+				(setq sbIndex (item (scrGetListEntry gScreen) 4))
+				(lnkReplace sovlist sbIndex (list (item (scrGetListEntry gScreen) 3) (cat newColor)))
+				(sbSetData "sovList" sovlist)
+				(sbSetData (cat (item (scrGetListEntry gScreen) 3)) newColor)
+				(setq lastPlace sbIndex)
+				(scrShowScreen gScreen &dsChangeSovSettings;)
+			)
+		))
+		
+	(setq sbLastPlace (lambda nil
+		(block (entry)
+			(setq entry (scrGetListEntry gScreen))
+			(eq (item entry 4) lastPlace)
+		)
+	))
+
+	)
+	</globals>
+	
+	<!-- Advanced LRS-->
+
+	<ItemType UNID="&itADVLRS;"
+			name=				"Advanced Long Range Scanner"
+			level=				"5"
+			value=				"1000"
+			mass=				"5000"
+			frequency=			"rare"
+			attributes=			"Info; MinorItem"
+
+			description=		"This advanced long range scanner spawns a beacon that tracks nearby ships."
+			>
+
+		<Image imageID="&rsItems1;" imageX="0" imageY="192" imageWidth="96" imageHeight="96"/>
+
+		<MiscellaneousDevice
+				powerUse=			"20"
+				/>		
+		<Events>
+			;this is needed because the LRS ship does not like to follow after a player gates :/
+			<OnGlobalPlayerEnteredSystem>	
+				(sbCheckScannerStation)
+			</OnGlobalPlayerEnteredSystem>
+			;I haven't checked OnInstall yet, just writing before I forget :/
+			<OnInstall>
+				(sbCheckScannerStation)
+			</OnInstall>
+		</Events>
+		<Invoke>		
+			(scrShowScreen gScreen "&dsChangeSovSettings;")
+		</Invoke>
+	</ItemType>
+	
+	<!-- LRSHelper -->
+<StationType UNID="&stLRShelper;"
+	backgroundObject= "true"
+	timeStopImmune=   "true"
+	scale=			  "world"
+	mobile=			  "true"
+	attributes=       "sbLrsHelper, eventStation"
+	name=				"Sandbox Scanner event station"
+	>
+	<Image imageID="&rsDebris1;" imageX="0" imageY="0" imageWidth="1" imageHeight="1"/>
+		<Events>
+			<OnCreate>
+				(block Nil
+					(sysAddObjRecurringTimerEvent 1 gSource "Killionaire")
+					(sysAddObjRecurringTimerEvent 30 gSource "AdvLRS")
+					)
+			</OnCreate>
+			<Killionaire>
+			(block Nil
+				(objMoveTo gSource (objgetPos gPlayership))
+				(objSetVel gSource (objGetVel gPlayerShip))
+			)
+			</Killionaire>
+			<AdvLRS>
+				(sbScannerCode gSource)
+			</AdvLRS>
+		</Events>
+
+</StationType>
+	
+<DockScreen UNID="&dsChangeSovSettings;"
+	name=             "Sovereign list"
+	type=             "customPicker"
+	backgroundID=     "&rsItemListScreen;"
+	>
+	<List	initialItem="=(sbLastPlace)">
+	(sbSovList)
+	</List>
+	<Panes>
+		<Default>
+			<OnPaneInit>
+				(block Nil
+					(if (eq (sbGetData "station") "s")
+						(scrSetDesc gScreen "stations will be shown as squares and capital ships as triangles")
+						(scrSetDesc gScreen "stations will be shown as triangles and capital ships as squares")
+					)
+					(if (eq (sbGetData "on") 0)
+						(scrSetActionLabel gScreen 0 "Turn on")
+						(scrSetActionLabel gScreen 0 "Turn off")
+					)
+				)
+			</OnPaneInit>
+			<Actions>
+				<Action name="turn on or off" key="t">
+				(block Nil
+					(if (eq 1 (sbGetData "on"))
+						(sbSetData "on" 0)
+						(sbSetData "on" 1)
+					)
+					(scrShowPane gScreen "Default")
+				)
+				</Action>
+				<Action name="station blip" key="s">
+				(block Nil
+					(if (eq "s" (sbGetData "station"))
+						(sbSetData "station" "t")
+						(sbSetData "station" "s")
+					)
+					(if (eq (sbGetData "station") "s")
+						(scrSetDesc gScreen "stations will be shown as squares and capital ships as triangles")
+						(scrSetDesc gScreen "stations will be shown as triangles and capital ships as squares")
+					)				)
+				</Action>
+				<Action name="make green" key="g" >
+					(sbSetColor "g")
+				</Action>
+				<Action name="make red" key="r" >
+					(sbSetColor "r")
+				</Action>
+				<Action name="make orange" key="o" >
+					(sbSetColor "o")
+				</Action>
+				<Action name="make yellow" key="y" >
+					(sbSetColor "y")
+				</Action>
+				<Action name="make blue" key="l" >
+					(sbSetColor "b")
+				</Action>
+				<Action name="make purple" key="p" >
+					(sbSetColor "p")
+				</Action>
+				<Action name="Back" key="b" cancel="1">
+					(block nil
+						(scrExitDock gScreen)
+					)
+				</Action>
+			</Actions>
+		</Default>
+	</Panes>
+</DockScreen>
+	
+	
+	
+</TranscendenceModule>
