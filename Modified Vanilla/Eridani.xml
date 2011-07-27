@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TranscendenceModule>
+
+	<!-- Commonwealth Station, Starton Eridani -->
+
+	<StationType UNID="&stStartonEridani;"
+			name=				"Starton Eridani"
+			sovereign=			"&svCommonwealth;"
+			dockScreen=			"&dsCommonwealthStation;"
+			abandonedScreen=	"&dsAbandonedStation;"
+			dockingPorts=		"8"
+			canAttack=			"true"
+
+			multiHull=			"true"
+			armorID=			"&itPlasteelPlate;"
+			maxHitPoints=		"250"
+			hitPoints=			"250"
+			repairRate=			"3"
+			shipRepairRate=		"2"
+			explosionType=		"&vtThermoExplosion1;"
+			ejectaType=			"&vtWreckEjecta;"
+
+			attributes=			"commonwealth,friendly,populated,startonEridani"
+			level=				"1"
+
+			noArticle=			"true"
+			>
+
+		<Image			imageID="&rsStations1;" imageX="0" imageY="0" imageWidth="256" imageHeight="256"/>
+
+		<Items>
+			<RandomItem count="20" 
+					criteria=		"ad -Illegal; -Military; -Alien; -Specialty; -NotForSale;"
+					level=			"2"
+					levelCurve=		"1"
+					/>
+			<RandomItem count="20" 
+					criteria=		"* -Illegal; -Military; -Alien; -Specialty; -NotForSale;"
+					level=			"2"
+					levelCurve=		"1"
+					/>
+			<RandomItem count="5" 
+					criteria=		"* -Illegal; -Military; -Alien; -Specialty; -NotForSale;"
+					level=			"3"
+					levelCurve=		"1"
+					/>
+		</Items>
+
+		<Ships>
+			<Lookup count="3" table="&tbCommEliteDefenders;"/>
+			<Lookup count="1d4" table="&tbCommPrivateCrafts;"/>
+		</Ships>
+
+		<Reinforcements minShips="5">
+			<Table>
+				<Lookup chance="75" table="&tbCommEliteDefenders;"/>
+				<Lookup chance="25" table="&tbCommPrivateCrafts;"/>
+			</Table>
+		</Reinforcements>
+
+		<Trade currency="credit" creditConversion="100" max="100000" replenish="5000">
+			<Sell	criteria="*NU -Illegal; -ID; -NotForSale;"	priceAdj="110"/>
+			<Buy	criteria="amswNU -Illegal; -NotForSale;"		priceAdj="50"/>
+			<Buy	criteria="*NU -Illegal; -ID; -NotForSale;"	priceAdj="90"/>
+			<Buy	criteria="*NU -Illegal; -ID;"				priceAdj="10"/>
+		</Trade>
+
+		<Events>
+			<OnContractGenerate>
+				(intGenerateStandardRequestContract1)
+			</OnContractGenerate>
+
+			<OnContractQuery>True</OnContractQuery>
+			
+			<OnCreate>
+				(sysAddObjRecurringTimerEvent 150 gSource "OnTrafficControl")
+			</OnCreate>
+
+			<OnDestroy>
+				(intCommonwealthOnDestroy)
+			</OnDestroy>
+			
+			<OnTrafficControl>
+				(comTrafficControl gSource 20)
+			</OnTrafficControl>
+		</Events>
+
+		<StaticData>
+			<Info>
+				"Welcome to the Eridani system and to Starton Eridani! Settled in 2176, our small star system is one of the most friendly in all the Commonwealth. Whatever your purpose here, whether business or pleasure, we're sure that you will enjoy your stay! Please select your topic of interest:"
+			</Info>
+
+			<TouristInfo>
+				"Though far from St. Katharine's Star, the Eridani system is not the backwater station shown on the 3DVs. The bars and nightclubs of Central Plaza are always ready for visitors. But if you prefer a quieter time, you can travel out to St. John's ice moon and visit the monastery of the Sisters of Domina."
+			</TouristInfo>
+
+			<CorporateInfo>
+				"If you are here on corporate business you will find the Commodities Exchange to have many popular items, including starship equipment. The Corporate Enclave near Starton Eridani also trades in supplies.\n\nNote: In accordance with Commonwealth laws, all customs officers are required to search for contraband&#x97;buy and sell legal goods only."
+			</CorporateInfo>
+
+			<TravelInfo>
+				"Starships are very common here, so you will have no problem obtaining fuel or making repairs to your ship. Starton Eridani's shipyard can install new devices on your ship. And when you've enjoyed everything that the Eridani system has to offer, you can find an outbound stargate around the innermost planet."
+			</TravelInfo>
+
+			<SafetyInfo>
+				"Like any populated star system, Eridani has its share of dangers. Charon pirates and Centauri warlords control some parts of the system&#x97;avoid all non-Commonwealth stations unless escorted or armed.\n\nNote: In accordance with Commonwealth laws, legally armed ships may attack and loot designated enemy targets only. Ships attacking Commonwealth stations or ships will be prosecuted and/or fired upon."
+			</SafetyInfo>
+
+			<FunFacts>
+				(
+				"Starton is more than seven stargates away from St. Katharine's Star."
+				"Starton Eridani was founded by the Commonwealth in 2176."
+				"According to the 2410 census, 29 million people live in this star system; half of them live in Starton Eridani itself."
+				"For some reason, more pilgrims have started their journey to the Galactic Core from Eridani than from any other system of the Commonwealth."
+				"Conrad Decker, admiral of the Commonwealth Fleet, spent his summers in Starton Eridani as a young boy."
+				"In 2240, Starton Eridani was almost evacuated because of rumors that a large Ares fleet was approaching. It later turned out to be a group of Salvagers traveling together."
+				"During the Eridani Bicentennial in 2376, then governor Jerad Norton convinced the Charon pirates to join in the celebrations in exchange for an unspecified sum."
+				)
+			</FunFacts>
+		</StaticData>
+
+		<DockingPorts>
+			<Port x="0"		y="150" />
+			<Port x="0"		y="-150" />
+			<Port x="100"	y="100" />
+			<Port x="100"	y="-100" />
+			<Port x="150"	y="0" />
+			<Port x="-150"	y="0" />
+			<Port x="-100"	y="100" />
+			<Port x="-100"	y="-100" />
+		</DockingPorts>
+
+	</StationType>
+
+	<!-- Eridani System -->
+
+	<SystemType UNID="&ssStartonEridani;">
+
+		<Tables>
+			<!-- Planets and Asteroids -->
+
+			<SmallInnerAsteroid>
+				<Table>
+					<Lookup chance="80" table="AsteroidSmallMetallic"/>
+					<Lookup chance="20" table="AsteroidSmall"/>
+				</Table>
+			</SmallInnerAsteroid>
+
+			<MediumInnerAsteroid>
+				<Table>
+					<Lookup chance="80" table="AsteroidMediumMetallic"/>
+					<Lookup chance="20" table="AsteroidMedium"/>
+				</Table>
+			</MediumInnerAsteroid>
+
+			<StJohnAsteroid>
+				<Table>
+					<Lookup chance="35" table="AsteroidSmallFrost"/>
+					<Lookup chance="20" table="AsteroidSmallMetallic"/>
+					<Lookup chance="35" table="AsteroidSmall"/>
+					<Lookup chance="4" table="AsteroidMediumFrost"/>
+					<Lookup chance="2" table="AsteroidMediumMetallic"/>
+					<Lookup chance="4" table="AsteroidMedium"/>
+				</Table>
+			</StJohnAsteroid>
+
+			<StJohnTrojans>
+				<Group>
+					<Siblings count="2d20" arcInc="2d205-206" radiusInc="-4-4">
+						<Lookup table="StJohnAsteroid"/>
+					</Siblings>
+
+					<Siblings count="2d20" arcInc="2d159-160" radiusInc="-6-6">
+						<Lookup table="StJohnAsteroid"/>
+					</Siblings>
+
+					<Siblings count="2d16" arcInc="2d109-110" radiusInc="-8-8">
+						<Lookup table="StJohnAsteroid"/>
+					</Siblings>
+
+					<Siblings count="2d12" arcInc="2d49-50" radiusInc="-12-12">
+						<Lookup table="StJohnAsteroid"/>
+					</Siblings>
+				</Group>
+			</StJohnTrojans>
+
+			<OuterAsteroid>
+				<Table>
+					<Lookup chance="70" table="AsteroidSmallFrost"/>
+					<Lookup chance="20" table="AsteroidSmall"/>
+					<Lookup chance="8" table="AsteroidMediumFrost"/>
+					<Lookup chance="2" table="AsteroidMedium"/>
+				</Table>
+			</OuterAsteroid>
+
+			<!-- Random Stations -->
+
+			<Stations1>
+				<Table>
+					<Station weight="8"  type="&stArmorDealer;"/>
+					<Station weight="4"  type="&stArmsDealer;"/>
+					<Station weight="12" type="&stCommonwealthSlums;"/>
+					<Station weight="50" type="&stCentauriCamp;"/>
+					<Station weight="25" type="&stCharonPirateOutpost;"/>
+				</Table>
+			</Stations1>
+
+			<DanteStations>
+				<Table>
+					<Station chance="45"	type="&stMiningColony;"/>
+					<Station chance="25"	type="&stCentauriCamp;"/>
+					<Station chance="10"	type="&stCharonPirateOutpost;"/>
+					<Station chance="5"		type="&stCommonwealthSlums;"/>
+					<Station chance="5"		type="&stFuelDepot;"/>
+					<Null	 chance="10" />
+				</Table>
+			</DanteStations>
+
+			<MetropolisStation>
+				<Table>
+					<Station chance="20"	type="&stArmorDealer;"	noMapLabel="true"/>
+					<Station chance="15"	type="&stArmsDealer;"	noMapLabel="true"/>
+					<Station chance="20"	type="&stFuelDepot;"	noMapLabel="true"/>
+					<Station chance="35"	type="&stCommonwealthResidentials;"	noMapLabel="true"/>
+					<Station chance="10"	type="&stMedicalSuburb;"	noMapLabel="true"/>
+				</Table>
+			</MetropolisStation>
+
+			<StJohnTrojanStations>
+				<Table>
+					<Station chance="25"	type="&stMiningColony;"/>
+					<Station chance="45"	type="&stCentauriCamp;"/>
+					<Station chance="10"	type="&stCharonPirateOutpost;"/>
+					<Station chance="5"		type="&stCommonwealthSlums;"/>
+					<Station chance="5"		type="&stFuelDepot;"/>
+					<Null	 chance="10" />
+				</Table>
+			</StJohnTrojanStations>
+
+		</Tables>
+
+		<SystemGroup>
+
+			<!-- Epsilon Eridani
+				This is a G-type star much like the Sun. -->
+
+			<Station type="&stG-TypeStar;" name="Epsilon Eridani"/>
+
+			<Orbitals angle="incrementing:30-330">
+
+				<!-- Dante II
+					The inner world is a barren, rocky world -->
+
+				<Group distance="80">
+					<Primary>
+						<Station type="&stCrateredPlanet;" 
+								objName="OldStart"
+								name="Dante II" 
+								showOrbit="true"
+								/>
+					</Primary>
+
+					<Orbitals distance="24" angle="random">
+						<Group>
+							<Lookup table="StargateOutbound"/>
+
+							<Orbitals distance="8" angle="0">
+								<Station type="&stNavSign;" name="Travel Advisory">
+									<InitialData>
+										<Info>
+											"Pirate activity reported in systems between Eridani and St. Katharine's Star. Please use caution. Make sure you have current star maps and avoid travel to non-Commonwealth stations."
+										</Info>
+									</InitialData>
+								</Station>
+							</Orbitals>
+						</Group>
+					</Orbitals>
+
+					<!-- Trojans of Dante II are metal-rich asteroids -->
+
+					<Trojan>
+						<Group>
+							<Siblings count="1d20" arcInc="2d105-106" radiusInc="-4-4">
+								<Lookup table="SmallInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1d20" arcInc="2d79-80" radiusInc="-6-6">
+								<Lookup table="SmallInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1d16" arcInc="2d55-56" radiusInc="-8-8">
+								<Lookup table="SmallInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1d12" arcInc="2d25-26" radiusInc="-12-12">
+								<Lookup table="SmallInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1d5-1" arcInc="2d15-16" radiusInc="-16-16">
+								<Lookup table="MediumInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1" arcInc="2d15-16" radiusInc="-20-20">
+								<Lookup table="DanteStations"/>
+							</Siblings>
+						</Group>
+					</Trojan>
+
+					<AntiTrojan>
+						<Group>
+							<Siblings count="1d20" arcInc="2d105-106" radiusInc="-4-4">
+								<Lookup table="SmallInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1d20" arcInc="2d79-80" radiusInc="-6-6">
+								<Lookup table="SmallInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1d16" arcInc="2d55-56" radiusInc="-8-8">
+								<Lookup table="SmallInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1d12" arcInc="2d25-26" radiusInc="-12-12">
+								<Lookup table="SmallInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1d5-1" arcInc="2d15-16" radiusInc="-16-16">
+								<Lookup table="MediumInnerAsteroid"/>
+							</Siblings>
+
+							<Siblings count="1" arcInc="2d15-16" radiusInc="-20-20">
+								<Lookup table="DanteStations"/>
+							</Siblings>
+						</Group>
+					</AntiTrojan>
+
+				</Group>
+
+				<!-- Hagaron
+					Another inner world -->
+
+				<Group distance="160">
+					<Primary>
+						<Station type="&stDesertPlanet;" name="Hageron" showOrbit="true"/>
+					</Primary>
+
+					<Orbitals distance="1d8+8" angle="random">
+						<Lookup table="Stations1" probability="80"/>
+					</Orbitals>
+
+				</Group>
+
+				<!-- Raphael -->
+
+				<Group distance="270">
+					<Primary>
+						<Station type="&stCrateredPlanet;" name="Raphael" showOrbit="true"/>
+					</Primary>
+
+					<Orbitals distance="1d8+8" angle="random">
+						<Lookup table="Stations1" probability="80"/>
+					</Orbitals>
+
+					<!-- Trojans -->
+
+					<Trojan>
+						<Group probability="50">
+							<Orbitals count="2d4+4" distance="2d8+8" angle="random">
+								<Lookup table="AsteroidSmall"/>
+							</Orbitals>
+
+							<Orbitals count="1d6" distance="2d8+8" angle="random">
+								<Lookup table="AsteroidMedium"/>
+							</Orbitals>
+
+							<Orbitals distance="1d8+6" angle="random">
+								<Lookup table="Stations1" probability="75"/>
+							</Orbitals>
+
+						</Group>
+					</Trojan>
+
+					<AntiTrojan>
+						<Group probability="50">
+							<Orbitals count="2d4+4" distance="2d8+8" angle="random">
+								<Lookup table="AsteroidSmall"/>
+							</Orbitals>
+
+							<Orbitals count="1d6" distance="2d8+8" angle="random">
+								<Lookup table="AsteroidMedium"/>
+							</Orbitals>
+
+							<Orbitals distance="1d8+6" angle="random">
+								<Lookup table="Stations1" probability="75"/>
+							</Orbitals>
+
+						</Group>
+					</AntiTrojan>
+
+				</Group>
+
+				<!-- St. John's World
+					The worlds around this gas giant form the core of the
+					Starton community. -->
+
+				<Group distance="520">
+
+					<!-- St. John's World -->
+
+					<Primary>
+						<Station type="&stHydrogenGasGiant;" 
+								name="St. John's World" 
+								showOrbit="true"
+								/>
+					</Primary>
+
+					<!-- Moons of St. John's WOrld -->
+
+					<Orbitals angle="incrementing:45-315">
+
+						<!-- Morgana -->
+
+						<Group distance="22">
+							<Primary>
+								<Station type="&stCrateredPlanet;" name="Morgana"/>
+							</Primary>
+
+							<!-- Debug Objects -->
+
+							<Orbitals debugOnly="true" distance="8" angle="random">
+								<Stargate objName="Debug" type="&stStargate;"/>
+							</Orbitals>
+
+							<Orbitals debugOnly="true" count="1" distance="5" scale="light-minute" angle="random">
+								<!--<Station type="&stCSCSaharaEncounter;" />-->
+								<!--<Station type="&stBlackMarketShipyard;" />-->
+							</Orbitals>
+
+							<Orbitals debugOnly="true" count="1" distance="5" scale="light-minute" angle="random">
+								<Orbitals distance="12" angle="random">
+									<!--<Station type="&stDwargFortress;"/>-->
+								</Orbitals>
+								<!--<Station type="&stHuariFortress;"/>-->
+								<!--<Station type="&stCommonwealthColonyArmed;" />-->
+							</Orbitals>
+
+							<Orbitals debugOnly="true" count="1" distance="20" angle="random">
+								<LevelTable>
+									<Station levelFrequency="c----" type="&stWondrousDevices;"/>
+									<Station levelFrequency="-----" type="&stInsuranceCompany;"/>
+								</LevelTable>
+								<!--
+								<Station type="&stCSCSaharaEncounter;"/>
+								<Station type="&stInsuranceCompany;"/>
+								<Station type="&stKorolovShipping;"/>
+								<Station type="&stAgriculturalStation;" />
+								<Station type="&stCorporateTradingPost;" />
+								<Station type="&stCSCArcticaEncounter;"/>
+								<Station type="&stCSCAmericaEncounter;"/>
+								<Station type="&stRingerShipyard;"/>
+								<Station type="&stGaianProcessorEncounter;" />
+								<Station type="&stFerianColony;" />
+								-->
+							</Orbitals>
+
+							<!--
+							<Orbitals debugOnly="true" count="50" distance="2d10" scale="light-minute" angle="random">
+								<Group>
+									<Station type="&stFerianColony;" />
+									<Orbitals count="3d6" distance="6d6" angle="random">
+										<Station type="&stMediumAsteroid;" />
+									</Orbitals>
+								</Group>
+							</Orbitals>
+							-->
+
+						</Group>
+
+						<!-- Mordred -->
+
+						<Group distance="45">
+							<Primary>
+								<Station type="&stCrateredPlanet;" name="Mordred"/>
+							</Primary>
+						</Group>
+
+						<!-- Uther
+							The main Commonwealth station is here. -->
+
+						<Group distance="80">
+
+							<!-- The planet Uther -->
+
+							<Primary>
+								<Station type="&stIcePlanet;" name="Uther"/>
+							</Primary>
+
+							<!-- The main stations are all in a group -->
+
+							<Siblings angleInc="180">
+								<Group>
+
+									<!-- Commonwealth Station -->
+									<Primary>
+										<Station type="&stStartonEridani;"/>
+									</Primary>
+
+									<!-- Industrial Center -->
+									<Siblings arcInc="+15">
+										<Station type="&stCorporateEnclave;" name="Greenwich Industries" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Dry Dock -->
+									<Siblings arcInc="-15">
+										<Station type="&stCommonwealthDryDock;" name="Starton Dry Dock" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Metropolis Station -->
+									<Siblings radiusInc="+15">
+										<Lookup table="MetropolisStation"/>
+									</Siblings>
+
+									<!-- Metropolis Station -->
+									<Siblings radiusInc="-15">
+										<Lookup table="MetropolisStation"/>
+									</Siblings>
+
+									<!-- Central Nav beacons -->
+									<Siblings arcInc="+7" radiusInc="+7">
+										<Station type="&stNavBeacon;" imageVariant="0"/>
+									</Siblings>
+
+									<Siblings arcInc="-7" radiusInc="-7">
+										<Station type="&stNavBeacon;" imageVariant="1"/>
+									</Siblings>
+
+									<!-- Metropolis Stations -->
+                                    <Group>
+                                        <!-- Metropolis Station -->
+                                        <Siblings arcInc="-30">
+                                            <Lookup table="MetropolisStation"/>
+                                        </Siblings>
+                                        
+                                        <Siblings arcInc="+30">
+                                            <Lookup table="MetropolisStation"/>
+                                        </Siblings>
+                                    </Group>
+
+									<!-- Slums -->
+									<Siblings arcInc="+50">
+										<Station type="&stCommonwealthSlums;" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Slums -->
+									<Siblings arcInc="-50">
+										<Station type="&stCommonwealthSlums;" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Peripheral nav beacons -->
+									<Siblings arcInc="+62">
+										<Station type="&stNavBeacon;" imageVariant="0"/>
+									</Siblings>
+
+									<Siblings arcInc="-62">
+										<Station type="&stNavBeacon;" imageVariant="0"/>
+									</Siblings>
+
+									<!-- Slums -->
+									<Siblings arcInc="+75">
+										<Station type="&stCommonwealthSlums;" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Slums -->
+									<Siblings arcInc="-75">
+										<Station type="&stCommonwealthSlums;" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Container Habitat -->
+									<Siblings arcInc="100-110">
+										<Station type="&stContainerHabitat;" name="Starton Residentials" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Container Habitat -->
+									<Siblings arcInc="-100--110">
+										<Station type="&stContainerHabitat;" name="Starton Residentials" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Container Habitat -->
+									<Siblings radiusInc="10-13" arcInc="10-13">
+										<Station type="&stContainerHabitat;" name="Starton Residentials" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+									<!-- Container Habitat -->
+									<Siblings radiusInc="10-13" arcInc="-10--13">
+										<Station type="&stContainerHabitat;" name="Starton Residentials" noArticle="true" noMapLabel="true"/>
+									</Siblings>
+
+								</Group>
+							</Siblings>
+
+							<!-- The Sisters of Domina is opposite -->
+
+							<Siblings radiusInc="12">
+								<Group>
+									<Station type="&stSistersOfDomina;"/>
+
+									<Siblings radiusInc="8">
+										<Marker objName="Start"/>
+									</Siblings>
+								</Group>
+							</Siblings>
+
+						</Group>
+
+						<!-- Lancelot -->
+
+						<Group distance="140">
+							<Primary>
+								<Station type="&stCrateredPlanet;" name="Lancelot"/>
+							</Primary>
+
+							<Orbitals distance="6" angle="random">
+								<Station type="&stCentauriCamp;"/>
+							</Orbitals>
+						</Group>
+
+					</Orbitals>
+
+					<!-- Trojans -->
+
+                    <Group>
+                        <Trojan>
+                            <Lookup table="StJohnTrojans"/>
+
+                            <Orbitals distance="1d8+6" angle="random">
+                                <Lookup table="StJohnTrojanStations"/>
+                            </Orbitals>
+                        </Trojan>
+
+                        <AntiTrojan>
+                            <Lookup table="StJohnTrojans"/>
+
+                            <Orbitals distance="1d8+6" angle="random">
+                                <Lookup table="StJohnTrojanStations"/>
+                            </Orbitals>
+                        </AntiTrojan>
+                    </Group>
+
+				</Group>
+
+				<!-- Voerms -->
+
+				<Group distance="900">
+					<Primary>
+						<Station type="&stMethaneGasGiant;" name="Voerms" showOrbit="true"/>
+					</Primary>
+
+					<Orbitals count="6d6" distance="2d4+15" angle="random">
+						<Lookup table="OuterAsteroid"/>
+					</Orbitals>
+					
+					<!-- Voerms is in a sparse asteroid belt -->
+
+					<Siblings count="80-120" distribution="4d40-80">
+						<Lookup table="OuterAsteroid"/>
+					</Siblings>
+
+					<!-- There are a few other Centauri bases here -->
+
+					<Siblings count="2-3" angleInc="40-320" radiusInc="-90-90">
+						<Station type="&stCentauriCamp;"/>
+					</Siblings>
+				</Group>
+
+			</Orbitals>
+
+		</SystemGroup>
+
+		<Events>
+			<OnCreate>
+				(block (centauriStations)
+					; Devices greater than level III are not for sale in Eridani
+					(enum (sysFindObject Nil "TF +populated;") theObj
+						(enum (objGetItems theObj "dU") theItem
+							(if (and (gr (itmGetLevel theItem) 3) (objGetSellPrice theObj theItem))
+								(objRemoveItem theObj theItem)
+								)
+							)
+						)
+
+					; Count the number of centauri camps in the inner system (inside 800 light-seconds)
+					(setq centauriStations (sysFindObject Nil "T +centauriWarlords; +populated; -occupation; -uncharted;"))
+					(setq centauriStations (filter centauriStations theObj
+						(ls (sysVectorDistance (objGetPos theObj)) 800)
+						))
+
+					; If we don't have at least 3, then create some near Voerms
+					(if (ls (count centauriStations) 3)
+						(block (voerms)
+							(setq voerms (item (filter (sysFindObject Nil "t +planet;") theObj (eq (objGetName theObj) "Voerms")) 0))
+							(if voerms
+								(for i 1 (random 2 3)
+									(block Nil
+										(sysCreateStation &stCentauriCamp;
+											(sysVectorRandom voerms (random 30 50) 10 "t +populated;")
+											)
+										)
+									)
+								(dbgLog "ERROR: Unable to find planet Voerms in Eridani system.")
+								)
+							)
+						)
+					)
+			</OnCreate>
+		</Events>
+
+	</SystemType>
+
+</TranscendenceModule>

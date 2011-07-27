@@ -1,0 +1,678 @@
+<?xml version="1.0" ?>
+<!DOCTYPE TranscendenceAdventure
+[
+    <!ENTITY modSandbox                 "0xEFFF0000">
+    <!ENTITY adSandbox                  "0xEFFF0001">
+
+    <!-- BASE CLASSES -->
+    <!ENTITY baStdFreighterBase         "0xEFFF0002">
+]>
+
+<TranscendenceAdventure
+  UNID="&modSandbox;"
+  name="Sandbox"
+  version="1.0">
+
+  <AdventureDesc
+    unid=     "&adSandbox;"
+    name=     "Transcendence Sandbox"
+    backgroundID=""
+    startingShipCriteria="*"
+    >
+    <Events>
+      <OnGameStart>
+        (block Nil
+          (gamSetCrawlImage &rsProlog1;)
+          (gamSetCrawlText (cat
+            ""
+            ""
+          ))
+        )
+      </OnGameStart>
+
+      <OnGameEnd>
+        (block Nil
+          (gamSetCrawlImage
+            (if (eq aEndGameReason 'leftHumanSpace)
+              &rsEndGameEscaped;
+              &rsEndGameDestroyed;
+            )
+          )
+
+          (gamSetCrawlText  (cat
+            ""
+            ""
+          ))
+        )
+      </OnGameEnd>
+    </Events>
+  </AdventureDesc>
+
+  <SystemTopology>
+
+    <!-- LEVEL I -->
+
+    <Node ID="SE" rootNode="true">
+      <System 
+        name=     "Eridani"
+        level=      "1"
+        attributes=   "newBeyond"
+        >
+        <System UNID="&ssStartonEridani;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Outbound" DestID="C1" DestGate="Inbound"/>
+        <StarGate Name="Debug"    DestID="BA" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="C1">
+      <System
+        level=      "1"
+        attributes=   "newBeyond"
+        variant=    "commonwealth"
+        >
+        <Table>
+          <System chance="30" name="Groombridge" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="40" name="Lalande"  UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="30" name="5 Indi"   UNID="&ssEarthSpaceAsteroids;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="C3" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL II -->
+
+    <Node ID="C3">
+      <System
+        level=      "2"
+        attributes=   "NewBeyond"
+        variant=    "commonwealth"
+        >
+        <Table>
+          <System chance="25" name="Orgos"    UNID="&ssEarthSpaceStandard;"/>
+          <System chance="25" name="Ross 248" UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="25" name="Cairn"    UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Ras Alhague" UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="C3A" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="C3A">
+      <System
+        level=      "2"
+        attributes=   "newBeyond"
+        variant=    "commonwealth"
+        >
+        <Table>
+          <System chance="50" name="Lacaille" UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="50" name="Cygni"    UNID="&ssEarthSpaceAsteroids;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="BA" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="BA">
+      <System
+        name=     "Rigel Aurelius"
+        level=      "2"
+        attributes=   "newBeyond"
+        >
+        <System UNID="&ssBattleArena;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="C4" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL III -->
+
+    <Node ID="C4">
+      <System
+        level=      "3"
+        attributes=   "newBeyond"
+        variant=    "commonwealth"
+        >
+        <Table>
+          <System chance="17" name="Van Maanen" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="8"  name="Moren-Lin"  UNID="&ssEarthSpaceBinary;"/>
+          <System chance="25" name="Jotunheim"  UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="25" name="Hena's Star" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Ankaa"    UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <Table>
+          <StarGate chance="50" Name="Outbound" DestID="C4A" DestGate="Inbound"/>
+          <StarGate chance="50" Name="Outbound" DestID="CP" DestGate="Inbound"/>
+        </Table>
+      </StarGates>
+    </Node>
+
+    <Node ID="C4A">
+      <System
+        level=      "3"
+        attributes=   "newBeyond"
+        variant=    "commonwealth"
+        >
+        <Table>
+          <System chance="17" name="Manchester" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="8"  name="Fridlund" UNID="&ssEarthSpaceBinary;"/>
+          <System chance="25" name="L372"   UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="25" name="Kaus Media" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Al Maisan"  UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="CP" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="CP">
+      <System
+        name="Charon"
+        level=      "3"
+        attributes=   "newBeyond"
+        >
+        <System UNID="&ssCharonPirateFortress;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="SK" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL IV -->
+
+    <Node ID="SK">
+      <System
+        name=     "St. Katharine's Star"
+        level=      "4"
+        attributes=   "stKatharine"
+        variant=    "ungoverned"
+        >
+        <System UNID="&ssStKatharine;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <Table>
+          <StarGate chance="50" Name="Outbound" DestID="C5A" DestGate="Inbound"/>
+          <StarGate chance="50" Name="Outbound" DestID="C5" DestGate="Inbound"/>
+        </Table>
+      </StarGates>
+    </Node>
+
+    <Node ID="C5A">
+      <System
+        level=      "4"
+        attributes=   "ungoverned"
+        variant=    "ungoverned"
+        >
+        <Table>
+          <System chance="50" name="Mu Casser"  UNID="&ssEarthSpaceStandard;"/>
+          <System chance="50" name="Dorado"   UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="C5" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="C5">
+      <System   
+        level=      "4"
+        attributes=   "ungoverned"
+        variant=    "ungoverned"
+        >
+        <Table>
+          <System chance="17" name="Humboldt" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="8"  name="Neheb"    UNID="&ssEarthSpaceBinary;"/>
+          <System chance="25" name="70 Ophiuchi" UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="25" name="Draconis" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Hadar"    UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="C6" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL V -->
+
+    <Node ID="C6">
+      <System       
+        level=      "5"
+        attributes=   "ungoverned"
+        variant=    "ungoverned"
+        >
+        <Table>
+          <System chance="17" name="Orthrus"  UNID="&ssEarthSpaceBinary;"/>
+          <System chance="8"  name="Kinder's Star"  UNID="&ssEarthSpaceStandard;"/>
+          <System chance="17" name="Lebezerin"  UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="8"  name="Kruger 60"  UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="25" name="Tiberius" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="17" name="Acheron"  UNID="&ssEarthSpaceVolcanic;"/>
+          <System chance="8"  name="Khaldun"  UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <Table>
+          <StarGate chance="50" Name="Outbound" DestID="C6A" DestGate="Inbound"/>
+          <StarGate chance="50" Name="Outbound" DestID="CD" DestGate="Inbound"/>
+        </Table>
+      </StarGates>
+    </Node>
+
+    <Node ID="C6A">
+      <System
+        level=      "5"
+        attributes=   "ungoverned"
+        variant=    "ungoverned"
+        >
+        <Table>
+          <System chance="17" name="Junger"   UNID="&ssEarthSpaceStandard;"/>
+          <System chance="8"  name="Ravena"   UNID="&ssEarthSpaceBinary;"/>
+          <System chance="17" name="Jaoel"    UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="8"  name="55 Cancri"  UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="25" name="Trajan"   UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="17" name="Tarterus" UNID="&ssEarthSpaceVolcanic;"/>
+          <System chance="8"  name="Shihab"   UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="CD" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="CD">
+      <System
+        name=     "Sanctuary"
+        level=      "5"
+        attributes=   "ungoverned"
+        variant=    "ungoverned"
+        >
+        <System UNID="&ssEarthSpaceNebulae;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="C7" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="C7">
+      <System
+        level=      "5"
+        attributes=   "ungoverned"
+        variant=    "ungoverned"
+        >
+        <Table>
+          <System chance="17" name="Amphion"  UNID="&ssEarthSpaceBinary;"/>
+          <System chance="8"  name="Kanto"    UNID="&ssEarthSpaceStandard;"/>
+          <System chance="17" name="Raziel"   UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="8"  name="Estelle"  UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="25" name="Domitus"  UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="17" name="Gehenna"  UNID="&ssEarthSpaceVolcanic;"/>
+          <System chance="8"  name="Arrakis"  UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="C8" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL VI -->
+
+    <Node ID="C8">
+      <System
+        level=      "6"
+        attributes=   "ungoverned"
+        variant=    "ungoverned"
+        >
+        <Table>
+          <System chance="17" name="Zethus"   UNID="&ssEarthSpaceBinary;"/>
+          <System chance="8"  name="Nobunaga" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="20" name="Galgaliel"  UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="5"  name="Cinder"   UNID="&ssEarthSpaceRedDwarf;"/>
+          <System chance="25" name="Numerianus" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="20" name="Exael"    UNID="&ssEarthSpaceVolcanic;"/>
+          <System chance="5"  name="Alembra"  UNID="&ssEarthSpaceDesert;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <Table>
+          <StarGate chance="50" Name="Outbound" DestID="C8A" DestGate="Inbound"/>
+          <StarGate chance="50" Name="Outbound" DestID="C9" DestGate="Inbound"/>
+        </Table>
+      </StarGates>
+    </Node>
+
+    <Node ID="C8A">
+      <System
+        level=        "6"
+        attributes=     "ungoverned"
+        variant=      "ungoverned"
+        >
+        <Table>
+          <System chance="50" name="Maharashtra" UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="50" name="Bhutihan" UNID="&ssEarthSpaceVolcanic;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="C9" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="C9">
+      <System
+        name=       "Jiang's Star"
+        level=        "6"
+        attributes=     "ungoverned"
+        variant=      "ungoverned"
+        >
+        <System UNID="&ssEarthSpaceVolcanic;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="A1" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL VII -->
+
+    <Node ID="A1">
+      <System
+        level=        "7"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <Table>
+          <System chance="17" name="Sleng"    UNID="&ssEarthSpaceStandard;"/>
+          <System chance="8"  name="Enkidu"   UNID="&ssEarthSpaceBinary;"/>
+          <System chance="25" name="Tzadkiel" UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="25" name="Severian's Star" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Flauros"  UNID="&ssEarthSpaceVolcanic;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="A2" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="A2">
+      <System
+        level=        "7"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <Table>
+          <System chance="17" name="Zhang Li" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="8"  name="Liu Bai"  UNID="&ssEarthSpaceBinary;"/>
+          <System chance="25" name="Peng Lai" UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="25" name="Kunlun"   UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Shenlong" UNID="&ssEarthSpaceVolcanic;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="EC" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="EC">
+      <System
+        name=       "Eta Ceti"
+        level=        "7"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <System UNID="&ssEarthSpaceVolcanic;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="A3" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL VIII -->
+
+    <Node ID="A3">
+      <System
+        level=        "8"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <Table>
+          <System chance="17" name="Ki Xyrrmir" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="8"  name="Ulom"   UNID="&ssEarthSpaceBinary;"/>
+          <System chance="25" name="Qilin"    UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="25" name="Tao Tie"  UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Tianlong" UNID="&ssEarthSpaceVolcanic;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <Table>
+          <StarGate chance="50" Name="Outbound" DestID="A3A" DestGate="Inbound"/>
+          <StarGate chance="50" Name="Outbound" DestID="PJ" DestGate="Inbound"/>
+        </Table>
+      </StarGates>
+    </Node>
+
+    <Node ID="A3A">
+      <System
+        level=        "8"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <Table>
+          <System chance="25" name="St. Esperance's Star" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="25" name="Metatron" UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="25" name="Que Qiao" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Li"     UNID="&ssEarthSpaceVolcanic;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="PJ" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="PJ">
+      <System
+        name=       "Point Juno"
+        level=        "8"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <System UNID="&ssPointJuno;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="A5" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL IX -->
+
+    <Node ID="A5">
+      <System
+        level=        "9"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <Table>
+          <System chance="25" name="Umi"    UNID="&ssEarthSpaceStandard;"/>
+          <System chance="25" name="Vori"   UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="25" name="Meri"   UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Penati"   UNID="&ssEarthSpaceVolcanic;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="A6" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="A6">
+      <System
+        level=        "9"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <Table>
+          <System chance="25" name="Denebola" UNID="&ssEarthSpaceStandard;"/>
+          <System chance="25" name="Pharos"   UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="25" name="Saurus Mons" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="Erebus"   UNID="&ssEarthSpaceVolcanic;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="A7" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="A7">
+      <System
+        name=       "Dantalion"
+        level=        "9"
+        attributes=     "outerRealm"
+        variant=      "ungoverned">
+        <System UNID="&ssDantalion;"/>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="G1" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <!-- LEVEL X -->
+
+    <Node ID="G1">
+      <System
+        level=        "10"
+        attributes=     "outerRealm"
+        variant=      "ungoverned"
+        >
+        <Table>
+          <System chance="25" name="LV 426"   UNID="&ssEarthSpaceStandard;"/>
+          <System chance="25" name="IC 767"   UNID="&ssEarthSpaceNebulae;"/>
+          <System chance="25" name="HD 11901" UNID="&ssEarthSpaceAsteroids;"/>
+          <System chance="25" name="HD 44594" UNID="&ssEarthSpaceVolcanic;"/>
+        </Table>
+      </System>
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="Outbound" DestID="G2" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="G2">
+      <System
+        UNID=       "&ssHeretic;"
+        name=       "Heretic"
+        level=        "10"
+        attributes=     "outerRealm"
+        />
+
+      <StarGates>
+        <StarGate Name="Inbound" DestID="[Prev]" DestGate="Outbound"/>
+        <StarGate Name="EndGame" DestID="EndGame"/>
+      </StarGates>
+    </Node>
+
+    <Node ID="EndGame"
+      endGame="true"
+      endGameReason="leftHumanSpace"
+      epitaph="left Human Space on a journey to the Galactic Core"
+      >
+    </Node>
+
+    <!-- SPECIAL SYSTEMS -->
+
+    <Node ID="Elysium" rootNode="true">
+      <System
+        UNID=       "&ssElysium;"
+        name=       "Elysium"
+        level=        "5"
+        />
+
+      <StarGates>
+        <StarGate Name="SE" DestID="SE" DestGate="Outbound"/>
+        <StarGate Name="C3" DestID="C3" DestGate="Outbound"/>
+        <StarGate Name="SK" DestID="SK" DestGate="Outbound"/>
+        <StarGate Name="C6" DestID="C6" DestGate="Outbound"/>
+        <StarGate Name="C8" DestID="C8" DestGate="Outbound"/>
+        <StarGate Name="A1" DestID="A1" DestGate="Outbound"/>
+        <StarGate Name="EC" DestID="EC" DestGate="Outbound"/>
+        <StarGate Name="PJ" DestID="PJ" DestGate="Outbound"/>
+        <StarGate Name="A6" DestID="A6" DestGate="Outbound"/>
+        <StarGate Name="G2" DestID="G2" DestGate="Inbound"/>
+      </StarGates>
+    </Node>
+
+  </SystemTopology>
+
+
+  <Modules>
+    <Module filename="BattleArena.xml"/>
+    <Module filename="CharonFortress.xml"/>
+    <Module filename="PointJuno.xml"/>
+    <Module filename="Antarctica.xml"/>
+    <Module filename="Eridani.xml"/>
+    <Module filename="Huari.xml"/>
+  </Modules>
+
+</TranscendenceAdventure>
+<!--
+vim:ts=2:sw=2:sts=2:ft=tscript:
+-->

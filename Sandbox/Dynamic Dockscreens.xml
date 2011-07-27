@@ -1,0 +1,401 @@
+<?xml version="1.0"?>
+<TranscendenceModule>
+	<!ENTITY dsGenericDockscreen	"0xEFFFEA00">
+	<!ENTITY dsUnique				"0xEFFFEA01">
+	<!ENTITY stDockScreenSpawner	"0xEFFFEA02">
+	<!ENTITY stDockScreenController	"0xEFFFEA03">
+
+<!-- thanks Prophet!-->
+
+<StationType UNID="&stDockScreenSpawner;"
+    name=               "DockScreen Spawner"
+    virtual=            "True"
+    >
+    <Events>
+        <OnGlobalSystemCreated>
+            (sysCreateStation &stDockScreenController; nil)
+        </OnGlobalSystemCreated>
+    </Events>
+</StationType>
+
+<!--- This station will take care of all the work   --->
+        
+<StationType UNID="&stDockScreenController;"
+    name=               "DockScreen Controller"
+    scale=              "world"
+    backgroundObject=   "true"
+    sovereign=          "&svIndependent;"
+    unique=             "inSystem"
+	attributes=			"DySys"
+    >
+    <ImageVariants>
+        <Image          imageID="&rsWorlds2;" imageX="0" imageY="0" imageWidth="1" imageHeight="1" />
+    </ImageVariants>
+    <Events>
+	
+		<GetGlobalDockScreen>
+		;there are 4 options that are for a basic DS:
+			;"fluff"
+			;exchange
+			;dock services
+			;exit
+			
+			;PLAN:
+				;make generic DS with the 4
+				;make stuff up
+			(switch 
+				;for Ares:
+				(and
+					(eq (objGetSovereign gSource) &svAres;)
+					(not (objIsAbandoned gSource))
+					)
+				(block Nil
+					(list &dsGenericDockscreen; 10)
+					;(objAddBuyOrder gSource "w -NotForSale;" 100)
+					)
+				;for Sung
+				<!--
+				(and
+				(eq (objGetSovereign gSource) &svSung;)
+				(not (eq (objGetType gSource) &stSungDefenseSat1;))
+				)
+				-->
+				(and
+					(eq (objGetSovereign gSource) &svSung;)
+					(not (objIsAbandoned gSource))
+					)
+				(block Nil
+					(list &dsGenericDockscreen; 10)
+					)
+				)
+		</GetGlobalDockScreen>
+	</Events>
+</StationType>
+		
+	<DockScreen UNID="&dsGenericDockscreen;">
+
+		<Panes>
+			<Default
+					desc=	"You are docked.">
+
+				<Actions>
+					<Action name="Enter Station" key="E">
+						(scrShowScreen gScreen &dsUnique;)
+					</Action>
+					<Action name="Commodities Exchange" key="C">
+						<ShowPane pane="CommoditiesExchange"/>
+					</Action>
+					<Action name="Dock Services" key="D">
+						<ShowPane pane="DockServices"/>
+					</Action>
+					<Action name="Undock" cancel="1" key="U">
+						<Exit/>
+					</Action>
+				</Actions>
+
+			</Default>
+			<CommoditiesExchange>
+
+						<OnPaneInit>						
+							(scrSetDesc gScreen (cat "Welcome to the " (objGetName gSource) " Commodities Exchange Market."))							
+						</OnPaneInit>
+
+						<Actions>
+							<Action name="Buy items" default="1" key="B">
+								(comShowBuyScreen 
+									"*"						; items sold to player
+									)
+							</Action>
+
+							<Action name="Sell items" key="S">
+								(comShowSellScreen
+									"*"						; items bought from player
+									)
+							</Action>
+
+							<Action name="Done" cancel="1" key="D">
+								<ShowPane pane="Default"/>
+							</Action>
+
+						</Actions>
+
+					</CommoditiesExchange>
+					<DockServices
+							desc=	"You are at the docking services terminal.">
+
+						<Actions>
+							<!--
+							;
+							; fuelList should be a list of fuel price entries.
+							; Each fuel price entry is a list with two elements:
+							;
+							; fuel item UNID
+							; cost adjustment (100 = full price)
+							;
+							; The fuel price entries should be in order of most
+							; advanced fuel to least advanced fuel.
+							;
+							; Sets:
+							;
+							; gItem
+							; gCost
+							
+							
+							;Fuel list:
+							itHelium3FuelRod
+							itUraniumRods
+							itHeliumAssembly
+							itHeliotropeFuel
+							itXenotiteFuelRod
+							itPteracniumFuelRod
+							itHadronVacuumFuelCell
+							-->
+							<Action name="Refuel" key="R">
+								(block Nil
+									(switch
+										(eq (objGetType gSource) &stAresOutpost;)
+										(block Nil
+											(intSetCompatibleFuelEx '((&itHelium3FuelRod; 100) ))
+											)
+										(eq (objGetType gSource) &stAresCommune;)
+										(block Nil
+											(intSetCompatibleFuelEx '((&itHelium3FuelRod; 100) (&itHeliumAssembly; 100)(&itXenotiteFuelRod; 100)))
+											)
+										(eq (objGetType gSource) &stAresShipyard;)
+										(block Nil
+											(intSetCompatibleFuelEx '((&itHelium3FuelRod; 100) (&itHeliumAssembly; 100)(&itXenotiteFuelRod; 100) (&itPteracniumFuelRod; 100) (&itHadronVacuumFuelCell; 100)))
+											)
+										(eq (objGetType gSource) &stSungDefenseSat1;)
+										(block Nil
+											(intSetCompatibleFuelEx '((&itHelium3FuelRod; 100)))
+											)
+										(eq (objGetType gSource) &stSungSlaveCamp;)
+										(block Nil
+											(intSetCompatibleFuelEx '((&itHelium3FuelRod; 100) (&itHeliumAssembly; 100)(&itXenotiteFuelRod; 150) ))
+											)
+										(eq (objGetType gSource) &stSungFortress;)
+										(block Nil
+											(intSetCompatibleFuelEx '((&itHelium3FuelRod; 100) (&itHeliumAssembly; 100)(&itXenotiteFuelRod; 50) ))
+											)
+										(eq (objGetType gSource) &stSungCitadel;)
+										(block Nil
+											(intSetCompatibleFuelEx '((&itHelium3FuelRod; 100) (&itHeliumAssembly; 100)(&itXenotiteFuelRod; 100) (&itPteracniumFuelRod; 100) ))
+											)
+										
+										<!--
+										(eq (objGetType gSource) &stAresOutpost;)
+										(block Nil
+											(intSetCompatibleFuelEx '((&itHelium3FuelRod; 100) ))
+											)
+										-->
+										;if none are compatible
+										(intSetCompatibleFuelEx '((&itHeliumAssembly; 93) (&itHelium3FuelRod; 92)))
+										)
+									(scrShowScreen gScreen "&dsRefuel;")
+									)
+							</Action>
+
+							<Action name="Repair or replace armor" key="A" >
+								(block Nil
+									(switch 
+										;for Ares
+										(eq (objGetType gSource) &stAresOutpost;)
+										(block Nil
+											(setq gTechLevel 7)
+											(setq gArmorSegment 0)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stAresCommune;)
+										(block Nil
+											(setq gTechLevel 9)
+											(setq gArmorSegment 0)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+									   (eq (objGetType gSource) &stAresShipyard;)
+										(block Nil
+											(setq gTechLevel 10)
+											(setq gArmorSegment 0)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stSungDefenseSat1;)
+										(block Nil
+											(setq gTechLevel 0)
+											(setq gArmorSegment 0)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stSungSlaveCamp;)
+										(block Nil
+											(setq gTechLevel 5)
+											(setq gArmorSegment 0)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stSungFortress;)
+										(block Nil
+											(setq gTechLevel 7)
+											(setq gArmorSegment 0)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stSungCitadel;)
+										(block Nil
+											(setq gTechLevel 7)
+											(setq gArmorSegment 0)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										;if none are compatible
+										(block Nil
+											(setq gTechLevel 0)
+											(setq gArmorSegment 0)
+											(setq gCheckMilitaryID True)
+											(setq gMargin 100)
+											)
+										<!--
+										(eq (objGetSovereign gSource) &svAres;)
+										(block Nil
+											(setq gTechLevel 0)
+											(setq gArmorSegment 0)
+											(setq gMargin 0)
+											)
+										-->
+										)
+									
+									(scrShowScreen gScreen "&dsRepairArmor;")
+									)
+							</Action>
+							
+							<Action name="Install device" key="D" >
+								(block Nil
+									(switch 
+										;for Ares
+										(eq (objGetType gSource) &stAresOutpost;)
+										(block Nil
+											(setq gTechLevel 7)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stAresCommune;)
+										(block Nil
+											(setq gTechLevel 9)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stAresShipyard;)
+										(block Nil
+											(setq gTechLevel 10)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stSungDefenseSat1;)
+										(block Nil
+											(setq gTechLevel 0)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stSungSlaveCamp;)
+										(block Nil
+											(setq gTechLevel 5)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stSungFortress;)
+										(block Nil
+											(setq gTechLevel 7)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										(eq (objGetType gSource) &stSungCitadel;)
+										(block Nil
+											(setq gTechLevel 7)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										;if none are compatible
+										(block Nil
+											(setq gTechLevel 9)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID Nil)
+											(setq gMargin 100)
+											)
+										<!--
+										(eq (objGetSovereign gSource) &svAres;)
+										(block Nil
+											(setq gTechLevel 9)
+											(setq gTechModifier Nil)
+											(setq gCheckMilitaryID True)
+											(setq gMargin (if (geq (objGetData gPlayerShip "fleetLevel") 4) 0 100))
+											)
+										-->
+										)
+									
+									(scrShowScreen gScreen "&dsInstallDevice;")
+									)
+							</Action>
+
+							<Action name="Remove device" key="V" >
+								(block Nil
+									(switch 
+										;for Ares
+										(eq (objGetSovereign gSource) &svAres;)
+										(block Nil
+											(setq gMargin 100)
+											)
+										(eq (objGetSovereign gSource) &svSung;)
+										(block Nil
+											(setq gMargin 100)
+											)
+										;if none are compatible
+										(block Nil
+											(setq gMargin 100)
+											)
+										<!--
+										;for Ares
+										(eq (objGetSovereign gSource) &svAres;)
+										(block Nil
+											(setq gMargin (if (geq (objGetData gPlayerShip "fleetLevel") 4) 0 100))
+											)
+										-->
+										)
+									(scrShowScreen gScreen "&dsRemoveDevice;")
+									)
+							</Action>
+
+							<Action name="Done" cancel="1" key="D">
+								<ShowPane pane="Default"/>
+							</Action>
+
+						</Actions>
+
+					</DockServices>
+		</Panes>
+	</DockScreen>
+	
+	<DockScreen UNID="&dsUnique;" nestedScreen="true">
+
+		<Panes>
+			<Default
+					desc=	"A guard stops you from entering the station.">
+
+				<Actions>
+					<Action name="Leave" cancel="1" key="U">
+						(scrExitScreen gScreen)
+					</Action>
+				</Actions>
+
+			</Default>
+		</Panes>
+	</DockScreen>
+
+</TranscendenceModule>

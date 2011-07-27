@@ -1,0 +1,1190 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TranscendenceModule>
+
+	<!-- Huari Empire
+
+	GLOBAL DATA
+
+	status:				Status of player with respect to Huari
+							Nil						= normal (enemy)
+							'friend					= Huari are friendly and player can do missions
+							'tualiIntro				= Give player the symbiote
+							'tuali					= Player has the symbiote
+							'tualiDeclined			= Player declined the symbiote
+							'defender				= Player is a defender of the Huari
+							'loser					= Player has failed too many missions
+							'templeDestroyed		= Huari temple has been destroyed
+
+	huariDestroyed:		Number of Huari stations destroyed by the player
+	sungDestroyed:		Number of Sung stations destroyed by the player
+
+	missionCount:		Total number of missions requested by the player
+	missionsFailed:		Total number of mission failed
+
+	visitedTemple:		True if player visited the temple in Huaramarca
+	xp:					Total xp accumulated by the player
+
+	-->
+
+	<Sovereign UNID="&svHuariEmpire;"
+			name="Huari Empire"
+			alignment="destructive order"
+			>
+		<Relationships>
+			<Relationship sovereign="&svSung;" disposition="enemy" mutual="true"/>
+		</Relationships>
+
+		<Events>
+			<GetGlobalAchievements>
+				(block (theList theStatus)
+					(setq theStatus (typGetGlobalData &svHuariEmpire; "status"))
+					
+					(if theStatus
+						(setq theList (list
+							(list 
+								(switch
+									(eq theStatus 'templeDestroyed) "Failed to defend the Huari"
+									(eq theStatus 'loser) "Disappointed the Huari"
+									(eq theStatus 'defender) "Became Defender of the Huari"
+									(typGetGlobalData &svHuariEmpire; "visitedTemple") "Visited the Huari temple in Huaramarca"
+									(eq theStatus 'tualiIntro) "Befriended the Huari"
+									(eq theStatus 'tuali) "Invited by the Huari to visit Huaramarca"
+									(eq theStatus 'tualiDeclined) "Declined invitation to visit Huaramarca"
+									(eq theStatus 'friend) "Befriended the Huari"
+									(cat "ERROR: Huari status: " theStatus)
+									) 
+								Nil 
+								"achievements &amp; regrets"
+								)
+							))
+						)
+						
+					theList
+					)
+			</GetGlobalAchievements>
+		</Events>
+	</Sovereign>
+
+
+	<!-- Huari Fortress
+
+	EXTRA DATA
+
+	governor:			The name of the governor of the station
+
+	missionID:			One of:
+							Nil						= no mission
+							'attackConvoy			= mission to attack a transport and liberate slaves
+							'defendStation			= mission to defend Huari fortress from attack
+							'destroyStation			= mission to destroy Sung station
+							'medicine				= mission to get medicine for Huari fortress
+							'rescuePriest			= mission to rescue a Huari priest
+
+	missionStatus:		Status of current mission
+							Nil						= no mission
+							'inProgress				= mission in progress
+							'success				= mission completed
+							'failed					= mission has failed
+							'declined				= mission declined (but still happening)
+
+	missionXP:			XP gained for succeeding in the current mission
+	missionTarget:		Target of mission ('attackConvoy, 'destroyStation)
+	missionDock:		Target of mission ('attackConvoy)
+	attackerCount:		Number of attackers remaining ('defendStation)
+	slaveCount:			Number of slave coffins held by transport ('attackConvoy)
+
+	-->
+
+	<StationType UNID="&stHuariFortress;"
+			name=				"Huari fortress"
+			sovereign=			"&svHuariEmpire;"
+			dockScreen=			"Main"
+			abandonedScreen=	"&dsAbandonedStation;"
+			dockingPorts=		"8"
+			canAttack=			"true"
+
+			multiHull=			"true"
+			armorID=			"&itAdvancedPlasteelPlate;"
+			maxHitPoints=		"300"
+			hitPoints=			"300"
+			fireRateAdj=		"20"
+			explosionType=		"&vtThermoExplosion3;"
+			ejectaType=			"&vtWreckEjecta;"
+
+			attributes=			"enemy,envWater,envAvoidsEarth,huari,populated"
+			levelFrequency=		"---vu ur--- ----- ----- -----"
+			locationCriteria=	"-LifeZone,+planetary"
+			enemyExclusionRadius="100"
+			>
+
+		<Image			imageID="&rsStations6;" imageX="0" imageY="448" imageWidth="192" imageHeight="192"/>
+
+		<Devices>
+			<Device deviceID="&itMarkIIIHowitzer;"	omnidirectional="true" posAngle="60"  posRadius="85"/>
+			<Device deviceID="&itMarkIIIHowitzer;"	omnidirectional="true" posAngle="155" posRadius="90"/>
+			<Device deviceID="&itMarkIIIHowitzer;"	omnidirectional="true" posAngle="240" posRadius="100"/>
+			<Device deviceID="&itMarkIIIHowitzer;"	omnidirectional="true" posAngle="330" posRadius="110"/>
+		</Devices>
+
+		<Items>
+			<Item count="20d20" item="&itSuperconductingCoil;"/>
+			<Table>
+				<Lookup chance="40" count="1" table="&trConsumables7;"/>
+				<Lookup chance="40" count="1" table="&trMinorItem7;"/>
+				<Lookup chance="20" count="1" table="&trMajorItem7;"/>
+			</Table>
+		</Items>
+
+		<Ships>
+			<Ship					count="1d2"	class="&scHurinDestroyer;"	orders="patrol" patrolDist="40"/>
+		</Ships>
+
+		<Reinforcements minShips="1">
+			<Ship					count="1d2"	class="&scHurinDestroyer;"	orders="patrol" patrolDist="40"/>
+		</Reinforcements>
+
+		<Encounters frequency="uncommon">
+			<Ship count="1"	class="&scHurinDestroyer;" orders="wander"	maxShips="4"/>
+		</Encounters>
+
+		<StaticData>
+			<governorTable>
+				(
+					"Iraya"
+					"Amamoto"
+					"Paccatayo"
+					"Uragamo"
+					"Toccatamba"
+					)
+			</governorTable>
+		</StaticData>
+
+		<Events>
+			<OnCreate>
+				(objSetData gSource "governor" (random (objGetStaticData gSource "governorTable")))
+			</OnCreate>
+
+			<OnDestroy>
+				(block (missionStatus)
+					(huaHuariDestroyed gSource aOrderGiver)
+
+					(setq missionStatus (objGetData gSource "missionStatus"))
+					(if (eq missionStatus 'inProgress)
+						(block Nil
+							(objSetData gSource "missionStatus" 'failed)
+							(typIncGlobalData &svHuariEmpire; "missionsFailed")
+							(plyMessage gPlayer "Mission failed")
+							)
+						)
+					)
+			</OnDestroy>
+
+			<OnObjDestroyed>
+				(block (missionID missionStatus)
+					(setq missionID (objGetData gSource "missionID"))
+					(setq missionStatus (objGetData gSource "missionStatus"))
+
+					(switch
+						(and (eq missionID 'attackConvoy)
+								(eq missionStatus 'inProgress)
+								(eq aObjDestroyed (objGetObjRefData gSource "missionTarget")))
+							(block Nil
+								; Remember the wreck
+								(objSetObjRefData gSource "missionDock" aWreckObj)
+								(objRegisterForEvents gSource aWreckObj)
+								
+								; We want to know when the player docks
+								(objRegisterForEvents gSource gPlayerShip)
+
+								(shpCancelOrders gPlayerShip)
+								(shpOrder gPlayerShip 'dock aWreckObj)
+								(plyMessage gPlayer "Rescue the slaves from the wreckage")
+								)
+
+						(and (eq missionID 'attackConvoy)
+								(eq missionStatus 'inProgress)
+								(eq aObjDestroyed (objGetObjRefData gSource "missionDock"))
+								(objHasItem aObjDestroyed (itmSetData (itmCreate &itSlaveCoffin; 1) "Huari" True)))
+							(block Nil
+								(shpCancelOrders gPlayerShip)
+								(plyMessage gPlayer "Mission failed")
+								(objSetData gSource "missionStatus" 'failure)
+								)
+
+						(and (eq missionID 'defendStation) (objGetData aObjDestroyed "attacker"))
+							(block (attackerCount)
+								(setq attackerCount (objIncData gSource "attackerCount" -1))
+								(if (eq attackerCount 0)
+									(if (eq missionStatus 'inProgress)
+										(block Nil
+											(objSetData gSource "missionStatus" 'success)
+											(plyMessage gPlayer "Mission complete")
+											)
+										; Otherwise, if the player declined
+										(block Nil
+											(objSetData gSource "missionID" Nil)
+											(objSetData gSource "missionStatus" Nil)
+											)
+										)
+									)
+								)
+
+						(and (eq missionID 'destroyStation) 
+								(eq missionStatus 'inProgress)
+								(eq aObjDestroyed (objGetObjRefData gSource "missionTarget")))
+							(block Nil
+								(shpCancelOrders gPlayerShip)
+								(shpOrder gPlayerShip 'dock gSource)
+								(objSetData gSource "missionStatus" 'success)
+								(plyMessage gPlayer "Mission complete")
+								)
+						)
+					)
+			</OnObjDestroyed>
+
+			<OnObjDocked>
+				(block (missionID missionStatus)
+					(setq missionID (objGetData gSource "missionID"))
+					(setq missionStatus (objGetData gSource "missionStatus"))
+					
+					(switch
+						(and (eq missionID 'attackConvoy)
+								(eq missionStatus 'inProgress)
+								(eq aObjDocked gPlayerShip)
+								(eq aDockTarget (objGetObjRefData gSource "missionDock")))
+							(block Nil
+								(objUnregisterForEvents gSource gPlayerShip)
+								(shpCancelOrders gPlayerShip)
+								(shpOrder gPlayerShip 'dock gSource)
+								)
+						)
+					)
+			</OnObjDocked>
+
+			<OnObjEnteredGate>
+				(if (eq (objGetData gSource "missionStatus") 'inProgress)
+					(block (missionID)
+						(setq missionID (objGetData gSource "missionID"))
+						(switch
+							(and (eq missionID 'attackConvoy)
+									(eq aObj (objGetObjRefData gSource "missionTarget")))
+								(block Nil
+									(shpCancelOrders gPlayerShip)
+									(plyMessage gPlayer "Mission failed")
+									(objSetData gSource "missionStatus" 'failure)
+									)
+							)
+						)
+					)
+			</OnObjEnteredGate>
+
+			<OnSungAttack>
+				(block (angle attackerCount defenders)
+					; Send Earth slavers against the station
+					(setq attackerCount 3)
+					(for i 1 attackerCount
+						(block (theSlaver)
+							; Pick a staging point
+							(setq angle (sysVectorAngle (sysVectorSubtract (sysVectorRandom gSource 180 300 "AT -sungSlavers;") (objGetPos gSource))))
+
+							(setq theSlaver (sysCreateShip 
+								&scEarthSlaver;
+								(sysVectorPolarOffset gSource angle 180)
+								&svSung;
+								))
+							(shpOrder theSlaver 'attack gSource)
+							(shpOrder theSlaver 'gate)
+							(objSetData theSlaver "attacker" True)
+							(objRegisterForEvents gSource theSlaver)
+							)
+						)
+					(objSetData gSource "attackerCount" attackerCount)
+
+					; Pick a staging point
+					(setq angle (sysVectorAngle (sysVectorSubtract (sysVectorRandom gSource 200 300 "AT -sungSlavers;") (objGetPos gSource))))
+
+					(setq defenders (sysFindObject gSource "s +huari; N:150;"))
+					(setq defenders (append defenders gPlayerShip))
+
+					; Send slavers to attack all defenders
+					(enum defenders theTarget
+						(block (theSlaver rallyPos)
+							(setq rallyPos (sysVectorPolarOffset gSource (add angle (random -15 15)) 200))
+							(setq theSlaver (sysCreateShip &scSteelSlaver; rallyPos &svSung;))
+							(shpOrder theSlaver 'attack theTarget)
+							(shpOrder theSlaver 'attackNearestEnemy)
+							(shpOrder theSlaver 'gate)
+
+							(for i 1 12
+								(block Nil
+									(setq theSlaver (sysCreateShip &scWindSlaver; (sysVectorPolarOffset rallyPos (random 0 359) (random 15 20)) &svSung;))
+									(shpOrder theSlaver 'attack theTarget)
+									(shpOrder theSlaver 'attackNearestEnemy)
+									(shpOrder theSlaver 'gate)
+									)
+								)
+							)
+						)
+					)
+			</OnSungAttack>
+		</Events>
+
+		<DockScreens>
+			<Main
+				name=			"=(objGetName gSource)"
+				>
+				<InitialPane>
+					(block (missionStatus missionID)
+						(setq missionStatus (objGetData gSource "missionStatus"))
+						(setq missionID (objGetData gSource "missionID"))
+
+						(switch
+							; If we're under attack
+							(and (eq missionID 'defendStation) 
+									(or (eq missionStatus 'inProgress) (eq missionStatus 'declined)))
+								"DefendStationInProgress"
+
+							; If we are on the convoy mission and we destroyed the transport,
+							; see if the player retrieved the slaves
+							(and (eq missionID 'attackConvoy)
+									(eq missionStatus 'inProgress)
+									(not (objGetObjRefData gSource "missionTarget")))
+								"AttackConvoySuccess"
+
+							; A mission is still in progress
+							(eq missionStatus 'inProgress)
+								"MissionInProgress"
+
+							; Player completed mission successfully
+							(eq missionStatus 'success)
+								"MissionSuccess"
+
+							(eq missionStatus 'failure)
+								"MissionFailure"
+
+							"Default"
+							)
+						)
+				</InitialPane>
+
+				<Panes>
+					<Default>
+						<Initialize>
+							(block (status)
+								(setq status (typGetGlobalData &svHuariEmpire; "status"))
+
+								(scrSetDesc gScreen (cat 
+									"The Huari fortress is dark and cavernous. Huari men and women dressed in "
+									"long, colorful clothing swarm around you as you enter. They are curious but shy."
+									))
+								)
+						</Initialize>
+
+						<Actions>
+							<Action name="Grand Hall" key="G" default="1">
+								(block (status)
+									(setq status (typGetGlobalData &svHuariEmpire; "status"))
+
+									(switch
+										(objGetData gSource "missionStatus")
+											(scrShowPane gScreen "DefendStationInProgress")
+
+										(eq status 'friend)
+											(scrShowPane gScreen "MissionIntro")
+
+										(eq status 'defender)
+											(scrShowPane gScreen "NoMissionForDefender")
+
+										(eq status 'loser)
+											(scrShowPane gScreen "NoMissionForLoser")
+
+										(eq status 'templeDestroyed)
+											(scrShowPane gScreen "TempleDestroyed")
+
+										(scrShowPane gScreen "NoMissionAvailable")
+										)
+									)
+							</Action>
+
+							<Action name="Undock" key="U" cancel="1">
+								<Exit/>
+							</Action>
+						</Actions>
+					</Default>
+
+					<MissionIntro>
+						<Initialize>
+							(block (desc missionCount governorName)
+								(setq governorName (objGetData gSource "governor"))
+								(setq missionCount (typGetGlobalData &svHuariEmpire; "missionCount"))
+
+								(switch
+									(not missionCount)
+										(setq desc (cat
+											"Inside the Grand Hall you meet the governors of the fortress. A short, balding man "
+											"with a ceremonial scepter greets you.\n\n"
+											"\"By all the mysteries of the Light! You come from a distant system to help us. So was it revealed. "
+											"My name is " governorName ", and I govern this fortress. If you have come to help us, then you are most welcome.\"" 
+											))
+
+									(setq desc (cat
+										governorName " is waiting for you:\n\n"
+										"\"Welcome back, friend. By all the glory of the Light, I can see you are confident and powerful. "
+										"Will you use your powers to help us? If so, you are truly a shining messenger.\""
+										))
+									)
+
+								(scrSetDesc gScreen desc)
+								)
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(block (sungStations missionList missionPane)
+									(setq sungStations (sysFindObject Nil "AT +sungSlavers; +majorStation;"))
+									;(if sungStations
+									;	(setq missionList '('AttackConvoyMission 'DefendStationMission 'DestroyStationMission 'MedicineMission 'RescuePriestMission))
+									;	(setq missionList '('AttackConvoyMission 'MedicineMission 'RescuePriestMission))
+									;	)
+									(if sungStations
+										(setq missionList '('AttackConvoyMission 'DefendStationMission 'DestroyStationMission))
+										(setq missionList '('AttackConvoyMission))
+										)
+
+									; Pick random mission
+									(setq missionPane (seededRandom (add (divide (unvGetTick) 1317) (objGetDestiny gSource)) missionList))
+
+									(scrShowPane gScreen missionPane)
+									)
+							</Action>
+						</Actions>
+					</MissionIntro>
+
+					<AttackConvoyMission>
+						<Initialize>
+							(scrSetDesc gScreen
+								"\"By the mercy of the Light we've learned the course and schedule of a slave ship carrying our bretheren. "
+								"You can free our citizens by attacking the transport and returning its living cargo to us.\n\n"
+								"\"Will you help us, %brother%?\""
+								)
+						</Initialize>
+
+						<Actions>
+							<Action name="Accept" key="A" default="1">
+								(block (stargates sungStations startPos endGate slaveCount roll)
+									(setq stargates (sysFindObject Nil "G -uncharted;"))
+
+									; For each sung station in the system, generate a list of gates that meet
+									; the appropriate criteria. We end up with:
+									; ((obj1 (gate1 gate2 ...)) (obj2 (gate1 gate2 ...)))
+
+									(setq sungStations Nil)
+									(enum (sysFindObject Nil "AT +sungSlavers; +populated; -uncharted;") theObj
+										(block (gateList)
+											(setq gateList
+												(filter stargates theGate 
+													(and
+														(geq (objGetDistance theObj theGate) 300)
+														(geq (objGetDistance theObj theGate) (objGetDistance gSource theGate))
+														)
+													)
+												)
+											(setq sungStations (append sungStations (list (list theObj gateList))))
+											)
+										)
+
+									; Filter out any stations that don't have valid gates
+									(setq sungStations (filter sungStations theEntry (item theEntry 1)))
+
+									; Pick a starting station and a destination gate
+									; If no station is found, generate a position in deep space
+									(if sungStations
+										(block Nil
+											(setq theEntry (random sungStations))
+											(setq startPos (item theEntry 0))
+											(setq endGate (random (item theEntry 1)))
+											)
+										(block Nil
+											(setq endGate (random stargates))
+											(setq startPos (sysVectorRandom 
+												endGate
+												(divide (multiply (random 110 150) (objGetDistance gSource endGate)) 100)
+												150
+												"AT -sungSlavers;"
+												))
+											)
+										)
+
+									; Create the transport
+									(setq gTarget (sysCreateShip &scSungTransport; startPos &svSung;))
+									(setq slaveCount 17)
+									(objAddItem gTarget (itmSetData (itmCreate &itSlaveCoffin; 1) "Huari" True) slaveCount)
+
+									(shpOrder gTarget 'wait Nil 5)
+									(shpOrder gTarget 'gate endGate)
+
+									; Create escorts
+									(setq roll (random 1 100))
+									(switch
+										(leq roll 60)
+											(for i 1 (random 8 10)
+												(block (escort)
+													(setq escort (sysCreateShip &scWindSlaver; gTarget &svSung;))
+													(shpOrder escort 'escort gTarget)
+													)
+												)
+
+										(leq roll 90)
+											(block (steelSlaver)
+												(setq steelSlaver (sysCreateShip &scSteelSlaver; gTarget &svSung;))
+												(shpOrder steelSlaver 'escort gTarget)
+												(for i 1 (random 3 6)
+													(block (escort)
+														(setq escort (sysCreateShip &scWindSlaver; gTarget &svSung;))
+														(shpOrder escort 'escort steelSlaver)
+														)
+													)
+												)
+
+										(leq roll 100)
+											(block (earthSlaver)
+												(setq earthSlaver (sysCreateShip &scEarthSlaver; gTarget &svSung;))
+												(shpOrder earthSlaver 'escort gTarget)
+												(for i 1 (random 1 4)
+													(block (escort)
+														(setq escort (sysCreateShip &scWindSlaver; gTarget &svSung;))
+														(shpOrder escort 'escort earthSlaver)
+														)
+													)
+												)
+										)
+
+									(objRegisterForEvents gSource gTarget)
+									(objSetIdentified gTarget)
+									(shpCancelOrders gPlayerShip)
+									(shpOrder gPlayerShip 'attack gTarget)
+
+									(objSetData gSource "missionID" 'attackConvoy)
+									(objSetData gSource "missionStatus" 'inProgress)
+									(objSetData gSource "missionXP" 75)
+									(objSetObjRefData gSource "missionTarget" gTarget)
+									(objSetData gSource "slaveCount" slaveCount)
+									(typIncGlobalData &svHuariEmpire; "missionCount")
+
+									(setq gDesc "\"We've programmed the slave ship's coordinates into your ship's computer. Go with the Light!\"")
+									(scrShowPane gScreen "MissionAccepted")
+									)
+							</Action>
+
+							<Action name="Decline" key="D" cancel="1">
+								(scrShowPane gScreen "MissionDeclined")
+							</Action>
+						</Actions>
+					</AttackConvoyMission>
+
+					<AttackConvoySuccess>
+						<Initialize>
+							(block (slaveCount)
+								; See if the player retrieved all slaves
+								(setq slaveCount (objGetData gSource "slaveCount"))
+								(setq gItem (itmSetData (itmCreate &itSlaveCoffin; 1) "Huari" True))
+
+								(if (objHasItem gPlayerShip gItem slaveCount)
+									(block Nil
+										(scrSetDesc gScreen (cat
+											"\"By the blessed Light, you have succeeded where none dared hope! We are all grateful for rescuing our poor brothers and sisters. "
+											"The Sung use slaves to develop their technologies. Thousands and thousands of human minds number-crunching inside their steel coffins. "
+											"You have saved them from a horrific experience.\""
+											))
+										(setq gResult True)
+										)
+									(block Nil
+										(scrSetDesc gScreen (cat
+											"\"By the enduring Light, where are our bretheren? You didn't leave them on that slave ship, did you? "
+											"There were " (strNumber (objGetData gSource "slaveCount")) " coffins on that ship and you need to account for all of them!\""
+											))
+										(setq gResult Nil)
+										)
+									)
+								)
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(if gResult
+									(block (xp)
+										(objRemoveItem gPlayerShip gItem (objGetData gSource "slaveCount"))
+										(setq xp (typIncGlobalData &svHuariEmpire; "xp" (objGetData gSource "missionXP")))
+										(objSetData gSource "missionID" Nil)
+										(objSetData gSource "missionStatus" Nil)
+										(huaCheckExperience xp)
+										(shpCancelOrders gPlayerShip)
+										(scrShowPane gScreen "Default")
+										)
+									(scrExitDock gScreen)
+									)
+							</Action>
+						</Actions>
+					</AttackConvoySuccess>
+
+					<DefendStationMission>
+						<Initialize>
+							(scrSetDesc gScreen (cat
+								"\"The Sung have pursued us for hundreds of years. They took our stations and our worlds. "
+								"Now they come to this station and they mean to wipe us out. A Sung fleet is on its way even now.\n\n"
+								"\"If it's true what they say about you, then only you can save us. By the blessings of the Light, fight with us!\""
+								))
+						</Initialize>
+
+						<Actions>
+							<Action name="Accept" key="A" default="1">
+								(block Nil
+									(sysAddObjTimerEvent (random 30 150) gSource "OnSungAttack")
+
+									(objSetData gSource "missionID" 'defendStation)
+									(objSetData gSource "missionStatus" 'inProgress)
+									(objSetData gSource "missionXP" 150)
+									(typIncGlobalData &svHuariEmpire; "missionCount")
+
+									(setq gDesc (cat
+										"\"Then let us face our persecutors once again.\n\n"
+										"\"I dare not hope, but I will not give up either. No matter what happens we will see each other again, "
+										"either here in this dark world or elsewhere bathed in the salvation of the Light!\""
+										))
+									(scrShowPane gScreen "MissionAccepted")
+									)
+							</Action>
+
+							<Action name="Decline" key="D" cancel="1">
+								(block Nil
+									(sysAddObjTimerEvent (random 30 150) gSource "OnSungAttack")
+
+									(objSetData gSource "missionID" 'defendStation)
+									(objSetData gSource "missionStatus" 'declined)
+									(scrShowPane gScreen "MissionDeclined")
+									)
+							</Action>
+						</Actions>
+					</DefendStationMission>
+
+					<DefendStationInProgress>
+						<Initialize>
+							(scrSetDesc gScreen "\"We're a little busy right now.\"")
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								<Exit/>
+							</Action>
+						</Actions>
+					</DefendStationInProgress>
+
+					<DestroyStationMission>
+						<Initialize>
+							(block Nil
+								(setq gTarget (random (sysFindObject Nil "AT +sungSlavers; +majorStation;")))
+								(scrSetDesc gScreen (cat
+									"\"The Sung drove us from our homes; they enslaved our best minds; and they hunt us still in every system save one.\n\n"
+									"\"" (objGetName gTarget 0x05) " in this system has been attacking us lately and we would like you to destroy it. "
+									"Will you help us to reclaim our homes?\""
+									))
+								)
+						</Initialize>
+
+						<Actions>
+							<Action name="Accept" key="A" default="1">
+								(block Nil
+									(objRegisterForEvents gSource gTarget)
+									(objSetIdentified gTarget)
+									(shpCancelOrders gPlayerShip)
+									(shpOrder gPlayerShip 'attack gTarget)
+
+									(objSetData gSource "missionID" 'destroyStation)
+									(objSetData gSource "missionStatus" 'inProgress)
+									(objSetData gSource "missionXP" 125)
+									(objSetObjRefData gSource "missionTarget" gTarget)
+									(typIncGlobalData &svHuariEmpire; "missionCount")
+
+									(setq gDesc "\"We've programmed the stations's coordinates into your ship's computer. Go with the Light!\"")
+									(scrShowPane gScreen "MissionAccepted")
+									)
+							</Action>
+
+							<Action name="Decline" key="D" cancel="1">
+								(scrShowPane gScreen "MissionDeclined")
+							</Action>
+						</Actions>
+					</DestroyStationMission>
+
+					<MissionAccepted>
+						<Initialize>
+							(scrSetDesc gScreen gDesc)
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								<Exit/>
+							</Action>
+						</Actions>
+					</MissionAccepted>
+
+					<MissionDeclined>
+						<Initialize>
+							(scrSetDesc gScreen "\"Let the will of the Light be done, though we cannot understand His methods.\"")
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(scrShowPane gScreen "Default")
+							</Action>
+						</Actions>
+					</MissionDeclined>
+
+					<MissionInProgress>
+						<Initialize>
+							(scrSetDesc gScreen "\"By all the Light's mercy, what are you doing here? Your task remains uncompleted.\"")
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								<Exit/>
+							</Action>
+						</Actions>
+					</MissionInProgress>
+
+					<MissionSuccess>
+						<Initialize>
+							(block (desc missionID)
+								(setq missionID (objGetData gSource "missionID"))
+								(switch
+									(eq missionID 'defendStation)
+										(setq desc (cat
+											"\"By the Light's joy! It feels good to fight and win against the Sung for a change! "
+											"Maybe the revelations are right. If you are truly the Solti then nothing is impossible!\""
+											))
+
+									(eq missionID 'destroyStation)
+										(setq desc (cat
+											"\"Even though the Sung are our mortal enemies, I mourn their deaths too. "
+											"May they find a place in the Light.\n\n"
+											"\"You have shown us the way. In time, if the revelations hold, we will show you the way too.\""
+											))
+
+									(setq desc "\"The Light has triumphed!\"")
+									)
+
+								(scrSetDesc gScreen desc)
+								)
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(block (xp)
+									(setq xp (typIncGlobalData &svHuariEmpire; "xp" (objGetData gSource "missionXP")))
+									(objSetData gSource "missionID" Nil)
+									(objSetData gSource "missionStatus" Nil)
+									(huaCheckExperience xp)
+									(scrShowPane gScreen "Default")
+									)
+							</Action>
+						</Actions>
+					</MissionSuccess>
+
+					<MissionFailure>
+						<Initialize>
+							(scrSetDesc gScreen "\"Your failure is also our doom. Maybe we were never meant to bask in the Light's blessings; maybe the darkness of space will consume us after all.\"")
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(block (missionsFailed)
+									(objSetData gSource "missionStatus" Nil)
+									(objSetData gSource "missionID" Nil)
+
+									(shpCancelOrders gPlayerShip)
+									(setq missionsFailed (typIncGlobalData &svHuariEmpire; "missionsFailed"))
+									(typIncGlobalData &svHuariEmpire; "xp" (item '(0 -75 -150 -200) missionsFailed))
+
+									(if (geq missionsFailed 3)
+										(scrShowPane gScreen "Blacklisted")
+										(scrShowPane gScreen "Default")
+										)
+									)
+							</Action>
+						</Actions>
+					</MissionFailure>
+
+					<Blacklisted>
+						<Initialize>
+							(scrSetDesc gScreen (cat
+								"\"The blessings of the Light are not always visible, but there is a streak of darkness within you that cannot be ignored. "
+								"You are not our defender; you are just a fool who seeks but doesn't learn.\""
+								))
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(block Nil
+									(typSetGlobalData &svHuariEmpire; "status" 'loser)
+									(scrSetDesc gScreen "Default")
+									)
+							</Action>
+						</Actions>
+					</Blacklisted>
+
+					<NoMissionForDefender>
+						<Initialize>
+							(scrSetDesc gScreen 
+								"\"Welcome back, %name%! Take your ease here before you continue your long journey.\""
+								)
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(scrShowPane gScreen "Default")
+							</Action>
+						</Actions>
+					</NoMissionForDefender>
+
+					<NoMissionForLoser>
+						<Initialize>
+							(scrSetDesc gScreen "You enter the Grand Hall but the governors ignore your presence. You feel out of place here.")
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(scrShowPane gScreen "Default")
+							</Action>
+						</Actions>
+					</NoMissionForLoser>
+
+					<NoMissionAvailable>
+						<Initialize>
+							(scrSetDesc gScreen (cat 
+								"The Grand Hall is abuzz with activity; " (objGetData gSource "governor") " is too busy to see you."
+								))
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(scrShowPane gScreen "Default")
+							</Action>
+						</Actions>
+					</NoMissionAvailable>
+
+					<TempleDestroyed>
+						<Initialize>
+							(scrSetDesc gScreen (cat 
+								(objGetData gSource "governor") " weeps alone in the Grand Hall.\n\n"
+								"\"All hope is lost now that our refuge has been destroyed. The Light has forsaken us and we are left with nothing.\""
+								))
+						</Initialize>
+
+						<Actions>
+							<Action name="Continue" key="C" default="1" cancel="1">
+								(scrShowPane gScreen "Default")
+							</Action>
+						</Actions>
+					</TempleDestroyed>
+				</Panes>
+			</Main>
+		</DockScreens>
+
+		<DockingPorts>
+			<Port x="-49"	y="91" />
+			<Port x="85"	y="63" />
+			<Port x="67"	y="-49" />
+			<Port x="43"	y="-72" />
+			<Port x="4"		y="-84" />
+
+			<Port x="-58"	y="-64" />
+			<Port x="-86"	y="-33" />
+			<Port x="-94"	y="3" />
+		</DockingPorts>
+
+	</StationType>
+
+	<!-- Huari Habitat -->
+
+	<StationType UNID="&stHuariHabitat;"
+			name=				"Huari habitat"
+			sovereign=			"&svHuariEmpire;"
+			dockScreen=			"Main"
+			abandonedScreen=	"&dsAbandonedStation;"
+			dockingPorts=		"8"
+			canAttack=			"true"
+
+			multiHull=			"true"
+			armorID=			"&itAdvancedPlasteelPlate;"
+			maxHitPoints=		"175"
+			hitPoints=			"175"
+			fireRateAdj=		"20"
+			explosionType=		"&vtThermoExplosion3;"
+			ejectaType=			"&vtWreckEjecta;"
+
+			attributes=			"enemy,envWater,envAvoidsEarth,huari,populated"
+			level=				"5"
+			>
+
+		<Image			imageID="&rsHuariStationsImage;" imageX="0" imageY="270" imageWidth="162" imageHeight="174"/>
+
+		<Devices>
+			<Device deviceID="&itMarkIIIHowitzer;"	omnidirectional="true"/>
+		</Devices>
+
+		<Items>
+			<Table>
+				<Lookup chance="40" count="1" table="&trConsumables6;"/>
+				<Lookup chance="40" count="1" table="&trMinorItem6;"/>
+				<Lookup chance="20" count="1" table="&trMajorItem6;"/>
+			</Table>
+		</Items>
+
+		<Ships>
+			<Ship					count="1"	class="&scHurinDestroyer;"	orders="patrol" patrolDist="40"/>
+		</Ships>
+
+		<Reinforcements minShips="1">
+			<Ship					count="1d2"	class="&scHurinDestroyer;"	orders="patrol" patrolDist="40"/>
+		</Reinforcements>
+
+		<Events>
+			<OnDestroy>
+				(huaHuariDestroyed gSource aOrderGiver)
+			</OnDestroy>
+		</Events>
+
+		<DockScreens>
+			<Main
+				name=			"=(objGetName gSource)"
+				>
+
+				<Panes>
+					<Default>
+						<Initialize>
+							(scrSetDesc gScreen (cat 
+								"The Huari habitat is filled with Huari men and women dressed in "
+								"long, colorful clothing."
+								))
+						</Initialize>
+
+						<Actions>
+							<Action name="Community Hall" key="C" default="1">
+								(scrShowPane gScreen "CommunityHall")
+							</Action>
+
+							<Action name="Undock" key="U" cancel="1">
+								<Exit/>
+							</Action>
+						</Actions>
+					</Default>
+
+					<CommunityHall>
+						<Initialize>
+							(block (status)
+								(setq status (typGetGlobalData &svHuariEmpire; "status"))
+								(switch
+									(eq status 'templeDestroyed)
+										(scrSetDesc gScreen (cat
+											"One of the station inhabitants approaches you:\n\n"
+											"\"We mourn for the death of Apotamo and for the death of our race\"."
+											))
+
+									(scrSetDesc gScreen (cat
+										"One of the station inhabitants approaches you:\n\n"
+										"\"Welcome! You are not Huari, are you? Go to the temple and speak with Apotamo. He will guide you."
+										))
+									)
+								)
+						</Initialize>
+
+						<Actions>
+							<Action name="Leave" key="L" default="1" cancel="1">
+								(scrShowPane gScreen "Default")
+							</Action>
+						</Actions>
+					</CommunityHall>
+				</Panes>
+			</Main>
+		</DockScreens>
+
+		<DockingPorts>
+			<Port x="-74"	y="67" />
+			<Port x="91"	y="24" />
+			<Port x="67"	y="-65" />
+			<Port x="33"	y="-85" />
+			<Port x="-13"	y="-81" />
+
+			<Port x="-61"	y="-62" />
+			<Port x="-86"	y="0" />
+		</DockingPorts>
+
+	</StationType>
+
+	<Globals>
+		(block Nil
+			(setq huaCheckExperience (lambda (xp)
+				(if (gr xp 325)
+					(block Nil
+						(typSetGlobalData &svHuariEmpire; "status" 'tualiIntro)
+						True
+						)
+					Nil
+					)
+				))
+
+			(setq huaHuariDestroyed (lambda (theObj theDestroyer)
+				(if (and gPlayerShip (eq theDestroyer gPlayerShip))
+					(block (status)
+						(typIncGlobalData &svHuariEmpire; "huariDestroyed")
+						(setq status (typGetGlobalData &svHuariEmpire; "status"))
+
+						(if status
+							(block Nil
+								(typSetGlobalData &svHuariEmpire; "status" Nil)
+								(sovSetDisposition &svHuariEmpire; &svPlayer; 'enemy)
+								(sovSetDisposition &svPlayer; &svHuariEmpire; 'enemy)
+								)
+							)
+						)
+					)
+				))
+
+			(setq huaIsGateToHuaramarca (lambda (nodeID gateID nodesChecked)
+				(block (destNode)
+					(setq destNode (sysGetStargateDestinationNode nodeID gateID))
+					(if (eq destNode "Huaramarca")
+						True
+
+						(block (stargates)
+							(setq nodesChecked (append nodesChecked (list nodeID)))
+							(setq stargates (filter (sysGetStargates destNode) theGate
+								(not (find nodesChecked (sysGetStargateDestinationNode destNode theGate)))
+								))
+
+							(if stargates
+								(filter stargates theGate (huaIsGateToHuaramarca destNode theGate nodesChecked))
+								Nil
+								)
+							)
+						)
+					)
+				))
+
+			(setq huaSungDestroyed (lambda (theObj theDestroyer)
+				(if (and gPlayerShip (eq theDestroyer gPlayerShip))
+					(block (sungDestroyed)
+						(setq sungDestroyed
+							(typIncGlobalData &svHuariEmpire; "sungDestroyed")
+							)
+
+						(if (geq sungDestroyed 6)
+							(block (status huariDestroyed)
+								(setq status (typGetGlobalData &svHuariEmpire; "status"))
+								(setq huariDestroyed (typGetGlobalData &svHuariEmpire; "huariDestroyed"))
+
+								(if (and (not status) (not huariDestroyed))
+									(block Nil
+										(typSetGlobalData &svHuariEmpire; "status" 'friend)
+										(sovSetDisposition &svHuariEmpire; &svPlayer; 'friend)
+										(sovSetDisposition &svPlayer; &svHuariEmpire; 'friend)
+										)
+									)
+								)
+							)
+						)
+					)
+				))
+			)
+	</Globals>
+
+<!-- HUARAMARCA SYSTEM -->
+
+	<SystemTopology>
+		<Node ID="Huaramarca" rootNode="true">
+			<System 
+					name=			"Huaramarca"
+					level=			"6"
+					attributes=		"huari"
+					>
+				<System UNID="&ssHuaramarca;"/>
+			</System>
+
+			<StarGates>
+				<StarGate Name="Inbound"  DestID="[Prev]"/>
+			</StarGates>
+		</Node>
+	</SystemTopology>
+
+	<SystemType UNID="&ssHuaramarca;"
+			noRandomEncounters=		"true"
+			>
+
+		<Tables>
+			<OuterAsteroid>
+				<Table>
+					<Lookup chance="85" table="AsteroidSmallFrost"/>
+					<Lookup chance="10" table="AsteroidSmall"/>
+					<Lookup chance="4" table="AsteroidMediumFrost"/>
+					<Lookup chance="1" table="AsteroidMedium"/>
+				</Table>
+			</OuterAsteroid>
+
+			<OuterAsteroidField>
+				<Group>
+					<Station type="&stMediumFrostAsteroid;" showOrbit="true"/>
+
+					<Siblings count="2d20" arcInc="2d411-412" radiusInc="-8-8">
+						<Lookup table="OuterAsteroid"/>
+					</Siblings>
+
+					<Siblings count="2d20" arcInc="2d319-320" radiusInc="-12-12">
+						<Lookup table="OuterAsteroid"/>
+					</Siblings>
+
+					<Siblings count="2d16" arcInc="2d219-220" radiusInc="-16-16">
+						<Lookup table="OuterAsteroid"/>
+					</Siblings>
+
+					<Siblings count="2d12" arcInc="2d99-100" radiusInc="-24-24">
+						<Lookup table="OuterAsteroid"/>
+					</Siblings>
+				</Group>
+			</OuterAsteroidField>
+		</Tables>
+
+		<SystemGroup>
+
+			<!-- Star -->
+
+			<Station type="&stRedGiantStar;"/>
+
+			<!-- Worlds -->
+
+			<Orbitals angle="incrementing:30-330">
+
+				<!-- Supay -->
+
+				<Group distance="900">
+					<Primary>
+						<Station type="&stIcePlanet;" name="Supay" showOrbit="true"/>
+					</Primary>
+					<Orbitals distance="40" angle="random">
+						<Stargate objName="Inbound" type="&stMajellenStargate;">
+						</Stargate>
+					</Orbitals>
+
+				</Group>
+
+			</Orbitals>
+
+		</SystemGroup>
+
+	</SystemType>
+
+<!-- RESOURCES -->
+
+	<Image UNID="&rsHuariStationsImage;"		bitmap="Resources\HuariStations.jpg" bitmask="Resources\HuariStationsMask.bmp" backColor="0x00000000" loadOnUse="true"/>
+
+</TranscendenceModule>
