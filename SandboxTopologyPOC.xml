@@ -18,6 +18,43 @@
 	<!ENTITY myMapCommon	"0xEFFFFd14">
 	<!ENTITY myMapRinger	"0xEFFFFd15">
 	<!ENTITY stWormhole		"0xEFFFFd16">
+	;0xEFFFExxx-RPC
+	;Dynamic Dockscreen.xml:
+	;0xEFFFEA00
+	<!ENTITY dsGenericDockscreen	"0xEFFFEA00">
+	<!ENTITY dsUnique				"0xEFFFEA01">
+	<!ENTITY stDockScreenSpawner	"0xEFFFEA02">
+	<!ENTITY stDockScreenController	"0xEFFFEA03">
+	;Ares Extension- RPC.xml
+	;0xEFFFEB00
+	<!ENTITY ecMeritEconomy			"0xEFFFEB00">
+		
+	;Advanced LRS.xml
+	;0xEFFFEC00
+    <!ENTITY ovgc			"0xEFFFEC01">
+    <!ENTITY ovgs			"0xEFFFEC02">
+    <!ENTITY ovgt			"0xEFFFEC03">
+    <!ENTITY ovrc			"0xEFFFEC04">
+    <!ENTITY ovrs			"0xEFFFEC05">
+    <!ENTITY ovrt			"0xEFFFEC06">
+    <!ENTITY ovoc			"0xEFFFEC07">
+    <!ENTITY ovos			"0xEFFFEC08">
+    <!ENTITY ovot			"0xEFFFEC09">
+    <!ENTITY ovyc			"0xEFFFEC10">
+    <!ENTITY ovys			"0xEFFFEC11">
+    <!ENTITY ovyt			"0xEFFFEC12">
+    <!ENTITY ovbc			"0xEFFFEC13">
+    <!ENTITY ovbs			"0xEFFFEC14">
+    <!ENTITY ovbt			"0xEFFFEC15">
+    <!ENTITY ovpc			"0xEFFFEC16">
+    <!ENTITY ovps			"0xEFFFEC17">
+    <!ENTITY ovpt			"0xEFFFEC18">
+	
+    <!ENTITY rsPing			"0xEFFFEC19">
+    <!ENTITY dsChangeSovSettings			"0xEFFFEC20">
+	
+    <!ENTITY stLRShelper			"0xEFFFEC21">
+    <!ENTITY itADVLRS				"0xEFFFEC22">
 
 
 	]>
@@ -28,7 +65,7 @@
 <AdventureDesc
 		UNID=						"&adSandbox;"
 		name=						"Sandbox"
-		startingShipCriteria="* -notInPartI"
+		startingShipCriteria="*"
 		backgroundID=	"&rsGalaxyMap;"
 			>
 		<Events>
@@ -978,18 +1015,203 @@ ARES \/\/\/\/
 					variant=		"unknown"
 					>
 	
-					<System name="Commonwealth System"	UNID="&ssBridgeCommonwealth;"/>
+					<System name="Granik"	UNID="&ssBridgeCommonwealth;"/>
 
 			</System>
 
 			<StarGates>
 				<StarGate Name="Inbound" DestID="[Prev]"/>
-
+				<StarGate Name="Outbound" DestID="CCS1" DestGate="Inbound"/>
 			</StarGates>
 		</Node>	 
 
+		<Node ID="CCS1" x="300" y="-200">
+			<System
+					name=		"St. Johanas's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+				<StarGate Name="Outbound" DestID="CCSR1" DestGate="Inbound"/>
+				<StarGate Name="Inbound" DestID="CB1" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="CCSL1" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="CCSL1" x="280" y="-180">
+			<System
+					name=		"Iconas"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCS1" DestGate="Split"/>
+				<StarGate Name="Outbound" DestID="CCSL2" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="CCSL2" x="200" y="-90">
+			<System
+					name=		"Moria"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSL1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCSL3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="CCSR1" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="CCSL3" x="110" y="0">
+			<System
+					name=		"Nancy's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSL2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCSL4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="CCSL4" x="40" y="110">
+			<System
+					name=		"Alfredo's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSL3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCSL5" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="CCSL5" x="-20" y="160">
+			<System
+					name=		"Smithson's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSL4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCS2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="CCSR4" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="CCS2" x="-70" y="280">
+			<System
+					name=		"Taryran"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSL5" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCSR5" DestGate="Outbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="CCSR1" x="230" y="-160">
+			<System
+					name=		"Lucrans"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCS1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCSR2" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="CCSL2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="CCSR2" x="130" y="-75">
+			<System
+					name=		"Zephran Cochran's Star"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSR1" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCSR3" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="CCSR5" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="CCSR3" x="30" y="0">
+			<System
+					name=		"Stautlemeir"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSR2" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCSR4" DestGate="Inbound"/>
+
+			</StarGates>
+		</Node>
+		<Node ID="CCSR4" x="110" y="90">
+			<System
+					name=		"Myran"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSR3" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCSR5" DestGate="Inbound"/>
+				<StarGate Name="Split" DestID="CCSL5" DestGate="Split"/>
+			</StarGates>
+		</Node>
+		<Node ID="CCSR5" x="170" y="180">
+			<System
+					name=		"Leuman"
+					level=		"1"
+					attributes=	"newBeyond"
+					>
+				<System UNID="&ssSplitSystem2;"/>
+			</System>
+			<StarGates>
+
+				<StarGate Name="Inbound" DestID="CCSR4" DestGate="Outbound"/>
+				<StarGate Name="Outbound" DestID="CCS2" DestGate="Outbound"/>
+				<StarGate Name="Split" DestID="CCSR2" DestGate="Split"/>
+
+			</StarGates>
+		</Node>
 	</SystemTopology>
 	</SystemMap>
+
+	
 	<!-- EarthSpace (Dead End Split Binary) -->
 
 	<SystemType UNID="&ssSplitSystem1;">
@@ -1507,8 +1729,14 @@ ARES \/\/\/\/
 			</Orbitals>
 		</SystemGroup>
 	</SystemType>
-	<!--<Modules>
+	<Modules>
+	<!--
 			<Module fileName="Anomalies.xml"/>
-	</Modules>-->
+			-->
+			<Module fileName="Dynamic Dockscreens.xml"/>
+			<Module fileName="Advanced LRS.xml"/>
+			<Module fileName="Sandbox Playerships.xml"/>
+			<Module fileName="Ares Extension- RPC.xml"/>
+	</Modules>
 
 </TranscendenceAdventure>
